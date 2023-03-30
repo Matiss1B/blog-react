@@ -4,18 +4,17 @@ import axios from "axios";
 function App() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [img, setImg] = useState('');
+    const [img, setImg] = useState([]);
+    let formData =  new FormData();
 
     const handleClick = () =>{
-        let data = {
-            title:title,
-            description:description,
-            img:img,
-        }
-        fetch("http://localhost/api/test",{
-            method:"POST",
-            body:data,
-        }).then(res => console.log(res.json())).catch(err => console.log(err));
+        var formData = new FormData();
+        formData.append("title", title);
+        formData.append("description", description);
+        formData.append("img",img);
+        axios.post("http://localhost/api/test",formData, {
+            headers: { "Content-Type": "multipart/form-data" },
+        }, ).then(res => console.log(res)).catch(err => console.log(err));
     }
     const handleTitle = event =>{
         setTitle(event.target.value);
@@ -24,7 +23,8 @@ function App() {
         setDescription(event.target.value);
     }
     const handleImg = event =>{
-        setImg(event.target.value);
+        setImg(event.target.files[0]);
+        console.log(event.target.files[0]);
     }
 
   return (
@@ -43,9 +43,8 @@ function App() {
             name="description"
             onChange={handleDescription}
         />
-        <input type="text" name="img"  onChange={handleImg} />
-
-        <button onClick={handleClick} >Value</button>
+        <input type="file" name="img"  onChange={handleImg} />
+            <button onClick={handleClick} >Value</button>
     </div>
   );
 }
