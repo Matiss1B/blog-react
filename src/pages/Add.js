@@ -1,4 +1,3 @@
-import './App.css';
 import {useState} from "react";
 import axios from "axios";
 function App() {
@@ -12,7 +11,7 @@ function App() {
         formData.append("title", title);
         formData.append("description", description);
         formData.append("img",img);
-        axios.post("http://localhost/api/test",formData, {
+        axios.post("http://localhost/api/create",formData, {
             headers: { "Content-Type": "multipart/form-data" },
         }, ).then(res => console.log(res)).catch(err => console.log(err));
     }
@@ -27,26 +26,26 @@ function App() {
         console.log(event.target.files[0]);
     }
 
-  return (
-    <div className="App">
-      <input
-          type="text"
-          placeholder={"Title"}
-          id="title"
-          name="title"
-          onChange={handleTitle}
-      />
-        <input
-            type="text"
-            placeholder={"Description"}
-            id="description"
-            name="description"
-            onChange={handleDescription}
-        />
-        <input type="file" name="img"  onChange={handleImg} />
+    return (
+        <div className="App">
+            <input
+                type="text"
+                placeholder={"Title"}
+                id="title"
+                name="title"
+                onChange={handleTitle}
+            />
+            <input
+                type="text"
+                placeholder={"Description"}
+                id="description"
+                name="description"
+                onChange={handleDescription}
+            />
+            <input type="file" name="img"  onChange={handleImg} />
             <button onClick={handleClick} >Value</button>
-    </div>
-  );
+        </div>
+    );
 }
 
 export default App;
