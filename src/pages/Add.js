@@ -4,7 +4,6 @@ function App() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [img, setImg] = useState([]);
-    let formData =  new FormData();
 
     const handleClick = () =>{
         var formData = new FormData();
