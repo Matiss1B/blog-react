@@ -1,2 +1,11 @@
+@import "../assets/variables";
 .header{
+  background-color: #ffff;
+  .title{
+    font-family: $main-title;
+  }
+  .nav-link{
+    color: gray;
+    font-family: $font-cabin;
+  }
 }
