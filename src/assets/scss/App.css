@@ -4,6 +4,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Cabin&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Cabin&display=swap");
+.image-list {
+  max-height: 80vh;
+}
+
 .header {
   background-color: white;
 }
@@ -13,6 +17,7 @@
 .header .nav-link {
   color: gray;
   font-family: "Cabin", sans-serif;
+  text-decoration: underline 4px solid white;
 }
 
 h1 {
@@ -31,6 +36,10 @@ p {
 .app {
   background-color: #fdfdfd;
   min-height: 100vh;
+}
+
+.main-title {
+  font-family: "Dancing Script", cursive;
 }
 
 *, *::after, *::before {
@@ -271,6 +280,10 @@ ul {
   width: 100%;
 }
 
+.w-1200 {
+  max-width: 1200px;
+}
+
 .h-50 {
   height: 50%;
 }
@@ -281,6 +294,26 @@ ul {
 
 .flex-b-50 {
   flex-basis: 50%;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.flex-2 {
+  flex: 2;
+}
+
+.flex-3 {
+  flex: 3;
+}
+
+.flex-4 {
+  flex: 4;
+}
+
+.flex-5 {
+  flex: 5;
 }
 
 .flex-b-33 {
