@@ -1,0 +1,21 @@
+@import "../assets/variables";
+.blog-list{
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr ;
+  grid-template-rows: 1fr;
+  gap: 2rem 2rem;
+  grid-template-areas: ". .";
+  font-family: $font-montserrat;
+}
+.blog{
+  position: relative;
+}
+.blog-info{
+  border-radius: 0rem 0rem 2rem 2rem;
+  color: white;
+  position: absolute;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  bottom: 0;
+}

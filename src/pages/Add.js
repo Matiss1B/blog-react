@@ -3,14 +3,17 @@ import axios from "axios";
 function App() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [category, setCategory] = useState();
     const [img, setImg] = useState([]);
 
     const handleClick = () =>{
         var formData = new FormData();
         formData.append("title", title);
         formData.append("description", description);
+        formData.append("category", category);
         formData.append("img",img);
-        axios.post("http://localhost/api/create",formData, {
+        console.log(formData);
+        axios.post("http://localhost/api/v1/create",formData, {
             headers: { "Content-Type": "multipart/form-data" },
         }, ).then(res => console.log(res)).catch(err => console.log(err));
     }
@@ -41,6 +44,13 @@ function App() {
                 name="description"
                 onChange={handleDescription}
             />
+            <select name="category" onChange={ event=>setCategory(event.target.value)}>
+                <option>Choose</option>
+                <option value="cars">Cars</option>
+                <option value="home">Home</option>
+                <option value="fashion">Fashion</option>
+                <option value="food">Food</option>
+            </select>
             <input type="file" name="img"  onChange={handleImg} />
             <button onClick={handleClick} >Value</button>
         </div>
