@@ -4,17 +4,92 @@ import {MdEmail} from "react-icons/md"
 import{AiFillEye} from "react-icons/ai"
 import {FaLock, FaAddressCard} from "react-icons/fa"
 import {useState, useEffect} from "react";
+import {BsCheckCircleFill} from "react-icons/bs"
+import {useNavigate} from "react-router-dom";
+import axios from "axios";
 
 function Register() {
     const [activeInput, setActiveInput] = useState(null);
+    const [registerCheck, setRegisterCheck] = useState(false);
     const [isPasswordVisible, setPasswordVisible] = useState(false);
     const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
+    const [name, setName] = useState("");
+    const [surname, setSurname] = useState("");
+    const [passwordErr, setPasswordErr] = useState("");
+    const [emailErr, setEmailErr] = useState("");
+    const [nameErr, setNameErr] = useState("");
+    const [surnameErr, setSurnameErr] = useState("");
     const [activeIcon, setActiveIcon] = useState("lock");
+    const navigate = useNavigate();
     const handleInputBoxClick = (event) => {
         const clickedInputBox = event.target.id;
         setActiveInput(clickedInputBox);
         console.log(activeInput);
     };
+    const submitRegister = () => {
+        setEmailErr("");
+        setNameErr("");
+        setSurnameErr("");
+        setPasswordErr("");
+        let data = {
+            name:name,
+            surname:surname,
+            email:email,
+            password: password,
+        }
+        axios
+            .post("http://localhost/api/v1/register",data)
+            .then(response => checkAuth(response))
+            .catch(err => handleErrors(err));
+    }
+    const sumbitLogin = () => {
+        let data ={
+            token: sessionStorage.getItem("user")
+        }
+        axios
+            .post("http://localhost/api/v1/fast_login",data)
+            .then(response => fastLogin(response))
+            .catch(err => console.log(err));
+    }
+
+    const checkAuth = (response) =>{
+        if(response.status === 200) {
+            sessionStorage.setItem("user", response.data.user);
+            setRegisterCheck(true)
+        }
+    }
+    const fastLogin = (response) =>{
+        if(response.status === 200) {
+            navigate("/home");
+        }
+    }
+    const setError = (key, error) => {
+        if(key === "surname"){
+            setSurnameErr(error);
+        }
+        if(key === "name"){
+            setNameErr(error);
+        }
+        if(key === "password"){
+            setPasswordErr(error);
+        }
+        if(key === "email"){
+            setEmailErr(error);
+        }
+    }
+    const handleErrors = (err) =>{
+        if(err.response.status === 422) {
+            let errors = err.response.data.errors;
+            for (let key in errors) {
+                setError(key, errors[key]);
+            }
+        }
+        if(err.response.status === 300){
+
+        }
+        console.log(err);
+    }
     const handleMouseDown = () => {
         setPasswordVisible(true);
     };
@@ -30,13 +105,32 @@ function Register() {
             setActiveIcon("lock")
         }
     }
+    const handleNameInput = event =>{
+        setName(event.target.value);
+    }
+    const handleSurnameInput = event =>{
+        setSurname(event.target.value);
+    }
+    const handleEmailInput = event =>{
+        setEmail(event.target.value);
+    }
     return (
         <div className="login-form flex col gap5">
+            {registerCheck ?
+            <div className="register-success flex col gap2 pad1">
+                <div className="flex w-100 gap2 center-y">
+                    <h1>Your account is created</h1>
+                    <BsCheckCircleFill className={"icon"}/>
+                </div>
+                <p>Create another one? Register</p>
+            </div>
+            :
             <div className="login-form-titles flex col gap2 pad1">
                 <p>FEW STEPS</p>
                 <h1>Create an account</h1>
                 <p>Have an account? Login</p>
             </div>
+            }
             <div className="form flex col gap2">
                 <div className="flex gap2 center-y">
                     <div className={`flex  input-box center-y between ${activeInput === 'name' ? 'active' : ''}`}
@@ -47,7 +141,9 @@ function Register() {
                                 type="text"
                                 id="name"
                                 name="name"
+                                onChange={handleNameInput}
                             />
+                            <p className="err">{nameErr === "" ? '' : nameErr}</p>
                         </div>
                         <div className="icon pad1">
                             <FaAddressCard className={`auth-icon `}/>
@@ -61,7 +157,9 @@ function Register() {
                                 type="text"
                                 id="surname"
                                 name="surname"
+                                onChange={handleSurnameInput}
                             />
+                            <p className="err">{surnameErr === "" ? '' : surnameErr}</p>
                         </div>
                         <div className="icon pad1">
                         <FaAddressCard onMouseDown={handleMouseDown}
@@ -79,7 +177,9 @@ function Register() {
                             type="text"
                             id="email"
                             name="email"
+                            onChange={handleEmailInput}
                         />
+                        <p className="err">{emailErr === "" ? '' : emailErr}</p>
                     </div>
                     <div className="icon pad1">
                         <MdEmail className={`auth-icon `}/>
@@ -95,6 +195,7 @@ function Register() {
                             name="password"
                             onChange={handlePassword}
                         />
+                        <p className="err">{passwordErr === "" ? '' : passwordErr}</p>
                     </div>
                     <div className="icon pad1">
                         {activeIcon === "eye" ?
@@ -110,7 +211,11 @@ function Register() {
                         }
                     </div>
                 </div>
-                <button>Register</button>
+                {registerCheck ?
+                    <button onClick={sumbitLogin}>Login</button>
+                    :
+                    <button onClick={submitRegister}>Register</button>
+                }
             </div>
         </div>
     )

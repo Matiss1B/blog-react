@@ -11,7 +11,8 @@ import Authentification from "../pages/Authentification";
 function Router() {
     return (
         <Routes>
-            <Route path="/" element={<Authentification />} />
+            <Route path="/" element={<Authentification auth={"login"} />} />
+            <Route path="/register" element={<Authentification auth={"register"} />} />
             <Route path="/home" element={<Home />} />
             <Route path="/add" element={<Add />} />
             <Route path="/cars" element={<Cars />} />

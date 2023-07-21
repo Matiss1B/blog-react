@@ -10,7 +10,8 @@
       }
     }
     .form{
-      max-width: 45rem;
+      max-width: 50rem;
+      width: 100%;
       label{
         color: #9a9a9a;
         font-weight: 600;
@@ -19,6 +20,11 @@
         padding: 1rem 1rem 1rem 2rem;
         border-radius: 15px;
         background-color: #efefef;
+        .err{
+          font-size: 1.1rem;
+          font-weight: 500;
+          color: red;
+        }
       }
       .auth-icon{
         font-size: 2.5rem;
@@ -73,5 +79,14 @@
   }
   .login-image-container {
     clip-path: polygon(59% 27%, 40% 15%, 78% 0, 100% 0, 100% 0, 100% 15%, 100% 85%, 100% 100%, 57% 100%, 46% 89%, 32% 68%, 49% 57%);
+  }
+}
+.register-success{
+  h1{
+    text-decoration: underline 10px solid $accent;
+  }
+  .icon{
+    font-size: 5rem;
+    color: $accent;
   }
 }
