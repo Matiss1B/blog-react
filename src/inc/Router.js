@@ -6,10 +6,13 @@ import Fashion from "../pages/Categories/Fashion";
 import Food from "../pages/Categories/Food";
 import Add from "../pages/Add";
 import Edit from "../pages/Edit";
+import Authentification from "../pages/Authentification";
+
 function Router() {
     return (
         <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Authentification />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/add" element={<Add />} />
             <Route path="/cars" element={<Cars />} />
             <Route path="/fashion" element={<Fashion />} />

@@ -12,7 +12,7 @@ function Header() {
             </div>
             <div className="w-100 flex middle">
                 <div className="flex gap5">
-                    <NavLink className="nav-link" to="/" style={({ isActive }) => ({
+                    <NavLink className="nav-link" to="/home" style={({ isActive }) => ({
                         textDecoration: isActive ? ' underline 4px solid #6b9dde' : '  underline 4px solid white',
                     })} ><p>Home</p></NavLink>
                     <NavLink className="nav-link" to="/food" style={({ isActive }) => ({

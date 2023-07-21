@@ -1,0 +1,75 @@
+@import "../assets/variables";
+.main-login-box {
+  font-family: $font-poppins;
+  .login-form{
+    .login-form-titles{
+      font-family: $font-montserrat;
+      p{
+        font-weight: 500;
+        color: gray;
+      }
+    }
+    .form{
+      label{
+        color: #9a9a9a;
+        font-weight: 600;
+      }
+      .input-box{
+        padding: 1rem 1rem 1rem 2rem;
+        border-radius: 15px;
+        background-color: #efefef;
+      }
+      .auth-icon{
+        font-size: 2.5rem;
+        color: #9a9a9a;
+      }
+      .active {
+        /* Add your active styles here */
+        border: 1.5px solid $accent; /* $accent color */
+        box-shadow: 0 0 10px rgba(144, 245, 120, 0.7);
+        background-color: transparent !important;
+      }
+      .active-label{
+        color: $accent;
+      }
+      input{
+        background-color: transparent;
+        font-weight: 600;
+        border: none;
+        font-size: 2rem;
+        &:focus{
+          outline:none;
+        }
+      }
+      button{
+        cursor: pointer;
+        background-color: $accent;
+        color: white;
+        padding: 2rem;
+        font-weight: 600;
+        border-radius: 25px;
+        font-size: 2.5rem;
+        outline: none;
+        border: none;
+        box-shadow: 0 0 10px rgba(144, 245, 120, 0.7);
+        transition: 0.7s;
+        &:hover{
+          background-color: white;
+          color: $accent;
+          outline: 3px solid $accent;
+        }
+      }
+    }
+  }
+  .login-navbar{
+    font-family: $font-poppins;
+    font-weight: 600;
+    img{
+      max-width: 3rem;
+    }
+    height: 6rem;
+  }
+  .login-image-container {
+    clip-path: polygon(59% 27%, 40% 15%, 78% 0, 100% 0, 100% 0, 100% 15%, 100% 85%, 100% 100%, 57% 100%, 46% 89%, 32% 68%, 49% 57%);
+  }
+}

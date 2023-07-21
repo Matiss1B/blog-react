@@ -1,6 +1,7 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {useParams} from "react-router-dom";
+import Header from "../compoents/Header";
 
 function Edit() {
     let { id } = useParams();
@@ -13,16 +14,14 @@ function Edit() {
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState();
     const [img, setImg] = useState([]);
-
     const handleClick = () =>{
         const data = {
             id: id,
             title: title,
-            description: description,
+            description: "description",
             category: category,
         };
-
-        axios.put('http://localhost/api/v1/update/' + data.id, data).then(res => console.log(res)).catch(err => console.log(err));
+        axios.put('http://localhost/api/v1/update/' + data.id, data ).then(res => console.log(res)).catch(err => console.log(err));
     }
     const handleTitle = event =>{
         setTitle(event.target.value);
@@ -36,6 +35,8 @@ function Edit() {
     }
 
     return (
+        <div>
+            <Header />
         <div className="App">
             {blog.map( blog =>(
                 <div key={blog.id}>
@@ -63,6 +64,7 @@ function Edit() {
                     <button onClick={handleClick} >Value</button>
                 </div>
             ))}
+        </div>
         </div>
     );
 }

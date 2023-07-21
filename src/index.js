@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Router from "./inc/Router";
 import "./assets/scss/App.css";
-import Header from "./compoents/Header";
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from "react-router-dom";
 
@@ -11,7 +10,6 @@ root.render(
       <React.StrictMode>
           <div className="app">
               <BrowserRouter>
-                  <Header />
                   <Router />
               </BrowserRouter>
           </div>

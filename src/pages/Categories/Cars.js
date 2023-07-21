@@ -1,7 +1,8 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import {useNavigate} from "react-router-dom";
+import Header from "../../compoents/Header";
 
 function Cars() {
     const navigate = useNavigate();
@@ -13,6 +14,8 @@ function Cars() {
         axios.get("http://localhost/api/v1/blogs?category[eq]=cars").then(res => setBlogs(res.data.data)).catch(err => console.log(err));
     },[]);
     return (
+        <div>
+        <Header />
         <div className="home col flex w-100 middle">
             <div className = "w-1200 flex col pad3 gap2">
                 <h1 className="main-title font5">Cars</h1>
@@ -46,6 +49,7 @@ function Cars() {
                 ))}
                </div>
             </div>
+        </div>
         </div>
     );
 }

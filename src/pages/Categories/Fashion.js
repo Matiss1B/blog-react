@@ -1,6 +1,7 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import Header from "../../compoents/Header";
 
 function Fashion() {
     let [list, setBlogs] = useState([]);
@@ -12,6 +13,8 @@ function Fashion() {
         navigate('/edit/'+id);
     };
     return (
+        <div>
+            <Header />
         <div className="home flex w-100 middle">
             <div className = "w-1200 flex col pad3 gap2">
                 <h1 className="main-title font5">Fashion</h1>
@@ -40,6 +43,7 @@ function Fashion() {
                     ))}
                 </div>
             </div>
+        </div>
         </div>
     );
 }

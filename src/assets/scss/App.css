@@ -1,17 +1,96 @@
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Cabin&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Cabin&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Cabin&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Cabin&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cabin&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 .image-list {
   max-height: 80vh;
+}
+
+.main-login-box {
+  font-family: "Poppins", sans-serif;
+}
+.main-login-box .login-form .login-form-titles {
+  font-family: "Montserrat", sans-serif;
+}
+.main-login-box .login-form .login-form-titles p {
+  font-weight: 500;
+  color: gray;
+}
+.main-login-box .login-form .form label {
+  color: #9a9a9a;
+  font-weight: 600;
+}
+.main-login-box .login-form .form .input-box {
+  padding: 1rem 1rem 1rem 2rem;
+  border-radius: 15px;
+  background-color: #efefef;
+}
+.main-login-box .login-form .form .auth-icon {
+  font-size: 2.5rem;
+  color: #9a9a9a;
+}
+.main-login-box .login-form .form .active {
+  /* Add your active styles here */
+  border: 1.5px solid #90EB78; /* $accent color */
+  box-shadow: 0 0 10px rgba(144, 245, 120, 0.7);
+  background-color: transparent !important;
+}
+.main-login-box .login-form .form .active-label {
+  color: #90EB78;
+}
+.main-login-box .login-form .form input {
+  background-color: transparent;
+  font-weight: 600;
+  border: none;
+  font-size: 2rem;
+}
+.main-login-box .login-form .form input:focus {
+  outline: none;
+}
+.main-login-box .login-form .form button {
+  cursor: pointer;
+  background-color: #90EB78;
+  color: white;
+  padding: 2rem;
+  font-weight: 600;
+  border-radius: 25px;
+  font-size: 2.5rem;
+  outline: none;
+  border: none;
+  box-shadow: 0 0 10px rgba(144, 245, 120, 0.7);
+  transition: 0.7s;
+}
+.main-login-box .login-form .form button:hover {
+  background-color: white;
+  color: #90EB78;
+  outline: 3px solid #90EB78;
+}
+.main-login-box .login-navbar {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  height: 6rem;
+}
+.main-login-box .login-navbar img {
+  max-width: 3rem;
+}
+.main-login-box .login-image-container {
+  clip-path: polygon(59% 27%, 40% 15%, 78% 0, 100% 0, 100% 0, 100% 15%, 100% 85%, 100% 100%, 57% 100%, 46% 89%, 32% 68%, 49% 57%);
 }
 
 .header {

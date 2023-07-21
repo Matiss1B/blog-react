@@ -1,5 +1,6 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import axios from "axios";
+import Header from "../compoents/Header";
 function App() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -29,6 +30,8 @@ function App() {
     }
 
     return (
+        <div>
+            <Header />
         <div className="App">
             <input
                 type="text"
@@ -53,6 +56,7 @@ function App() {
             </select>
             <input type="file" name="img"  onChange={handleImg} />
             <button onClick={handleClick} >Value</button>
+        </div>
         </div>
     );
 }
