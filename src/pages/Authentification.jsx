@@ -2,6 +2,7 @@ import logo from "../assets/icons/iconizer-logotypes-dots-svgrepo-com.svg";
 import loginImg from "../assets/images/auth/hendrik-cornelissen--qrcOR33ErA-unsplash.jpg";
 import React from "react";
 import Login from "../compoents/Auth/Login";
+import Register from "../compoents/Auth/Register";
 
 function Authentification() {
     return (
@@ -13,7 +14,7 @@ function Authentification() {
                         <h1 className="font25">BlogIt</h1>
                     </div>
                     <div className="h-100 w-100 flex middle">
-                        <Login/>
+                        <Register/>
                     </div>
                 </div>
                 <div className="flex flex-1 login-image-container green w-100">

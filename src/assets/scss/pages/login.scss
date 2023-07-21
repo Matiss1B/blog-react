@@ -10,6 +10,7 @@
       }
     }
     .form{
+      max-width: 45rem;
       label{
         color: #9a9a9a;
         font-weight: 600;
@@ -25,7 +26,7 @@
       }
       .active {
         /* Add your active styles here */
-        border: 1.5px solid $accent; /* $accent color */
+        outline: 1.5px solid $accent; /* $accent color */
         box-shadow: 0 0 10px rgba(144, 245, 120, 0.7);
         background-color: transparent !important;
       }
@@ -33,6 +34,7 @@
         color: $accent;
       }
       input{
+        width: 100%;
         background-color: transparent;
         font-weight: 600;
         border: none;

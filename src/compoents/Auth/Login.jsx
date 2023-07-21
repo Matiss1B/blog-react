@@ -34,7 +34,7 @@ function Login() {
         <div className="login-form flex col gap5">
                             <div className="login-form-titles flex col gap2">
                                 <p>START RIGHT NOW</p>
-                                <h1>Jump right in</h1>
+                                <h1>Jump right into it</h1>
                                 <p>Dont have an account? Register</p>
                             </div>
                             <div className="form flex col gap2">

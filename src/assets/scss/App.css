@@ -32,6 +32,9 @@
   font-weight: 500;
   color: gray;
 }
+.main-login-box .login-form .form {
+  max-width: 45rem;
+}
 .main-login-box .login-form .form label {
   color: #9a9a9a;
   font-weight: 600;
@@ -47,7 +50,7 @@
 }
 .main-login-box .login-form .form .active {
   /* Add your active styles here */
-  border: 1.5px solid #90EB78; /* $accent color */
+  outline: 1.5px solid #90EB78; /* $accent color */
   box-shadow: 0 0 10px rgba(144, 245, 120, 0.7);
   background-color: transparent !important;
 }
@@ -55,6 +58,7 @@
   color: #90EB78;
 }
 .main-login-box .login-form .form input {
+  width: 100%;
   background-color: transparent;
   font-weight: 600;
   border: none;
