@@ -1,12 +1,68 @@
 @import "../assets/variables";
 .header{
+  .active-nav{
+    color: #3b3b3b !important;
+    border-radius: 15px;
+    background-color: #efefef !important;
+  }
   background-color: #ffff;
-  .title{
-    font-family: $main-title;
+  .header-logo{
+    font-family: $font-montserrat;
+    img{
+      max-width: 3rem;
+    }
   }
   .nav-link{
-    color: gray;
-    font-family: $font-cabin;
-    text-decoration: underline 4px solid white;
+    color: black;
+    padding: 5px 15px 5px 15px;
+    width: 100%;
+    color: #9a9a9a;
+  }
+  .icon{
+    font-size: 2rem;
+    font-weight: 500;
+  }
+  .nav-list{
+    padding-left: 2rem;
+    .vertical-line {
+      color: #3b3b3b;
+      position: relative;
+      padding-left: 2rem; /* Adjust this value to control the space between the line and the paragraph */
+    }
+
+    .vertical-line:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px; /* Adjust this value to control the width of the line */
+      height: 100%; /* This will make the line span the full height of the paragraph */
+      background-color: $accent; /* Change this to the desired color of the line */
+    }
+    .vertical-line-logout {
+      color: #3b3b3b;
+      position: relative;
+      padding-left: 2rem; /* Adjust this value to control the space between the line and the paragraph */
+    }
+
+    .vertical-line-logout:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px; /* Adjust this value to control the width of the line */
+      height: 100%; /* This will make the line span the full height of the paragraph */
+      background-color: $accent; /* Change this to the desired color of the line */
+    }
+  }
+  .nav-list[data-aos="fade-left"] {
+    opacity: 0; /* Initially hide the list */
+    transform: translateX(-100%); /* Slide it outside the viewport */
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Add a smooth transition */
+  }
+
+  .nav-list[data-aos="fade-left"].aos-animate {
+    opacity: 1; /* When AOS starts the animation, show the list */
+    transform: translateX(0); /* Slide it back to its original position */
   }
 }

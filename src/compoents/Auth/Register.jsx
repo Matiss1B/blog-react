@@ -45,22 +45,23 @@ function Register() {
     }
     const sumbitLogin = () => {
         let data ={
-            token: sessionStorage.getItem("user")
+            email:email,
+            password: password,
         }
         axios
-            .post("http://localhost/api/v1/fast_login",data)
+            .post("http://localhost/api/v1/login",data)
             .then(response => fastLogin(response))
             .catch(err => console.log(err));
     }
 
     const checkAuth = (response) =>{
         if(response.status === 200) {
-            sessionStorage.setItem("user", response.data.user);
             setRegisterCheck(true)
         }
     }
     const fastLogin = (response) =>{
         if(response.status === 200) {
+            sessionStorage.setItem("user", response.data.user);
             navigate("/home");
         }
     }
@@ -122,13 +123,16 @@ function Register() {
                     <h1>Your account is created</h1>
                     <BsCheckCircleFill className={"icon"}/>
                 </div>
-                <p>Create another one? Register</p>
+                <div className="flex gap1">
+                    <p>Create another one?</p>
+                    <p><a href="/register">Register</a></p>
+                </div>
             </div>
             :
             <div className="login-form-titles flex col gap2 pad1">
                 <p>FEW STEPS</p>
                 <h1>Create an account</h1>
-                <p>Have an account? Login</p>
+                <div className="flex gap1"> <p>Have an account?</p><p><a href="/">Login</a></p></div>
             </div>
             }
             <div className="form flex col gap2">

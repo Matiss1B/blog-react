@@ -9,10 +9,48 @@ p{
   margin: 0;
   padding: 0;
 }
+.accent-color{
+  color: $accent;
+}
+.main-button{
+  cursor: pointer;
+  background-color: $accent;
+  color: white;
+  padding: 2rem;
+  font-weight: 600;
+  border-radius: 25px;
+  font-size: 2.5rem;
+  outline: none;
+  border: none;
+  box-shadow: 0 0 10px rgba(144, 245, 120, 0.7);
+  transition: 0.7s;
+  &:hover{
+    background-color: white;
+    color: $accent;
+    outline: 3px solid $accent;
+  }
+}
 .app{
   background-color: $gray;
   min-height: 100vh;
 }
 .main-title{
-  font-family: $main-title;
+  font-weight: 400;
+}
+body{
+  font-family: $font-poppins;
+}
+$mobile-max-width: 767px;
+$tablet-min-width: 768px;
+
+/* Regular styles for the element */
+.hidden-mobile {
+  display: flex; /* Default display value for the element */
+}
+
+/* Media query for mobile devices */
+@media (max-width: $mobile-max-width) {
+  .hidden-mobile {
+    display: none !important; /* Hide the element on mobile devices */
+  }
 }

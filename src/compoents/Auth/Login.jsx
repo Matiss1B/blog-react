@@ -4,6 +4,7 @@ import {MdEmail} from "react-icons/md"
 import{AiFillEye} from "react-icons/ai"
 import {FaLock} from "react-icons/fa"
 import {useState, useEffect} from "react";
+import {useNavigate} from "react-router-dom";
 import axios from "axios";
 
 function Login() {
@@ -12,9 +13,12 @@ function Login() {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [emailErr, setEmailErr] = useState("");
+    const [customErr, setCustomErr] = useState("");
     const [passwordErr, setPasswordErr] = useState("");
     const [activeIcon, setActiveIcon] = useState("lock");
+    const navigate = useNavigate();
     const submitLogin = () => {
+        setCustomErr("");
         setEmailErr("");
         setPasswordErr("");
         let data = {
@@ -22,13 +26,14 @@ function Login() {
             password: password,
         }
         axios
-            .post("http://localhost/api/v1/register",data)
+            .post("http://localhost/api/v1/login",data)
             .then(response => checkAuth(response))
             .catch(err => handleErrors(err));
     }
     const checkAuth = (response) =>{
         if(response.status === 200) {
             sessionStorage.setItem("user", response.data.user);
+            navigate("/"+response.data.link);
         }
     }
     const setError = (key, error) => {
@@ -37,6 +42,9 @@ function Login() {
         }
         if(key === "email"){
             setEmailErr(error);
+        }
+        if(key === "invalid"){
+            setCustomErr(error);
         }
     }
     const handleErrors = (err) =>{
@@ -79,7 +87,7 @@ function Login() {
             <div className="login-form-titles flex col gap2">
                 <p>START RIGHT NOW</p>
                 <h1>Jump right into it</h1>
-                <p>Dont have an account? Register</p>
+                {customErr === "" ?<div className="flex gap1"> <p>Dont have an account?</p><p><a href="/register">Register</a></p></div> : <p className={"custom-err"}>{customErr}</p>}
             </div>
             <div className="form flex col gap2">
                 <div className={`flex  input-box center-y between ${activeInput === 'email' ? 'active' : ''}`}

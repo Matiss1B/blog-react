@@ -18,12 +18,95 @@
 @import url("https://fonts.googleapis.com/css2?family=Cabin&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
-.image-list {
-  max-height: 80vh;
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cabin&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cabin&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+.home-page .home-page-welcome-title {
+  max-width: 40rem;
+}
+.home-page .home-page-welcome-title h1 {
+  font-size: 7rem;
+}
+.home-page .home-page-welcome-title p {
+  font-family: "Montserrat", sans-serif;
+  color: #575757;
+  font-weight: 600;
+  font-size: 2rem;
+}
+.home-page .home-page-welcome-title .welcome-title {
+  color: #90EB78;
+}
+.home-page .home-page-welcome-title .intro-button {
+  cursor: pointer;
+  background-color: #90EB78;
+  color: white;
+  padding: 2rem;
+  font-weight: 600;
+  border-radius: 25px;
+  font-size: 2.5rem;
+  outline: none;
+  border: none;
+  box-shadow: 0 0 10px rgba(144, 245, 120, 0.7);
+  transition: 0.7s;
+}
+.home-page .home-page-welcome-title .intro-button:hover {
+  letter-spacing: 3px;
+  background-color: white;
+  color: #90EB78;
+  outline: 3px solid #90EB78;
+}
+.home-page .circle {
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+}
+.home-page .circle img {
+  border-radius: 50%;
+  display: block;
+  border: 1px solid #fff;
+}
+.home-page .circle:after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 70%, rgb(255, 255, 255) 100%);
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.home-page .stats-box .stats-unit .icon-box {
+  width: 7rem;
+  height: 7rem;
+  border-radius: 50%;
+  border: 4px solid #bbbaba;
+}
+.home-page .stats-box .stats-unit .icon-box .icon {
+  font-size: 3rem;
+  color: #bbbaba;
+}
+.home-page .stats-box .stats-info p {
+  font-size: 2rem;
+  font-weight: 500;
+  color: #bbbaba;
+}
+.home-page .stats-box .stats-info h1 {
+  font-size: 2.5rem;
+  color: #3b3b3b;
 }
 
 .main-login-box {
   font-family: "Poppins", sans-serif;
+}
+.main-login-box .login-form a {
+  color: #90EB78;
+  font-weight: 600;
 }
 .main-login-box .login-form .login-form-titles {
   font-family: "Montserrat", sans-serif;
@@ -31,6 +114,9 @@
 .main-login-box .login-form .login-form-titles p {
   font-weight: 500;
   color: gray;
+}
+.main-login-box .login-form .login-form-titles .custom-err {
+  color: red !important;
 }
 .main-login-box .login-form .form {
   max-width: 50rem;
@@ -111,16 +197,184 @@
   color: #90EB78;
 }
 
+.main-add-box .add-input-box {
+  max-width: 50rem;
+  width: 100%;
+}
+.main-add-box .input-box {
+  padding: 0.2rem 0.2rem 0.2rem 1.2rem;
+  border-radius: 15px;
+  background-color: #efefef;
+}
+.main-add-box .input-box .err {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: red;
+}
+.main-add-box .textarea-input-box {
+  padding: 0.2rem 0.2rem 0.2rem 1.2rem;
+  border-radius: 15px;
+  background-color: #efefef;
+}
+.main-add-box .textarea-input-box .err {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: red;
+}
+.main-add-box .textarea-input-box label {
+  padding: 1rem;
+}
+.main-add-box input {
+  width: 100%;
+  background-color: transparent;
+  font-weight: 600;
+  border: none;
+  font-size: 2rem;
+}
+.main-add-box input:focus {
+  outline: none;
+}
+.main-add-box textarea {
+  height: 15rem;
+  width: 100%;
+  background-color: transparent;
+  font-weight: 600;
+  border: none;
+  font-size: 2rem;
+}
+.main-add-box textarea:focus {
+  outline: none;
+}
+.main-add-box .icon {
+  font-size: 2.5rem;
+  color: #9a9a9a;
+}
+.main-add-box .active {
+  /* Add your active styles here */
+  outline: 1.5px solid #90EB78; /* $accent color */
+  box-shadow: 0 0 10px rgba(144, 245, 120, 0.7);
+  background-color: transparent !important;
+}
+.main-add-box .active-label {
+  color: #90EB78 !important;
+}
+.main-add-box .image-section .image-upload-box {
+  border-radius: 15px;
+  border: 5px dashed #838383;
+  border-style: dashed;
+  border-width: 2.5px;
+  background-color: #efefef;
+  width: 50rem;
+  height: 28rem;
+  transition: 0.5s;
+}
+.main-add-box .image-section .image-upload-box .icon {
+  font-size: 7rem;
+  color: #90EB78;
+}
+.main-add-box .image-section .image-upload-box p {
+  font-size: 1.5rem;
+  font-weight: 550;
+  color: #3b3b3b;
+}
+.main-add-box .image-section .image-upload-box:hover {
+  border: 5px dashed #90EB78;
+  border-width: 2.5px;
+}
+.main-add-box .image-section button {
+  font-family: "Montserrat", sans-serif;
+  max-width: 20rem;
+  text-align: left;
+  cursor: pointer;
+  background-color: transparent;
+  color: #90EB78;
+  font-weight: 550;
+  outline: none;
+  border-radius: 25px;
+  font-size: 1.5rem;
+  border: none;
+  transition: 0.7s;
+}
+.main-add-box .image-section button:hover {
+  letter-spacing: 1px;
+}
+.main-add-box .required {
+  color: #ff0000;
+}
+.main-add-box .subtitle {
+  font-size: 3rem;
+  font-weight: 500;
+  color: #3b3b3b;
+}
+.main-add-box .required-text {
+  font-style: italic;
+  font-weight: 400;
+  color: #3b3b3b;
+}
+
 .header {
   background-color: white;
 }
-.header .title {
-  font-family: "Dancing Script", cursive;
+.header .active-nav {
+  color: #3b3b3b !important;
+  border-radius: 15px;
+  background-color: #efefef !important;
+}
+.header .header-logo {
+  font-family: "Montserrat", sans-serif;
+}
+.header .header-logo img {
+  max-width: 3rem;
 }
 .header .nav-link {
-  color: gray;
-  font-family: "Cabin", sans-serif;
-  text-decoration: underline 4px solid white;
+  color: black;
+  padding: 5px 15px 5px 15px;
+  width: 100%;
+  color: #9a9a9a;
+}
+.header .icon {
+  font-size: 2rem;
+  font-weight: 500;
+}
+.header .nav-list {
+  padding-left: 2rem;
+}
+.header .nav-list .vertical-line {
+  color: #3b3b3b;
+  position: relative;
+  padding-left: 2rem; /* Adjust this value to control the space between the line and the paragraph */
+}
+.header .nav-list .vertical-line:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px; /* Adjust this value to control the width of the line */
+  height: 100%; /* This will make the line span the full height of the paragraph */
+  background-color: #90EB78; /* Change this to the desired color of the line */
+}
+.header .nav-list .vertical-line-logout {
+  color: #3b3b3b;
+  position: relative;
+  padding-left: 2rem; /* Adjust this value to control the space between the line and the paragraph */
+}
+.header .nav-list .vertical-line-logout:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px; /* Adjust this value to control the width of the line */
+  height: 100%; /* This will make the line span the full height of the paragraph */
+  background-color: #90EB78; /* Change this to the desired color of the line */
+}
+.header .nav-list[data-aos=fade-left] {
+  opacity: 0; /* Initially hide the list */
+  transform: translateX(-100%); /* Slide it outside the viewport */
+  transition: opacity 0.3s ease, transform 0.3s ease; /* Add a smooth transition */
+}
+.header .nav-list[data-aos=fade-left].aos-animate {
+  opacity: 1; /* When AOS starts the animation, show the list */
+  transform: translateX(0); /* Slide it back to its original position */
 }
 
 .blog-list {
@@ -159,15 +413,53 @@ p {
   padding: 0;
 }
 
+.accent-color {
+  color: #90EB78;
+}
+
+.main-button {
+  cursor: pointer;
+  background-color: #90EB78;
+  color: white;
+  padding: 2rem;
+  font-weight: 600;
+  border-radius: 25px;
+  font-size: 2.5rem;
+  outline: none;
+  border: none;
+  box-shadow: 0 0 10px rgba(144, 245, 120, 0.7);
+  transition: 0.7s;
+}
+.main-button:hover {
+  background-color: white;
+  color: #90EB78;
+  outline: 3px solid #90EB78;
+}
+
 .app {
   background-color: #fdfdfd;
   min-height: 100vh;
 }
 
 .main-title {
-  font-family: "Dancing Script", cursive;
+  font-weight: 400;
 }
 
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+/* Regular styles for the element */
+.hidden-mobile {
+  display: flex; /* Default display value for the element */
+}
+
+/* Media query for mobile devices */
+@media (max-width: 767px) {
+  .hidden-mobile {
+    display: none !important; /* Hide the element on mobile devices */
+  }
+}
 *, *::after, *::before {
   box-sizing: border-box;
 }
@@ -360,6 +652,11 @@ ul {
 .h-v {
   min-height: 100vh;
   width: 100%;
+}
+
+.h-100vh {
+  min-height: 100vh;
+  height: 100%;
 }
 
 .mh-100 {
