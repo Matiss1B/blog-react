@@ -7,7 +7,9 @@ import Header from "../compoents/Header";
 function App() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [category, setCategory] = useState();
+    const [category, setCategory] = useState("");
+    const [phone, setPhone] = useState("");
+    const [email, setEmail] = useState("");
     const [activeInput, setActiveInput] = useState(null);
     const [img, setImg] = useState([]);
 
@@ -20,15 +22,25 @@ function App() {
         var formData = new FormData();
         formData.append("title", title);
         formData.append("description", description);
+        formData.append("phone", title);
+        formData.append("email", description);
         formData.append("category", category);
         formData.append("img",img);
-        console.log(formData);
         axios.post("http://localhost/api/v1/create",formData, {
             headers: { "Content-Type": "multipart/form-data" },
         }, ).then(res => console.log(res)).catch(err => console.log(err));
     }
     const handleTitle = event =>{
         setTitle(event.target.value);
+    }
+    const  handleCategory = event =>{
+        setCategory(event.target.value);
+    }
+    const handleEmail = event =>{
+        setEmail(event.target.value);
+    }
+    const  handlePhone = event =>{
+        setPhone(event.target.value);
     }
     const handleDescription = event =>{
         setDescription(event.target.value);
@@ -50,10 +62,10 @@ function App() {
                         </div>
                         <p className={"flex gap1"}>Pen your journey, inspire hearts, and leave a mark forever</p>
                     </div>
-                    <div className="flex gap3 evenly  pad2 w-100">
+                    <div className="flex gap3 evenly pad2 w-100">
                         <div className="flex col gap2 w-100 add-input-box ">
-                            <h1 className={"subtitle"}>Blog info</h1>
-                            <p className={"flex required-text gap1"}>All required fields will be marked with <p className={`required`}>*</p></p>
+                            <h1 className={"subtitle hidden-mobile"}>Blog info</h1>
+                            <p className={"flex required-text gap1 hidden-mobile"}>All required fields will be marked with <p className={`required`}>*</p></p>
                             <div className="flex gap2 2-100">
                                 <div className={`flex  input-box center-y between ${activeInput === 'title' ? 'active' : ''}`}
                                      onClick={handleInputBoxClick}>
@@ -63,6 +75,7 @@ function App() {
                                             type="text"
                                             id="title"
                                             name="title"
+                                            onChange={handleTitle}
                                         />
                                     </div>
                                     <div className="icon pad1">
@@ -77,6 +90,7 @@ function App() {
                                             type="text"
                                             id="category"
                                             name="category"
+                                            onChange={handleCategory}
                                         />
                                     </div>
                                     <div className="icon pad1">
@@ -93,6 +107,7 @@ function App() {
                                             type="number"
                                             id="phone"
                                             name="phone"
+                                            onChange={handlePhone}
                                         />
                                     </div>
                                     <div className="icon pad1">
@@ -107,6 +122,7 @@ function App() {
                                             type="text"
                                             id="email"
                                             name="email"
+                                            onChange={handleEmail}
                                         />
                                     </div>
                                     <div className="icon pad1">
@@ -121,6 +137,7 @@ function App() {
                                     <textarea
                                         id="description"
                                         name="description"
+                                        onChange={handleDescription}
                                     >
                                     </textarea>
 
@@ -129,13 +146,17 @@ function App() {
                                     <MdTextSnippet className={`icon`}/>
                                 </div>
                             </div>
+                            <div className="flex add-buttons w-100 gap2">
+                                <button id={`clear`} className={`w-100`}>Clear</button>
+                                <button id={`submit`}  className={`w-100`} onClick={handleClick}>Submit</button>
+                            </div>
                         </div>
                         <div className="image-section gap2 flex col w-100 ">
-                            <h1 className={"subtitle"}>Image upload</h1>
-                            <p className={"flex required-text gap1"}>Upload to see image</p>
+                            <h1 className={"subtitle hidden-mobile"}>Image upload</h1>
+                            <p className={"flex required-text gap1 hidden-mobile"}>Upload to see image</p>
                             <div className="image-upload-box middle">
                                 <div className="flex col center-y gap1">
-                                    <input type="file" id="img" className={`none`}/>
+                                    <input type="file" id="img" className={`none`} onChange={handleImg}/>
                                     <label htmlFor="img">
                                         <AiFillPlusCircle className={`icon`}/>
                                     </label>
