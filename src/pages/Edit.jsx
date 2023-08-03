@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import Header from "../compoents/Header";
 
 function Edit() {
@@ -33,40 +33,61 @@ function Edit() {
         setImg(event.target.files[0]);
         console.log(event.target.files[0]);
     }
-
-    return (
-        <div>
-            <Header />
-        <div className="App">
-            {blog.map( blog =>(
-                <div key={blog.id}>
-                    <input
-                    type="text"
-                    id="title"
-                    name="title"
-                    onChange={handleTitle}
-                    />
-                    <input
-                        type="text"
-                        value={blog.description}
-                        id="description"
-                        name="description"
-                        onChange={handleDescription}
-                    />
-                    <select name="category" onChange={ event=>setCategory(event.target.value)}>
-                        <option value = {blog.category}>{blog.category}</option>
-                        <option value="cars">Cars</option>
-                        <option value="home">Home</option>
-                        <option value="fashion">Fashion</option>
-                        <option value="food">Food</option>
-                    </select>
-                    <input type="file" name="img"  onChange={handleImg} />
-                    <button onClick={handleClick} >Value</button>
+    const navigate = useNavigate();
+    const [token, setCheck] = useState(false)
+    const checkToken = (res) => {
+        if(res.status == 200){
+            setCheck(true)
+        }
+    }
+    useEffect(()=>{
+        const data = {
+            token: sessionStorage.getItem("user"),
+        }
+        axios.post("http://localhost/api/v1/checkToken",data, {
+            headers: { "Content-Type": "multipart/form-data" },
+        }, ).then(res => checkToken(res)).catch(err => checkToken(err));
+    },[])
+    useEffect(() => {
+        if (!token) {
+            navigate("/");
+        }
+    }, [token]);
+    if(token) {
+        return (
+            <div>
+                <Header/>
+                <div className="App">
+                    {blog.map(blog => (
+                        <div key={blog.id}>
+                            <input
+                                type="text"
+                                id="title"
+                                name="title"
+                                onChange={handleTitle}
+                            />
+                            <input
+                                type="text"
+                                value={blog.description}
+                                id="description"
+                                name="description"
+                                onChange={handleDescription}
+                            />
+                            <select name="category" onChange={event => setCategory(event.target.value)}>
+                                <option value={blog.category}>{blog.category}</option>
+                                <option value="cars">Cars</option>
+                                <option value="home">Home</option>
+                                <option value="fashion">Fashion</option>
+                                <option value="food">Food</option>
+                            </select>
+                            <input type="file" name="img" onChange={handleImg}/>
+                            <button onClick={handleClick}>Value</button>
+                        </div>
+                    ))}
                 </div>
-            ))}
-        </div>
-        </div>
-    );
+            </div>
+        );
+    }
 }
 
 export default Edit;

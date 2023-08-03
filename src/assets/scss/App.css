@@ -26,6 +26,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Cabin&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cabin&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 .home-page .home-page-welcome-title {
   max-width: 40rem;
 }
@@ -198,7 +202,7 @@
 }
 
 .main-add-box .add-input-box {
-  max-width: 50rem;
+  max-width: 70rem;
   width: 100%;
 }
 .main-add-box .input-box {
@@ -277,7 +281,15 @@
   color: #90EB78;
   background-color: transparent;
 }
+.main-add-box .docs-upload-box p {
+  font-size: 1.2rem;
+  font-weight: 550;
+}
+.main-add-box .docs-upload-box .icon {
+  color: #90EB78;
+}
 .main-add-box .image-section .image-upload-box {
+  overflow: hidden;
   border-radius: 15px;
   border: 5px dashed #838383;
   border-style: dashed;
@@ -330,6 +342,53 @@
   font-style: italic;
   font-weight: 400;
   color: #3b3b3b;
+}
+
+.blogs-list .column {
+  flex-basis: 32%;
+}
+.blogs-list .single-blog {
+  cursor: pointer;
+  border-radius: 15px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+.blogs-list .single-blog img {
+  border-radius: 15px;
+}
+.blogs-list .single-blog .blog-author-box {
+  transition: 0.5s;
+  border-radius: 15px 15px 0 0; /* Top left and top right corners are rounded */
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+}
+.blogs-list .single-blog .blog-author-box .profile-icon {
+  width: 3.5rem;
+  border-radius: 50%;
+  background-color: green;
+  height: 3.5rem;
+}
+.blogs-list .single-blog .blog-author-box h1 {
+  font-size: 2rem;
+  color: white;
+  font-weight: 300;
+}
+.blogs-list .single-blog .blog-info-box {
+  border-radius: 0 0 15px 15px; /* Top left and top right corners are rounded */
+  bottom: 0;
+  width: 100%;
+}
+.blogs-list .single-blog .blog-info-box .profile-icon {
+  transition: 0.5s;
+  width: 3.5rem;
+  border-radius: 50%;
+  background-color: green;
+  height: 3.5rem;
+}
+.blogs-list .single-blog .blog-info-box h1 {
+  font-size: 2rem;
+  color: white;
+  font-weight: 300;
 }
 
 .header {
@@ -474,10 +533,42 @@ body {
   display: flex; /* Default display value for the element */
 }
 
+.success-pop-up {
+  position: fixed;
+  top: 3rem;
+  right: 3rem;
+  display: flex;
+  align-items: center;
+  min-height: 70px;
+  max-width: 400px;
+  width: 90%;
+  background: #fff;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-radius: 1rem;
+  animation-duration: 0.7s;
+  animation-name: slideIn;
+  z-index: 99;
+}
+.success-pop-up h1 {
+  font-size: 1.7rem;
+  text-decoration: underline 3px solid #90EB78;
+}
+.success-pop-up p {
+  font-size: 1.5rem;
+  font-style: italic;
+}
+.success-pop-up .icon {
+  font-size: 3rem;
+  color: #90EB78;
+}
+
 /* Media query for mobile devices */
 @media (max-width: 767px) {
   .hidden-mobile {
     display: none !important; /* Hide the element on mobile devices */
+  }
+  .add-wrap-box {
+    flex-wrap: wrap;
   }
 }
 *, *::after, *::before {
@@ -604,7 +695,7 @@ ul {
 }
 
 .none {
-  display: none;
+  display: none !important;
 }
 
 .flex {

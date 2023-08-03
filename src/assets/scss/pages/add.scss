@@ -1,7 +1,7 @@
 @import "../assets/variables";
 .main-add-box{
   .add-input-box{
-    max-width: 50rem;
+    max-width: 70rem;
     width: 100%;
   }
   .input-box{
@@ -82,8 +82,18 @@
       background-color: transparent;
     }
   }
+  .docs-upload-box{
+    p{
+      font-size: 1.2rem;
+      font-weight: 550;
+    }
+    .icon{
+      color: $accent;
+    }
+  }
   .image-section {
     .image-upload-box {
+      overflow: hidden;
       border-radius: 15px;
       border: 5px dashed #838383;
       border-style: dashed;

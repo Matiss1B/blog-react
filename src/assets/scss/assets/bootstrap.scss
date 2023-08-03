@@ -48,7 +48,7 @@ ul {list-style: none; padding: 0; margin:0;}
 
 //Display
 .hidden {visibility: hidden;}
-.none {display: none;}
+.none {display: none !important;}
 .flex {display: flex;}
 .grid {display: grid;}
 

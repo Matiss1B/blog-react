@@ -35,7 +35,7 @@ function Header() {
     };
     const windowWidth = useRef(window.innerWidth);
     return (
-        <header className="header shadow-light col h-100vh hidden-mobile flex gap1 center-y pad3">
+        <header className="header shadow-light col hidden-mobile flex gap1 center-y pad3">
             <div className="header-logo pad2 gap1 center-y flex">
                 <img src={logo} alt=""/>
                 <h1 className="font25">BlogIt</h1>

@@ -47,10 +47,41 @@ $tablet-min-width: 768px;
 .hidden-mobile {
   display: flex; /* Default display value for the element */
 }
+.success-pop-up{
+    position: fixed;
+    top: 3rem;
+    right: 3rem;
+    display: flex;
+    align-items: center;
+    min-height: 70px;
+    max-width: 400px;
+    width: 90%;
+    background: #fff;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border-radius: 1rem;
+    animation-duration: 0.7s;
+    animation-name: slideIn;
+    z-index: 99;
+  h1{
+    font-size: 1.7rem;
+    text-decoration: underline 3px solid $accent;
+  }
+  p{
+    font-size: 1.5rem;
+    font-style: italic;
+  }
+  .icon{
+    font-size: 3rem;
+    color: $accent;
+  }
+}
 
 /* Media query for mobile devices */
 @media (max-width: $mobile-max-width) {
   .hidden-mobile {
     display: none !important; /* Hide the element on mobile devices */
+  }
+  .add-wrap-box{
+    flex-wrap: wrap;
   }
 }
