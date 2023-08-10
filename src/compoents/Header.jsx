@@ -58,7 +58,7 @@ function Header() {
                                 <NavLink  className={"flex center-y vertical-line gap1"} to="/home">
                                     <p>Home</p>
                                 </NavLink>
-                                <NavLink  className={"flex center-y vertical-line gap1"} to="/cars">
+                                <NavLink  className={"flex center-y vertical-line gap1"} to="/blogs/Cars">
                                     <p>Cars</p>
                                 </NavLink >
                                 <NavLink  className={"flex center-y vertical-line gap1"} to="/food">

@@ -9,6 +9,9 @@ import Header from "../compoents/Header";
 import {useNavigate} from "react-router-dom";
 function App() {
     const [title, setTitle] = useState('');
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setErrorToken] = useState(null);
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState("");
     const [phone, setPhone] = useState("");
@@ -17,7 +20,7 @@ function App() {
     const [activeInput, setActiveInput] = useState(null);
     const [img, setImg] = useState([]);
     const navigate = useNavigate();
-    const [token, setCheck] = useState(false);
+    const [token, setCheck] = useState("No");
     //Errors
     const [emailErr, setEmailErr] = useState("");
     const [titleErr, setTitleErr] = useState("");
@@ -75,12 +78,6 @@ function App() {
         }, ).then(res => confirmSubmit(res)).catch(err => handleErrors(err));
     }
     const handleErrors = (err) =>{
-        // if(err.response.status === 422) {
-        //     let errors = err.response.data.errors;
-        //     for (let key in errors) {
-        //         setError(key, errors[key]);
-        //     }
-        // }
         console.log(err);
     }
 
@@ -143,25 +140,31 @@ function App() {
         setImg([]);
 
     }
-    const checkToken = (res) => {
-        if(res.status == 200){
-            setCheck(true)
-        }
-    }
-    useEffect(()=>{
+    useEffect(() => {
         const data = {
             token: sessionStorage.getItem("user"),
         }
-        axios.post("http://localhost/api/v1/checkToken",data, {
+        axios.post("http://localhost/api/v1/checkToken", data, {
             headers: { "Content-Type": "multipart/form-data" },
-        }, ).then(res => checkToken(res)).catch(err => checkToken(err));
-    },[])
-    useEffect(() => {
-        if (!token) {
-            navigate("/");
-        }
-    }, [token]);
-    if(token) {
+        })
+            .then(response => {
+                setData(response.data);
+                setLoading(false);
+            })
+            .catch(error => {
+                setErrorToken(error);
+                setLoading(false);
+            });
+    }, []);
+    if (loading) {
+        return <p>Loading...</p>;
+    }
+
+    if (error) {
+        // Redirect to another page if there's an error
+        return navigate("/");
+    }
+    if(data) {
         return (
             <div className={"flex h-v"}>
                 <Header/>
@@ -330,6 +333,7 @@ function App() {
             </div>
         );
     }
+    return null;
 }
 
 export default App;

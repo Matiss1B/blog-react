@@ -5,7 +5,9 @@ import Header from "../compoents/Header";
 
 function Blogs(props) {
     let { id } = useParams();
-
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setErrorToken] = useState(null);
     let [blog, setBlogs] = useState([]);
     useEffect(()=>{
         axios.get("http://localhost/api/v1/blogs?category[eq]="+props.category).then(res => setBlogs(res.data.data)).catch(err => console.log(err));
@@ -41,26 +43,30 @@ function Blogs(props) {
         }
     });
     const navigate = useNavigate();
-    const [token, setCheck] = useState(false)
-    const checkToken = (res) => {
-        if(res.status == 200){
-            setCheck(true)
-        }
-    }
-    useEffect(()=>{
+    useEffect(() => {
         const data = {
             token: sessionStorage.getItem("user"),
         }
-        axios.post("http://localhost/api/v1/checkToken",data, {
+        axios.post("http://localhost/api/v1/checkToken", data, {
             headers: { "Content-Type": "multipart/form-data" },
-        }, ).then(res => checkToken(res)).catch(err => checkToken(err));
-    },[])
-    useEffect(() => {
-        if (!token) {
-            navigate("/");
-        }
-    }, [token]);
-    if(token) {
+        })
+            .then(response => {
+                setData(response.data);
+                setLoading(false);
+            })
+            .catch(error => {
+                setErrorToken(error);
+                setLoading(false);
+            });
+    }, []);
+    if (loading) {
+        return <p>Loading...</p>;
+    }
+    if (error) {
+        // Redirect to another page if there's an error
+        return navigate("/");
+    }
+    if(data) {
         return (
             <div className={'flex'}>
                 <Header/>
@@ -149,6 +155,7 @@ function Blogs(props) {
             </div>
         );
     }
+    return null;
 }
 
 export default Blogs;

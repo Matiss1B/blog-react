@@ -5,26 +5,33 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 function HomePage() {
     const navigate = useNavigate();
-    const [token, setCheck] = useState(false)
-    const checkToken = (res) => {
-        if(res.status == 200){
-            setCheck(true)
-        }
-    }
-    useEffect(()=>{
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setErrorToken] = useState(null);
+    useEffect(() => {
         const data = {
             token: sessionStorage.getItem("user"),
         }
-        axios.post("http://localhost/api/v1/checkToken",data, {
+        axios.post("http://localhost/api/v1/checkToken", data, {
             headers: { "Content-Type": "multipart/form-data" },
-        }, ).then(res => checkToken(res)).catch(err => checkToken(err));
-    },[])
-    useEffect(() => {
-        if (!token) {
-            navigate("/");
-        }
-    }, [token]);
-    if(token) {
+        })
+            .then(response => {
+                setData(response.data);
+                setLoading(false);
+            })
+            .catch(error => {
+                setErrorToken(error);
+                setLoading(false);
+            });
+    }, []);
+    if (loading) {
+        return <p>Loading...</p>;
+    }
+    if (error) {
+        // Redirect to another page if there's an error
+        return navigate("/");
+    }
+    if(data) {
         return (
             <div className={"flex h-v"}>
                 <Header/>
@@ -81,9 +88,8 @@ function HomePage() {
                 </div>
             </div>
         );
-    }else{
-        return null;
     }
+    return null;
 }
 
 export default HomePage;

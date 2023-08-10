@@ -7,6 +7,9 @@ function Edit() {
     let { id } = useParams();
 
     let [blog, setBlogs] = useState([]);
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setErrorToken] = useState(null);
     useEffect(()=>{
         axios.get("http://localhost/api/v1/blogs?id[eq]="+id).then(res => setBlogs(res.data.data)).catch(err => console.log(err));
     },[]);
@@ -35,25 +38,30 @@ function Edit() {
     }
     const navigate = useNavigate();
     const [token, setCheck] = useState(false)
-    const checkToken = (res) => {
-        if(res.status == 200){
-            setCheck(true)
-        }
-    }
-    useEffect(()=>{
+    useEffect(() => {
         const data = {
             token: sessionStorage.getItem("user"),
         }
-        axios.post("http://localhost/api/v1/checkToken",data, {
+        axios.post("http://localhost/api/v1/checkToken", data, {
             headers: { "Content-Type": "multipart/form-data" },
-        }, ).then(res => checkToken(res)).catch(err => checkToken(err));
-    },[])
-    useEffect(() => {
-        if (!token) {
-            navigate("/");
-        }
-    }, [token]);
-    if(token) {
+        })
+            .then(response => {
+                setData(response.data);
+                setLoading(false);
+            })
+            .catch(error => {
+                setErrorToken(error);
+                setLoading(false);
+            });
+    }, []);
+    if (loading) {
+        return <p>Loading...</p>;
+    }
+    if (error) {
+        // Redirect to another page if there's an error
+        return navigate("/");
+    }
+    if(data) {
         return (
             <div>
                 <Header/>
@@ -88,6 +96,7 @@ function Edit() {
             </div>
         );
     }
+    return null;
 }
 
 export default Edit;
