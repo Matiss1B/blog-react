@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate, useParams} from "react-router-dom";
 import Header from "../compoents/Header";
+import Loader from "../compoents/Loading";
 
 function Blogs(props) {
     let { id } = useParams();
@@ -10,7 +11,7 @@ function Blogs(props) {
     const [error, setErrorToken] = useState(null);
     let [blog, setBlogs] = useState([]);
     useEffect(()=>{
-        axios.get("http://localhost/api/v1/blogs?category[eq]="+props.category).then(res => setBlogs(res.data.data)).catch(err => console.log(err));
+        axios.get("http://localhost/api/v1/blogs?user="+sessionStorage.getItem("user")+"&category[eq]="+props.category ).then(res => setBlogs(res.data.data)).catch(err => console.log(err));
     },[]);
     const column1Blogs = [];
     const column2Blogs = [];
@@ -60,7 +61,7 @@ function Blogs(props) {
             });
     }, []);
     if (loading) {
-        return <p>Loading...</p>;
+        return <Loader/>;
     }
     if (error) {
         // Redirect to another page if there's an error

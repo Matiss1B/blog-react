@@ -11,6 +11,9 @@ function Header() {
     const[activeNav, setActiveNav] = useState("")
     const navigate = useNavigate();
     useEffect(() => {
+        const pathSegments = window.location.pathname.split('/');
+        const desiredSegment = pathSegments[1];
+        setActiveNav(desiredSegment);
         AOS.init();
     }, [])
     const submitLogout = () => {
@@ -49,11 +52,11 @@ function Header() {
                         </NavLink>
                     </div>
                     <div className="nav-link-group flex col gap1">
-                        <NavLink onClick={handleNavLink} id={"categories"} className={`nav-link flex center-y gap1 ${activeNav === "categories" ? "active-nav" : ""}`}>
-                            <BsBookHalf id={"categories"} className={"icon"} />
-                            <p id={"categories"}> Blogs</p>
+                        <NavLink onClick={handleNavLink} id={"blogs"} className={`nav-link flex center-y gap1 ${activeNav === "blogs" ? "active-nav" : ""}`}>
+                            <BsBookHalf id={"blogs"} className={"icon"} />
+                            <p id={"blogs"}> Blogs</p>
                         </NavLink>
-                        {activeNav === "categories" ?
+                        {activeNav === "blogs" ?
                             <ul className={"nav-list flex col gap1"} data-aos="fade-left">
                                 <NavLink  className={"flex center-y vertical-line gap1"} to="/home">
                                     <p>Home</p>
@@ -73,9 +76,9 @@ function Header() {
                         }
                     </div>
                     <div className="nav-link-group">
-                        <NavLink to = "/add" onClick={handleNavLink} id={"new-blog"} className={`nav-link nav-link-new-blog flex center-y gap1 ${activeNav === "new-blog" ? "active-nav" : ""}`}>
-                            <BiPlusCircle id={"new-blog"} className={"icon"} />
-                            <p id={"new-blog"}>New blog</p>
+                        <NavLink to = "/add" onClick={handleNavLink} id={"add"} className={`nav-link nav-link-new-blog flex center-y gap1 ${activeNav === "add" ? "active-nav" : ""}`}>
+                            <BiPlusCircle id={"add"} className={"icon"} />
+                            <p id={"add"}>New blog</p>
                         </NavLink>
                     </div>
                     <div className="nav-link-group flex col gap1">

@@ -6,6 +6,7 @@ import Blogs from "../pages/Blogs";
 import Authentification from "../pages/Authentification";
 import HomePage from "../pages/HomePage";
 import {useParams} from "react-router-dom";
+import Loader from "../compoents/Loading";
 function Router() {
     return (
         <Routes>
@@ -19,8 +20,7 @@ function Router() {
     );
 }
 const BlogsWrapper = () => {
-    const { category } = useParams(); // This will get the "category" value from the URL parameter
-
+    const { category } = useParams(); // This will get the "category" value from the URL paramete
     return <Blogs category={category} />;
 };
 export default Router;

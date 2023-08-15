@@ -7,6 +7,7 @@ import {FaRegStickyNote} from "react-icons/fa";
 import {AiFillPlusCircle, AiFillPhone} from "react-icons/ai"
 import Header from "../compoents/Header";
 import {useNavigate} from "react-router-dom";
+import Loader from "../compoents/Loading";
 function App() {
     const [title, setTitle] = useState('');
     const [data, setData] = useState(null);
@@ -157,7 +158,7 @@ function App() {
             });
     }, []);
     if (loading) {
-        return <p>Loading...</p>;
+        return <Loader/>;
     }
 
     if (error) {

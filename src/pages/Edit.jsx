@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate, useParams} from "react-router-dom";
 import Header from "../compoents/Header";
+import Loader from "../compoents/Loading";
 
 function Edit() {
     let { id } = useParams();
@@ -55,7 +56,7 @@ function Edit() {
             });
     }, []);
     if (loading) {
-        return <p>Loading...</p>;
+        return <Loader/>;
     }
     if (error) {
         // Redirect to another page if there's an error

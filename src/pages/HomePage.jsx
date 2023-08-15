@@ -3,6 +3,7 @@ import {TbUsers, TbCards, TbCategory2} from "react-icons/tb"
 import Header from "../compoents/Header";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import Loader from "../compoents/Loading";
 function HomePage() {
     const navigate = useNavigate();
     const [data, setData] = useState(null);
@@ -25,7 +26,7 @@ function HomePage() {
             });
     }, []);
     if (loading) {
-        return <p>Loading...</p>;
+        return <Loader/>;
     }
     if (error) {
         // Redirect to another page if there's an error
