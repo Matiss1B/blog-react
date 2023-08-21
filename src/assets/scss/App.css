@@ -34,6 +34,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Cabin&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cabin&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 .home-page .home-page-welcome-title {
   max-width: 40rem;
 }
@@ -393,6 +397,25 @@
   font-size: 2rem;
   color: white;
   font-weight: 300;
+}
+
+#single-blog-page .blog-icon {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background-color: white;
+}
+#single-blog-page .blog-icon img {
+  max-width: 4rem;
+}
+#single-blog-page .blog-text-section {
+  flex: 1;
+  height: 100%;
+}
+#single-blog-page .blog-image-section {
+  flex: 1;
+  height: 100%;
 }
 
 .header {

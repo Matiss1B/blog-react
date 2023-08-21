@@ -3,6 +3,7 @@ import axios from "axios";
 import {useNavigate, useParams} from "react-router-dom";
 import Header from "../compoents/Header";
 import Loader from "../compoents/Loading";
+import logo from "../assets/icons/iconizer-logotypes-dots-svgrepo-com.svg";
 
 function Blog() {
     let { id } = useParams();
@@ -37,7 +38,12 @@ function Blog() {
         return (
             <div className={'flex'}>
                 <Header/>
-                <div className="App h-v pad3">
+                <div id="single-blog-page" className="App flex h-v pad3 rel">
+                    <div className="blog-icon abs flex center-y pad2 shadow-mid hidden-mobile gap1 middle">
+                        <img src={logo} alt=""/>
+                    </div>
+                    <div className="blog-text-section red"></div>
+                    <div className="blog-image-section green"></div>
                 </div>
             </div>
         );
