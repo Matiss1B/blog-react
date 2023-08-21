@@ -18,6 +18,7 @@ function Router() {
             <Route path="/register" element={<Authentification auth={"register"} />} />
             <Route path="/edit/:id" element={<Edit />} />
             <Route path="/blog/:id" element={<Blog/>} />
+            <Route path="/loader" element={<Loader/>} />
         </Routes>
     );
 }

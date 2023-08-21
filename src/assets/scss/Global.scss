@@ -47,6 +47,9 @@ $tablet-min-width: 768px;
 .hidden-mobile {
   display: flex; /* Default display value for the element */
 }
+.max-1200{
+  max-width: 1200px;
+}
 .success-pop-up{
     position: fixed;
     top: 3rem;

@@ -8,6 +8,7 @@ import logo from "../assets/icons/iconizer-logotypes-dots-svgrepo-com.svg";
 function Blog() {
     let { id } = useParams();
     const [data, setData] = useState(null);
+    const [blog, setBlog] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setErrorToken] = useState(null);
     const navigate = useNavigate();
@@ -26,6 +27,7 @@ function Blog() {
                 setErrorToken(error);
                 setLoading(false);
             });
+            axios.get("http://localhost/api/v1/blogs?user="+sessionStorage.getItem("user")+"&id[eq]="+id ).then(res => setBlog(res.data.data)).catch(err => console.log(err));
     }, []);
     if (loading) {
         return <Loader/>;
@@ -38,13 +40,26 @@ function Blog() {
         return (
             <div className={'flex'}>
                 <Header/>
-                <div id="single-blog-page" className="App flex h-v pad3 rel">
-                    <div className="blog-icon abs flex center-y pad2 shadow-mid hidden-mobile gap1 middle">
-                        <img src={logo} alt=""/>
+                {blog.map((blog) => (
+                    <div id="single-blog-page" className="App h-v">
+                        <div className="flex col h-100vh max-1200">
+                            <div className="blog-image-section flex middle">
+                                <div className="image-box pad4 w-100">
+                                    <img className={'cover'} src={`http://localhost/storage/${blog.img}`} alt="Not found"/>
+                                </div>
+                            </div>
+                            <div className="blog-text-section rel flex col">
+                                <div className="blog-icon abs flex center-y pad2 shadow-mid hidden-mobile gap1 middle">
+                                    <img src={logo} alt=""/>
+                                </div>
+                                <div className="text-box w-100 h-100 flex pad3 col gap1 center-x ">
+                                    <h1 className={`blog-title`}>{blog.title}</h1>
+                                    <div className={`blog-description`}>{blog.description}</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div className="blog-text-section red"></div>
-                    <div className="blog-image-section green"></div>
-                </div>
+                ))}
             </div>
         );
     }

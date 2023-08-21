@@ -1,7 +1,9 @@
 @import "../assets/variables";
 #single-blog-page{
+  display: flex;
+  justify-content: center;
   .blog-icon{
-    top: 50%;
+    top: 0%;
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 50%;
@@ -13,9 +15,21 @@
   .blog-text-section{
     flex:1;
     height: 100%;
+    .text-box {
+      .blog-title {
+        text-decoration: underline 7px solid $accent;
+      }
+
+      .blog-description {
+        font-size: 2rem;
+      }
+    }
   }
   .blog-image-section{
     flex:1;
     height: 100%;
+    .image-box{
+      max-width: 1000px;
+    }
   }
 }
