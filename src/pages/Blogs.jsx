@@ -16,6 +16,7 @@ function Blogs(props) {
     const column1Blogs = [];
     const column2Blogs = [];
     const column3Blogs = [];
+    const column4Blogs = [];
     const handleMouseDown = (event) => {
         const blogAuthorElement = event.currentTarget.querySelector("#blog-author");
         const blogInfoElement = event.currentTarget.querySelector("#blog-info");
@@ -39,6 +40,8 @@ function Blogs(props) {
             column1Blogs.push(blog);
         } else if (index % 3 === 1) {
             column2Blogs.push(blog);
+        } else if(index % 4 === 3){
+            column4Blogs.push(blog);
         } else {
             column3Blogs.push(blog);
         }
@@ -88,7 +91,7 @@ function Blogs(props) {
                                                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0_8KptY-0dlRaE0h4yxWnwM4z8KdZEOfipg&usqp=CAU"
                                                      alt=""/>
                                             </div>
-                                            <h1>James Popppins</h1>
+                                            <h1>{blog.author}</h1>
                                         </div>
                                     </div>
                                     <div id={`blog-info`} className=" abs pad1 blog-info-box none center-y">
@@ -114,7 +117,7 @@ function Blogs(props) {
                                                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0_8KptY-0dlRaE0h4yxWnwM4z8KdZEOfipg&usqp=CAU"
                                                      alt=""/>
                                             </div>
-                                            <h1>James Popppins</h1>
+                                            <h1>{blog.author}</h1>
                                         </div>
                                     </div>
                                     <div id={`blog-info`} className=" abs pad1 blog-info-box none center-y">
@@ -140,7 +143,7 @@ function Blogs(props) {
                                                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0_8KptY-0dlRaE0h4yxWnwM4z8KdZEOfipg&usqp=CAU"
                                                      alt=""/>
                                             </div>
-                                            <h1>James Popppins</h1>
+                                            <h1>{blog.author}</h1>
                                         </div>
                                     </div>
                                     <div id={`blog-info`} className=" abs pad1 blog-info-box none center-y">
@@ -151,6 +154,33 @@ function Blogs(props) {
                                 </div>
                             ))}
                         </div>
+                        <div id={`column-4`} className="column  flex col gap1">
+                            {column4Blogs.map((blog) => (
+                                <div className={` rel single-blog`}
+                                     onMouseEnter={handleMouseDown}
+                                     onMouseLeave={handleMouseUp}
+                                     style={{height: `${Math.floor(Math.random() * (45 - 20 + 1)) + 20}rem`}}
+                                     key={blog.id}>
+                                    <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
+                                    <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
+                                        <div className="flex w-100 gap2 center-y">
+                                            <div className="profile-icon green">
+                                                <img className={`cover`}
+                                                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0_8KptY-0dlRaE0h4yxWnwM4z8KdZEOfipg&usqp=CAU"
+                                                     alt=""/>
+                                            </div>
+                                            <h1>{blog.author}</h1>
+                                        </div>
+                                    </div>
+                                    <div id={`blog-info`} className=" abs pad1 blog-info-box none center-y">
+                                        <div className="flex w-100 gap2 center-y">
+                                            <h1>{blog.title}</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
                     </div>
                 </div>
             </div>

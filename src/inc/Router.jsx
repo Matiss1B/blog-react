@@ -7,6 +7,7 @@ import Authentification from "../pages/Authentification";
 import HomePage from "../pages/HomePage";
 import {useParams} from "react-router-dom";
 import Loader from "../compoents/Loading";
+import Blog from "../pages/Blog";
 function Router() {
     return (
         <Routes>
@@ -16,6 +17,7 @@ function Router() {
             <Route path="/add" element={<Add />} />
             <Route path="/register" element={<Authentification auth={"register"} />} />
             <Route path="/edit/:id" element={<Edit />} />
+            <Route path="/blog/:id" element={<Blog/>} />
         </Routes>
     );
 }
