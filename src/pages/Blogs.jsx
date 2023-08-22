@@ -2,11 +2,13 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate, useParams} from "react-router-dom";
 import Header from "../compoents/Header";
+import {GrClose, GrSearch} from "react-icons/gr";
 import Loader from "../compoents/Loading";
 
 function Blogs(props) {
     let { id } = useParams();
     const [data, setData] = useState(null);
+    const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true);
     const [error, setErrorToken] = useState(null);
     let [blog, setBlogs] = useState([]);
@@ -25,7 +27,9 @@ function Blogs(props) {
             blogInfoElement.classList.remove("none");
         }
     };
-
+    const handleSearch = event =>{
+        setSearch(event.target.value);
+    }
     const handleMouseUp = (event) => {
         const blogAuthorElement = event.currentTarget.querySelector("#blog-author");
         const blogInfoElement = event.currentTarget.querySelector("#blog-info");
@@ -75,6 +79,13 @@ function Blogs(props) {
             <div className={'flex'}>
                 <Header/>
                 <div className="App h-v pad3">
+                    <div className="blog-search-box w-100 flex middle">
+                        <div className="search-box flex gap1 center-y">
+                            <GrSearch className={` ${search === "" ? "flex" : "none"} icon`}/>
+                            <input onChange={handleSearch} type="text" className={`blog-search-input w-100`}/>
+                            <GrClose className={` ${search === "" ? "none" : "flex"} icon close-icon`}/>
+                        </div>
+                    </div>
                     <div className="h-v flex blogs-list flex evenly wrap pad2">
                         <div id={`column-1`} className="column flex col gap1">
                             {column1Blogs.map((blog) => (

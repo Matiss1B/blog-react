@@ -352,6 +352,33 @@
   color: #3b3b3b;
 }
 
+.blog-search-box .search-box {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  width: 100%;
+  max-width: 60rem;
+  padding: 1rem;
+  border-radius: 25px;
+  background-color: #fafafa;
+}
+.blog-search-box .search-box .icon {
+  color: #9a9a9a;
+  font-size: 2rem;
+}
+.blog-search-box .search-box .close-icon {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+}
+.blog-search-box .search-box input {
+  outline: none;
+  border: none;
+  color: #2d2d2d;
+  background-color: transparent;
+  font-size: 2rem;
+}
+.blog-search-box .search-box input:focus {
+  outline: none;
+}
+
 .blogs-list .column {
   flex-basis: 32%;
 }

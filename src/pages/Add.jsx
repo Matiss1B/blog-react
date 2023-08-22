@@ -191,7 +191,7 @@ function App() {
                             </div>
                             <p className={"flex gap1"}>Pen your journey, inspire hearts, and leave a mark forever</p>
                         </div>
-                        <div className="add-wrap-box flex gap2 evenly pad2 w-100">
+                        <div className="add-wrap-box flex   gap3 pad2 w-100">
                             <div className="flex col gap2 w-100 add-input-box ">
                                 <h1 className={"subtitle hidden-mobile"}>Blog info</h1>
                                 <p className={"flex required-text gap1 hidden-mobile"}>All required fields will be

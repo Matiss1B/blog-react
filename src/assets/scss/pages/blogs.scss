@@ -1,4 +1,32 @@
 @import "../assets/variables";
+.blog-search-box{
+  .search-box{
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    width: 100%;
+    max-width: 60rem;
+    padding: 1rem;
+    border-radius: 25px;
+    background-color: #fafafa;
+    .icon{
+      color: #9a9a9a;
+      font-size: 2rem;
+    }
+    .close-icon{
+      font-family: $font-poppins;
+      font-weight: 600;
+    }
+    input{
+      outline: none;
+      border: none;
+      color: #2d2d2d;
+      background-color: transparent;
+      font-size: 2rem;
+      &:focus{
+        outline: none;
+      }
+    }
+  }
+}
 .blogs-list{
   .column{
     flex-basis: 32%;
