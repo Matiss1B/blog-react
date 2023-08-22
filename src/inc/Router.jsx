@@ -8,6 +8,7 @@ import HomePage from "../pages/HomePage";
 import {useParams} from "react-router-dom";
 import Loader from "../compoents/Loading";
 import Blog from "../pages/Blog";
+import Settings from "../pages/Settings";
 function Router() {
     return (
         <Routes>
@@ -19,6 +20,7 @@ function Router() {
             <Route path="/edit/:id" element={<Edit />} />
             <Route path="/blog/:id" element={<Blog/>} />
             <Route path="/loader" element={<Loader/>} />
+            <Route path="/profile/settings" element={<Settings/>} />
         </Routes>
     );
 }

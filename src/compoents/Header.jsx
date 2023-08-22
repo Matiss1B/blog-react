@@ -88,13 +88,13 @@ function Header() {
                         </NavLink>
                         {activeNav === "profile" ?
                             <ul data-aos="fade-left" className={"nav-list flex col gap1"}>
-                                <li className={"flex center-y vertical-line gap1"}>
+                                <NavLink  className={"flex center-y vertical-line gap1"} to="/profile/blogs">
                                     <p>My blogs</p>
-                                </li>
-                                <li className={"flex center-y vertical-line gap1"}>
+                                </NavLink >
+                                <NavLink  className={"flex center-y vertical-line gap1"} to="/profile/settings">
                                     <p>Settings</p>
-                                </li>
-                                <li onClick={submitLogout} className={"flex center-y vertical-line-logout gap1"}>
+                                </NavLink >
+                                <li onClick={submitLogout} className={"pointer flex center-y vertical-line-logout gap1"}>
                                     <p>Logout</p>
                                 </li>
                             </ul>

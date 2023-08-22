@@ -102,7 +102,7 @@ function Blogs(props) {
                                                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0_8KptY-0dlRaE0h4yxWnwM4z8KdZEOfipg&usqp=CAU"
                                                      alt=""/>
                                             </div>
-                                            <h1>{blog.author}</h1>
+                                            <h1>{blog.author_name}</h1>
                                         </div>
                                     </div>
                                     <div id={`blog-info`} className=" abs pad1 blog-info-box none center-y">
