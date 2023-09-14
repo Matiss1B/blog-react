@@ -6,7 +6,6 @@ import {GrClose, GrSearch} from "react-icons/gr";
 import Loader from "../compoents/Loading";
 
 function Blogs(props) {
-    let { id } = useParams();
     const [data, setData] = useState(null);
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true);
