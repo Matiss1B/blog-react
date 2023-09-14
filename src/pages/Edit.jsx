@@ -6,26 +6,38 @@ import Loader from "../compoents/Loading";
 
 function Edit() {
     let { id } = useParams();
-
     let [blog, setBlogs] = useState([]);
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setErrorToken] = useState(null);
     useEffect(()=>{
-        axios.get("http://localhost/api/v1/blogs?id[eq]="+id).then(res => setBlogs(res.data.data)).catch(err => console.log(err));
+        axios.get("http://localhost/api/v1/blogs?id[eq]="+1+"&user="+sessionStorage.getItem("user")).then(res => {
+            const blogData = res.data.data[0];
+            setTitle(blogData.title);
+            setDescription(blogData.description);
+            setCategory(blogData.category);
+        }).catch(err => console.log(err));
+        console.log(blog);
+
     },[]);
     const [title, setTitle] = useState(``);
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState();
     const [img, setImg] = useState([]);
-    const handleClick = () =>{
-        const data = {
-            id: id,
-            title: title,
-            description: "description",
-            category: category,
-        };
-        axios.put('http://localhost/api/v1/update/' + data.id, data ).then(res => console.log(res)).catch(err => console.log(err));
+    const handleClick = (event) =>{
+        event.preventDefault();
+        const formData = new FormData();
+        formData.append('id', id);
+        formData.append('title', title);
+        formData.append('description', description);
+        formData.append('category', category);
+        formData.append('img', img);
+        formData.append('user', sessionStorage.getItem("user"));
+        axios.post('http://localhost/api/v1/edit', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        }).then(res => console.log(res)).catch(err => console.log(err));
     }
     const handleTitle = event =>{
         setTitle(event.target.value);
@@ -67,32 +79,33 @@ function Edit() {
             <div>
                 <Header/>
                 <div className="App">
-                    {blog.map(blog => (
-                        <div key={blog.id}>
+                    <form onSubmit={handleClick}>
+                        <div>
                             <input
                                 type="text"
+                                value={title}
                                 id="title"
                                 name="title"
                                 onChange={handleTitle}
                             />
                             <input
                                 type="text"
-                                value={blog.description}
+                                value={description}
                                 id="description"
                                 name="description"
                                 onChange={handleDescription}
                             />
                             <select name="category" onChange={event => setCategory(event.target.value)}>
-                                <option value={blog.category}>{blog.category}</option>
+                                <option value={category}>{category}</option>
                                 <option value="cars">Cars</option>
                                 <option value="home">Home</option>
                                 <option value="fashion">Fashion</option>
                                 <option value="food">Food</option>
                             </select>
                             <input type="file" name="img" onChange={handleImg}/>
-                            <button onClick={handleClick}>Value</button>
+                            <button>Value</button>
                         </div>
-                    ))}
+                    </form>
                 </div>
             </div>
         );
