@@ -9,7 +9,9 @@ import {useParams} from "react-router-dom";
 import Loader from "../compoents/Loading";
 import Blog from "../pages/Blog";
 import Settings from "../pages/Settings";
+import {useEffect} from "react";
 function Router() {
+
     return (
         <Routes>
             <Route path="/" element={<Authentification auth={"login"} />} />

@@ -12,7 +12,7 @@ function Blogs(props) {
     const [error, setErrorToken] = useState(null);
     let [blog, setBlogs] = useState([]);
     useEffect(()=>{
-        axios.get("http://localhost/api/v1/blogs?user="+sessionStorage.getItem("user")+"&category[eq]="+props.category ).then(res => setBlogs(res.data.data)).catch(err => console.log(err));
+        axios.get("http://localhost/api/v1/blogs?user="+sessionStorage.getItem("user")+"&category="+props.category ).then(res => setBlogs(res.data)).catch(err => console.log(err));
     },[]);
     const column1Blogs = [];
     const column2Blogs = [];
@@ -37,7 +37,6 @@ function Blogs(props) {
             blogInfoElement.classList.add("none");
         }
     };
-    // Distribute blogs into separate columns
     blog.forEach((blog, index) => {
         if (index % 3 === 0) {
             column1Blogs.push(blog);
