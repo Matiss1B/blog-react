@@ -16,7 +16,7 @@ function Edit() {
             setTitle(blogData.title);
             setDescription(blogData.description);
             setCategory(blogData.category);
-        }).catch(err => console.log(err));
+        }).catch(err => handleErr(err.response.data));
         console.log(blog);
 
     },[]);
@@ -24,6 +24,11 @@ function Edit() {
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState();
     const [img, setImg] = useState([]);
+    const handleErr = (err) =>{
+        if(err.status == 401){
+            navigate("/");
+        }
+    }
     const handleClick = (event) =>{
         event.preventDefault();
         const formData = new FormData();

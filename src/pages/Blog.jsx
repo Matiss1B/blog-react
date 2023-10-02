@@ -27,8 +27,13 @@ function Blog() {
                 setErrorToken(error);
                 setLoading(false);
             });
-            axios.get("http://localhost/api/v1/blogs?user="+sessionStorage.getItem("user")+"&id[eq]="+id ).then(res => setBlog(res.data.data)).catch(err => console.log(err));
+            axios.get("http://localhost/api/v1/blogs?user="+sessionStorage.getItem("user")+"&id[eq]="+id ).then(res => setBlog(res.data.data)).catch(err => handleErr(err.response.data));
     }, []);
+    const handleErr = (err) =>{
+        if(err.status == 401){
+            navigate("/");
+        }
+    }
     if (loading) {
         return <Loader/>;
     }

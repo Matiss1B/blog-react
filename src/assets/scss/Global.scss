@@ -78,6 +78,10 @@ $tablet-min-width: 768px;
     color: $accent;
   }
 }
+.icon{
+  font-size: 2.5rem;
+  color: #9a9a9a;
+}
 
 /* Media query for mobile devices */
 @media (max-width: $mobile-max-width) {

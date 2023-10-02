@@ -12,7 +12,7 @@ function Blogs(props) {
     const [error, setErrorToken] = useState(null);
     let [blog, setBlogs] = useState([]);
     useEffect(()=>{
-        axios.get("http://localhost/api/v1/blogs?user="+sessionStorage.getItem("user")+"&category="+props.category ).then(res => setBlogs(res.data)).catch(err => console.log(err));
+        axios.get("http://localhost/api/v1/blogs?user="+sessionStorage.getItem("user")+"&category="+props.category ).then(res => setBlogs(res.data)).catch(err => handleErr(err.response.data));
     },[]);
     const column1Blogs = [];
     const column2Blogs = [];
@@ -26,6 +26,11 @@ function Blogs(props) {
             blogInfoElement.classList.remove("none");
         }
     };
+    const handleErr = (err) =>{
+        if(err.status == 401){
+            navigate("/");
+        }
+    }
     const handleSearch = event =>{
         setSearch(event.target.value);
     }

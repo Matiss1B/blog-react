@@ -76,10 +76,12 @@ function App() {
         formData.append("user", sessionStorage.getItem("user"));
         axios.post("http://localhost/api/v1/create",formData, {
             headers: { "Content-Type": "multipart/form-data" },
-        }, ).then(res => confirmSubmit(res)).catch(err => handleErrors(err));
+        }, ).then(res => confirmSubmit(res)).catch(err => handleErrors(err.response.data));
     }
     const handleErrors = (err) =>{
-        console.log(err);
+        if(err.status == 401){
+            navigate("/");
+        }
     }
 
     const confirmSubmit = (results) => {
