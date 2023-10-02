@@ -164,6 +164,7 @@
 }
 .main-login-box .login-form .form .active-label {
   color: #90EB78;
+  font-style: italic;
 }
 .main-login-box .login-form .form input {
   width: 100%;
@@ -268,11 +269,11 @@
 .main-add-box .active {
   /* Add your active styles here */
   outline: 1.5px solid #90EB78; /* $accent color */
-  box-shadow: 0 0 10px rgba(144, 245, 120, 0.7);
   background-color: transparent !important;
 }
 .main-add-box .active-label {
   color: #90EB78 !important;
+  font-style: italic;
 }
 .main-add-box .add-buttons button {
   padding: 1rem;
@@ -369,7 +370,7 @@
 .main-settings-box .profile-box .input-box input {
   width: 100%;
   background-color: transparent;
-  font-weight: 600;
+  font-weight: 520;
   border: none;
   font-size: 2rem;
 }
@@ -402,6 +403,15 @@
   font-weight: 500;
   color: #9a9a9a;
   font-style: italic;
+}
+.main-settings-box .active {
+  /* Add your active styles here */
+  outline: 1.5px solid #90EB78; /* $accent color */
+  background-color: transparent !important;
+}
+.main-settings-box .active-label {
+  font-style: italic;
+  color: #90EB78 !important;
 }
 
 .blog-search-box .search-box {
@@ -747,6 +757,29 @@ body {
 .icon {
   font-size: 2.5rem;
   color: #9a9a9a;
+}
+
+input {
+  font-weight: 500 !important;
+}
+
+.base-button {
+  cursor: pointer;
+  background-color: #90EB78;
+  color: white;
+  padding: 2rem;
+  font-weight: 600;
+  border-radius: 25px;
+  font-size: 2.5rem;
+  outline: none;
+  border: none;
+  box-shadow: 0 0 10px rgba(144, 245, 120, 0.7);
+  transition: 0.7s;
+}
+.base-button:hover {
+  background-color: white;
+  color: #90EB78;
+  outline: 3px solid #90EB78;
 }
 
 /* Media query for mobile devices */

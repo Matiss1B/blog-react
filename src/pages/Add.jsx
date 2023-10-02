@@ -211,6 +211,7 @@ function App() {
                                                 type="text"
                                                 id="title"
                                                 name="title"
+                                                autoComplete="off"
                                                 onChange={handleTitle}
                                             />
                                             <p className="err">{titleErr === "" ? '' : titleErr}</p>
@@ -231,6 +232,7 @@ function App() {
                                                 type="text"
                                                 id="category"
                                                 name="category"
+                                                autoComplete="off"
                                                 onChange={handleCategory}
                                             />
                                             <p className="err">{categoryErr === "" ? '' : categoryErr}</p>
@@ -251,6 +253,7 @@ function App() {
                                                 type="number"
                                                 id="phone"
                                                 name="phone"
+                                                autoComplete="off"
                                                 onChange={handlePhone}
                                             />
                                             <p className="err">{phoneErr === "" ? '' : phoneErr}</p>
@@ -269,6 +272,7 @@ function App() {
                                                 type="text"
                                                 id="email"
                                                 name="email"
+                                                autoComplete="off"
                                                 onChange={handleEmail}
                                             />
                                             <p className="err">{emailErr === "" ? '' : emailErr}</p>
@@ -290,6 +294,7 @@ function App() {
                                             <textarea
                                                 id="description"
                                                 name="description"
+                                                autoComplete="off"
                                                 onChange={handleDescription}
                                             >
                                         </textarea>

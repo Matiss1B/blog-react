@@ -11,8 +11,13 @@ import {FaAddressCard} from "react-icons/fa";
 function Settings() {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [activeInput, setActiveInput] = useState(null);
     const [error, setErrorToken] = useState(null);
     const navigate = useNavigate();
+    const handleInputBoxClick = (event) => {
+        const clickedInputBox = event.target.id;
+        setActiveInput(clickedInputBox);
+    };
     useEffect(() => {
         const data = {
             token: sessionStorage.getItem("user"),
@@ -41,7 +46,7 @@ function Settings() {
             <div className={'flex'}>
                 <Header/>
                 <div className="App h-v">
-                    <div className="main-settings-box h-100 flex col center-y evenly">
+                    <div className="main-settings-box h-100 flex gap5 col center-y evenly">
                         <div className="profile-box flex wrap center-y gap2 w-100 center-x">
                             <div className="profile-img">
                                 <img className={`cover`} src="https://images.unsplash.com/photo-1692651955510-8b334577cff7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0fHx8ZW58MHx8fHx8&auto=format&fit=crop&w=500&q=60" alt=""/>
@@ -53,16 +58,18 @@ function Settings() {
                         </div>
                         <div className="profile-box gap5 wrap flex w-100 center-x">
                             <div
-                                className={`flex input-box center-y between`}
+                                className={`flex input-box center-y between ${activeInput === 'name' ? 'active' : ''}`}
+                                onClick={handleInputBoxClick}
                                 >
                                 <div className="flex col center-x">
                                     <label
-                                        className={`font15 flex`}>Name
+                                        className={`font15 flex ${activeInput === 'name' ? 'active-label' : ''}`}>Name
                                     </label>
                                     <input
                                         type="text"
-                                        id="category"
-                                        name="category"
+                                        id="name"
+                                        name="name"
+                                        autoComplete="off"
                                     />
                                 </div>
                                 <div className="icon pad1">
@@ -70,16 +77,18 @@ function Settings() {
                                 </div>
                             </div>
                             <div
-                                className={`flex  input-box center-y between`}
+                                className={`flex  input-box center-y between ${activeInput === 'surname' ? 'active' : ''}`}
+                                onClick={handleInputBoxClick}
                             >
                                 <div className="flex col center-x">
                                     <label
-                                        className={`font15 flex`}>Surname
+                                        className={`font15 flex ${activeInput === 'surname' ? 'active-label' : ''}`}>Surname
                                     </label>
                                     <input
                                         type="text"
-                                        id="category"
-                                        name="category"
+                                        id="surname"
+                                        name="surname"
+                                        autoComplete="off"
                                     />
                                 </div>
                                 <div className="icon pad1">
@@ -89,16 +98,18 @@ function Settings() {
                         </div>
                         <div className="profile-box gap5 wrap flex w-100 center-x">
                             <div
-                                className={`flex input-box center-y between`}
+                                className={`flex input-box center-y between ${activeInput === 'email' ? 'active' : ''}`}
+                                onClick={handleInputBoxClick}
                             >
                                 <div className="flex col center-x">
                                     <label
-                                        className={`font15 flex`}>Email
+                                        className={`font15 flex ${activeInput === 'email' ? 'active-label' : ''}`}>Email
                                     </label>
                                     <input
                                         type="text"
-                                        id="category"
-                                        name="category"
+                                        id="email"
+                                        name="email"
+                                        autoComplete="off"
                                     />
                                 </div>
                                 <div className="icon pad1">
@@ -106,16 +117,18 @@ function Settings() {
                                 </div>
                             </div>
                             <div
-                                className={`flex  input-box center-y between`}
+                                className={`flex  input-box center-y between ${activeInput === 'pass' ? 'active' : ''}`}
+                                onClick={handleInputBoxClick}
                             >
                                 <div className="flex col center-x">
                                     <label
-                                        className={`font15 flex`}>Password
+                                        className={`font15 flex ${activeInput === 'pass' ? 'active-label' : ''}`}>Password
                                     </label>
                                     <input
                                         type="text"
-                                        id="category"
-                                        name="category"
+                                        id="pass"
+                                        name="pass"
+                                        autoComplete="off"
                                     />
                                 </div>
                                 <div className="icon pad1">
@@ -124,7 +137,7 @@ function Settings() {
                             </div>
                         </div>
                         <div className="profile-box gap5 wrap flex w-100 center-x">
-                           <button className="save">dsd</button>
+                           <button className="base-button">Save Changes</button>
                         </div>
 
                     </div>

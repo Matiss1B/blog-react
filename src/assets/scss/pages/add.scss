@@ -55,11 +55,13 @@
   .active {
     /* Add your active styles here */
     outline: 1.5px solid $accent; /* $accent color */
-    box-shadow: 0 0 10px $box-shadow-input;
+    //box-shadow: 0 0 10px $box-shadow-input;
     background-color: transparent !important;
   }
   .active-label{
     color: $accent !important;
+    font-style: italic;
+
   }
   .add-buttons{
     button{

@@ -62,7 +62,6 @@ function Login() {
     const handleInputBoxClick = (event) => {
         const clickedInputBox = event.target.id;
         setActiveInput(clickedInputBox);
-        console.log(activeInput);
     };
     const handleMouseDown = () => {
         setPasswordVisible(true);
