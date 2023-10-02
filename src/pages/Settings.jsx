@@ -11,6 +11,10 @@ import {FaAddressCard} from "react-icons/fa";
 function Settings() {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [name, setName] = useState('');
+    const [surname, setSurname] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [activeInput, setActiveInput] = useState(null);
     const [error, setErrorToken] = useState(null);
     const navigate = useNavigate();
@@ -19,27 +23,33 @@ function Settings() {
         setActiveInput(clickedInputBox);
     };
     useEffect(() => {
-        const data = {
-            token: sessionStorage.getItem("user"),
+        const userData = {
+            user: sessionStorage.getItem("user"),
         }
-        axios.post("http://localhost/api/v1/checkToken", data, {
+        axios.post("http://localhost/api/v1/user/get", userData, {
             headers: { "Content-Type": "multipart/form-data" },
         })
             .then(response => {
                 setData(response.data);
+                setName(response.data.name);
+                setSurname(response.data.surname);
+                setEmail(response.data.email);
+                setPassword(response.data.password);
                 setLoading(false);
             })
             .catch(error => {
                 setErrorToken(error);
                 setLoading(false);
             });
+
+
     }, []);
     if (loading) {
         return <Loader/>;
     }
     if (error) {
         // Redirect to another page if there's an error
-        return navigate("/");
+        //return navigate("/");
     }
     if(data) {
         return (
@@ -67,6 +77,7 @@ function Settings() {
                                     </label>
                                     <input
                                         type="text"
+                                        value={name}
                                         id="name"
                                         name="name"
                                         autoComplete="off"
@@ -86,6 +97,7 @@ function Settings() {
                                     </label>
                                     <input
                                         type="text"
+                                        value={surname}
                                         id="surname"
                                         name="surname"
                                         autoComplete="off"
@@ -107,6 +119,7 @@ function Settings() {
                                     </label>
                                     <input
                                         type="text"
+                                        value={email}
                                         id="email"
                                         name="email"
                                         autoComplete="off"
@@ -126,6 +139,7 @@ function Settings() {
                                     </label>
                                     <input
                                         type="text"
+                                        value={password}
                                         id="pass"
                                         name="pass"
                                         autoComplete="off"
