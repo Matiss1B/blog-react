@@ -73,16 +73,33 @@ function App() {
         formData.append("category", category);
         formData.append("descriptionfile", doc);
         formData.append("img",img);
-        formData.append("user", sessionStorage.getItem("user"));
         axios.post("http://localhost/api/v1/create",formData, {
-            headers: { "Content-Type": "multipart/form-data" },
+            headers: {
+                "Content-Type": "multipart/form-data",
+                "Authorization": sessionStorage.getItem("user"),
+            },
         }, ).then(res => confirmSubmit(res)).catch(err => handleErrors(err.response.data));
     }
-    const handleErrors = (err) =>{
-        if(err.status == 401){
-            navigate("/");
+    const handleErrors = (err) => {
+        if (err.status === 422) {
+            const errorData = err.errors;
+            const errorMappings = {
+                title: setTitleErr,
+                email: setEmailErr,
+                description: setDescErr,
+                phone: setPhoneErr,
+                img:setImgErr,
+                category:setCategoryErr,
+            };
+
+            for (let key in errorData) {
+                if (key in errorMappings) {
+                    errorMappings[key](errorData[key]);
+                }
+            }
         }
-    }
+        console.log(err);
+    };
 
     const confirmSubmit = (results) => {
         if(results.status == 200){

@@ -36,29 +36,23 @@ function Login() {
             navigate("/"+response.data.link);
         }
     }
-    const setError = (key, error) => {
-        if(key === "password"){
-            setPasswordErr(error);
-        }
-        if(key === "email"){
-            setEmailErr(error);
-        }
-        if(key === "invalid"){
-            setCustomErr(error);
-        }
-    }
-    const handleErrors = (err) =>{
-        if(err.response.status === 422) {
-            let errors = err.response.data.errors;
-            for (let key in errors) {
-                setError(key, errors[key]);
+    const handleErrors = (err) => {
+        if (err.response.status === 422) {
+            const errorData = err.response.data.errors;
+            const errorMappings = {
+                password: setPasswordErr,
+                email: setEmailErr,
+                invalid: setCustomErr,
+            };
+
+            for (let key in errorData) {
+                if (key in errorMappings) {
+                    errorMappings[key](errorData[key]);
+                }
             }
         }
-        if(err.response.status === 300){
-
-        }
         console.log(err);
-    }
+    };
     const handleInputBoxClick = (event) => {
         const clickedInputBox = event.target.id;
         setActiveInput(clickedInputBox);

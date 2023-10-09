@@ -17,7 +17,9 @@ function Blog() {
             token: sessionStorage.getItem("user"),
         }
         axios.post("http://localhost/api/v1/checkToken", data, {
-            headers: { "Content-Type": "multipart/form-data" },
+            headers: {
+                "Content-Type": "multipart/form-data"
+            },
         })
             .then(response => {
                 setData(response.data);

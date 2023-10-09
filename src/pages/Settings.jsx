@@ -22,12 +22,24 @@ function Settings() {
         const clickedInputBox = event.target.id;
         setActiveInput(clickedInputBox);
     };
+    const editProfile = () => {
+        const formData = new FormData();
+        formData.append("_method", "put");
+        formData.append("name", name);
+        formData.append("surname", surname);
+        formData.append("email", email);
+        axios.post("http://localhost/api/v1/user/edit", formData, {headers:{
+            Authorization:sessionStorage.getItem("user"),
+            }}).then(
+                (res)=>console.log(res)
+        ).catch((err)=>console.log(err));
+    }
     useEffect(() => {
-        const userData = {
-            user: sessionStorage.getItem("user"),
-        }
-        axios.post("http://localhost/api/v1/user/get", userData, {
-            headers: { "Content-Type": "multipart/form-data" },
+        axios.get("http://localhost/api/v1/user/get", {
+            headers: {
+                "Content-Type": "multipart/form-data",
+                "Authorization":sessionStorage.getItem("user")
+            },
         })
             .then(response => {
                 setData(response.data);
@@ -48,8 +60,7 @@ function Settings() {
         return <Loader/>;
     }
     if (error) {
-        // Redirect to another page if there's an error
-        //return navigate("/");
+        return navigate("/");
     }
     if(data) {
         return (
@@ -77,7 +88,6 @@ function Settings() {
                                     </label>
                                     <input
                                         type="text"
-                                        value={name}
                                         id="name"
                                         name="name"
                                         autoComplete="off"
@@ -151,7 +161,7 @@ function Settings() {
                             </div>
                         </div>
                         <div className="profile-box gap5 wrap flex w-100 center-x">
-                           <button className="base-button">Save Changes</button>
+                           <button className="base-button" onClick={editProfile}>Save Changes</button>
                         </div>
 
                     </div>

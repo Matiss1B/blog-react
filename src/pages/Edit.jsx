@@ -11,7 +11,12 @@ function Edit() {
     const [loading, setLoading] = useState(true);
     const [error, setErrorToken] = useState(null);
     useEffect(()=>{
-        axios.post("http://localhost/api/v1/blogs?id[eq]="+1+"&user="+sessionStorage.getItem("user")).then(res => {
+        axios.get("http://localhost/api/v1/blogs?id[eq]="+1,
+            {
+                headers:{
+                "Authorization": sessionStorage.getItem("user"),
+                }
+            }).then(res => {
             const blogData = res.data.data[0];
             setTitle(blogData.title);
             setDescription(blogData.description);

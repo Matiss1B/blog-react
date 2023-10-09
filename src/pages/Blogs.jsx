@@ -12,7 +12,10 @@ function Blogs(props) {
     const [error, setErrorToken] = useState(null);
     let [blog, setBlogs] = useState([]);
     useEffect(()=>{
-        axios.get("http://localhost/api/v1/blogs?user="+sessionStorage.getItem("user")+"&category="+props.category ).then(res => setBlogs(res.data)).catch(err => handleErr(err.response.data));
+        axios.get("http://localhost/api/v1/blogs?category="+props.category, {
+            headers:{
+            "Authorization": sessionStorage.getItem("user"),
+            }} ).then(res => setBlogs(res.data)).catch(err => handleErr(err.response.data));
     },[]);
     const column1Blogs = [];
     const column2Blogs = [];
