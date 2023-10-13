@@ -50,13 +50,15 @@ function Settings() {
         ).catch((err)=>console.log(err));
     }
     useEffect(() => {
-        axios.get("http://localhost/api/v1/user/get", {
-            headers: {
-                "Content-Type": "multipart/form-data",
-                "Authorization":sessionStorage.getItem("user")
-            },
-        })
-            .then(response => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get("http://localhost/api/v1/user/get", {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                        "Authorization": sessionStorage.getItem("user")
+                    }
+                });
+
                 setData(response.data);
                 setName(response.data.name);
                 setImg(response.data.img);
@@ -64,13 +66,13 @@ function Settings() {
                 setEmail(response.data.email);
                 setPassword(response.data.password);
                 setLoading(false);
-            })
-            .catch(error => {
+            } catch (error) {
                 setErrorToken(error);
                 setLoading(false);
-            });
+            }
+        };
 
-
+        fetchData();
     }, []);
     if (loading) {
         return <Loader/>;
@@ -87,12 +89,7 @@ function Settings() {
                         <div className="profile-box flex wrap center-y gap2 w-100 center-x">
                             <div className="flex col center-y gap1">
                                 <div id={`profile-image`} className="profile-img">
-                                    {img === ""
-                                        ?
-                                            <img className={`cover image`} src={`http://localhost/storage/${img}`} alt=""/>
-                                        :
-                                            <img className={`cover image`} src={`https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png`} alt=""/>
-                                    }
+                                    <img className={`cover image`} src={`http://localhost/storage/${img}`} alt=""/>
                                 </div>
                                 <input onChange={handleImg} type="file" id={`profileImg`} name={`profileImg`} className={`none`}/>
                                 <label htmlFor="profileImg" className={`font15`}>Change profile image</label>
