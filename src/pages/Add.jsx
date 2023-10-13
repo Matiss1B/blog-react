@@ -82,7 +82,7 @@ function App() {
     }
     const handleErrors = (err) => {
         if (Object.keys(err.errors).length>0) {
-            console.log(errorData);
+            const errorData = err.errors;
             const errorMappings = {
                 title: setTitleErr,
                 email: setEmailErr,
