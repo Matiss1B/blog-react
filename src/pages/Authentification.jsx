@@ -21,7 +21,7 @@ function Authentification(props) {
                         {authType === "login" ? <Login/> : <Register/>}
                     </div>
                 </div>
-                <div className="flex flex-1 login-image-container green w-100">
+                <div className="flex flex-1 login-image-container hidden-mobile green w-100">
                     <img src={loginImg} alt="" className="cover"/>
                 </div>
             </div>

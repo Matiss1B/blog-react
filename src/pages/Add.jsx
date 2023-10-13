@@ -81,8 +81,8 @@ function App() {
         }, ).then(res => confirmSubmit(res)).catch(err => handleErrors(err.response.data));
     }
     const handleErrors = (err) => {
-        if (err.status === 422) {
-            const errorData = err.errors;
+        if (Object.keys(err.errors).length>0) {
+            console.log(errorData);
             const errorMappings = {
                 title: setTitleErr,
                 email: setEmailErr,
