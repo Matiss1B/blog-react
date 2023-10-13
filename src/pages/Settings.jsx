@@ -13,6 +13,7 @@ function Settings() {
     const [loading, setLoading] = useState(true);
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
+    const [img, setImg] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [activeInput, setActiveInput] = useState(null);
@@ -22,12 +23,26 @@ function Settings() {
         const clickedInputBox = event.target.id;
         setActiveInput(clickedInputBox);
     };
+    const handleImg = event =>{
+        setImg(event.target.files[0]);
+        let file =  event.target.files[0]
+        const src = URL.createObjectURL(file);
+        const img = document.createElement('img');
+        img.className = 'cover';
+        img.src = src;
+        img.id = "image"
+        const div = document.getElementById('profile-image');
+        document.getElementsByClassName("image")[0].remove();
+        div.append(img);
+        console.log(div);
+    }
     const editProfile = () => {
         const formData = new FormData();
         formData.append("_method", "put");
         formData.append("name", name);
         formData.append("surname", surname);
         formData.append("email", email);
+        formData.append("img", img);
         axios.post("http://localhost/api/v1/user/edit", formData, {headers:{
             Authorization:sessionStorage.getItem("user"),
             }}).then(
@@ -44,6 +59,7 @@ function Settings() {
             .then(response => {
                 setData(response.data);
                 setName(response.data.name);
+                setImg(response.data.img);
                 setSurname(response.data.surname);
                 setEmail(response.data.email);
                 setPassword(response.data.password);
@@ -69,8 +85,17 @@ function Settings() {
                 <div className="App h-v">
                     <div className="main-settings-box h-100 flex gap5 col center-y evenly">
                         <div className="profile-box flex wrap center-y gap2 w-100 center-x">
-                            <div className="profile-img">
-                                <img className={`cover`} src="https://images.unsplash.com/photo-1692651955510-8b334577cff7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0fHx8ZW58MHx8fHx8&auto=format&fit=crop&w=500&q=60" alt=""/>
+                            <div className="flex col center-y gap1">
+                                <div id={`profile-image`} className="profile-img">
+                                    {img === ""
+                                        ?
+                                            <img className={`cover image`} src={`http://localhost/storage/${img}`} alt=""/>
+                                        :
+                                            <img className={`cover image`} src={`https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png`} alt=""/>
+                                    }
+                                </div>
+                                <input onChange={handleImg} type="file" id={`profileImg`} name={`profileImg`} className={`none`}/>
+                                <label htmlFor="profileImg" className={`font15`}>Change profile image</label>
                             </div>
                             <div className="profile-info">
                                 <h1>Matiss Balins</h1>

@@ -104,7 +104,9 @@ input{
   }
 }
 
-
+.err{
+  color:red;
+}
 /* Media query for mobile devices */
 @media (max-width: $mobile-max-width) {
   .hidden-mobile {

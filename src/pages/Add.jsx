@@ -339,7 +339,7 @@ function App() {
                             <div className="image-section gap2 flex col w-100 ">
                                 <h1 className={"subtitle hidden-mobile"}>Image upload</h1>
                                 <p className={"flex required-text gap1 hidden-mobile"}>Upload to see image</p>
-                                <p className="err">{imgErr === "" ? '' : imgErr}</p>
+                                <p className="err font15">{imgErr === "" ? '' : imgErr}</p>
                                 <div className="image-upload-box middle">
                                     <div id={`img-upload-content`} className="flex col center-y gap1">
                                         <input type="file" id="img" accept="image/*" className={`none`}

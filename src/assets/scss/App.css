@@ -381,7 +381,6 @@
   box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
   width: 17rem;
   height: 17rem;
-  background-color: red;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -780,6 +779,10 @@ input {
   background-color: white;
   color: #90EB78;
   outline: 3px solid #90EB78;
+}
+
+.err {
+  color: red;
 }
 
 /* Media query for mobile devices */
