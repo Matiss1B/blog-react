@@ -66,6 +66,7 @@ function Settings() {
                 setEmail(response.data.email);
                 setPassword(response.data.password);
                 setLoading(false);
+                console.log(response)
             } catch (error) {
                 setErrorToken(error);
                 setLoading(false);

@@ -104,11 +104,19 @@ function Blogs(props) {
                                     <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
                                         <div className="flex w-100 gap2 center-y">
                                             <div className="profile-icon green">
-                                                <img className={`cover`}
-                                                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0_8KptY-0dlRaE0h4yxWnwM4z8KdZEOfipg&usqp=CAU"
-                                                     alt=""/>
+                                                {blog.user.img == ""
+                                                    ?
+                                                        <img className={`cover`}
+                                                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0_8KptY-0dlRaE0h4yxWnwM4z8KdZEOfipg&usqp=CAU"
+                                                             alt=""/>
+                                                    :
+                                                    <img className={`cover`}
+                                                         src={`http://localhost/storage/${blog.user.img}`}
+                                                         alt=""/>
+                                                }
+
                                             </div>
-                                            <h1>{blog.author_name}</h1>
+                                            <h1>{blog.user.name}</h1>
                                         </div>
                                     </div>
                                     <div id={`blog-info`} className=" abs pad1 blog-info-box none center-y">
