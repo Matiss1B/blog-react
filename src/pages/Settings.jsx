@@ -14,6 +14,7 @@ function Settings() {
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
     const [img, setImg] = useState('');
+    const [updateImg, setUpdateImg] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [activeInput, setActiveInput] = useState(null);
@@ -24,7 +25,7 @@ function Settings() {
         setActiveInput(clickedInputBox);
     };
     const handleImg = event =>{
-        setImg(event.target.files[0]);
+        setUpdateImg(event.target.files[0]);
         let file =  event.target.files[0]
         const src = URL.createObjectURL(file);
         const img = document.createElement('img');
@@ -42,7 +43,9 @@ function Settings() {
         formData.append("name", name);
         formData.append("surname", surname);
         formData.append("email", email);
-        formData.append("img", img);
+        if(updateImg !== "") {
+            formData.append("img", img);
+        }
         axios.post("http://localhost/api/v1/user/edit", formData, {headers:{
             Authorization:sessionStorage.getItem("user"),
             }}).then(
@@ -75,6 +78,19 @@ function Settings() {
 
         fetchData();
     }, []);
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        // Update the corresponding state variable
+        if (name === 'name') {
+            setName(value);
+        } else if (name === 'surname') {
+            setSurname(value);
+        } else if (name === 'email') {
+            setEmail(value);
+        } else if (name === 'pass') {
+            setPassword(value);
+        }
+    };
     if (loading) {
         return <Loader/>;
     }
@@ -112,8 +128,10 @@ function Settings() {
                                     <input
                                         type="text"
                                         id="name"
+                                        value={name}
                                         name="name"
                                         autoComplete="off"
+                                        onChange={handleInputChange}
                                     />
                                 </div>
                                 <div className="icon pad1">
@@ -134,6 +152,7 @@ function Settings() {
                                         id="surname"
                                         name="surname"
                                         autoComplete="off"
+                                        onChange={handleInputChange}
                                     />
                                 </div>
                                 <div className="icon pad1">
@@ -156,6 +175,7 @@ function Settings() {
                                         id="email"
                                         name="email"
                                         autoComplete="off"
+                                        onChange={handleInputChange}
                                     />
                                 </div>
                                 <div className="icon pad1">
@@ -176,6 +196,7 @@ function Settings() {
                                         id="pass"
                                         name="pass"
                                         autoComplete="off"
+                                        onChange={handleInputChange}
                                     />
                                 </div>
                                 <div className="icon pad1">
