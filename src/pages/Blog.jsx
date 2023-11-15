@@ -29,11 +29,16 @@ function Blog() {
                 setErrorToken(error);
                 setLoading(false);
             });
-            axios.get("http://localhost/api/v1/blogs?user="+sessionStorage.getItem("user")+"&id[eq]="+id ).then(res => setBlog(res.data.data)).catch(err => handleErr(err.response.data));
+            axios.get("http://localhost/api/v1/blogs?id="+id, {
+                headers:{
+                    "Authorization": sessionStorage.getItem("user"),
+                }
+            } ).then(res => setBlog(res.data[0])).catch(err => handleErr(err.response.data));
     }, []);
     const handleErr = (err) =>{
         if(err.status == 401){
-            navigate("/");
+            console.log(err);
+            //navigate("/");
         }
     }
     if (loading) {
@@ -41,32 +46,38 @@ function Blog() {
     }
     if (error) {
         // Redirect to another page if there's an error
-        return navigate("/");
+        console.log(error);
     }
     if(data) {
         return (
             <div className={'flex'}>
                 <Header/>
-                {blog.map((blog) => (
                     <div id="single-blog-page" className="App h-v">
                         <div className="flex col h-100vh max-1200">
                             <div className="blog-image-section flex middle">
                                 <div className="image-box pad4 w-100">
-                                    <img className={'cover'} src={`http://localhost/storage/${blog.img}`} alt="Not found"/>
+                                    <img className={'cover blog-img shadow'} src={`http://localhost/storage/${blog.img}`} alt="Not found"/>
                                 </div>
                             </div>
                             <div className="blog-text-section rel flex col">
-                                <div className="blog-icon abs flex center-y pad2 shadow-mid hidden-mobile gap1 middle">
-                                    <img src={logo} alt=""/>
-                                </div>
-                                <div className="text-box w-100 h-100 flex pad3 col gap1 center-x ">
-                                    <h1 className={`blog-title`}>{blog.title}</h1>
-                                    <div className={`blog-description`}>{blog.description}</div>
+                                <div className="text-box w-100 h-100 flex pad3 gap1 center-x ">
+                                    <div className="text-section flex flex-2 gap1 col">
+                                        <h1 className={`blog-title`}>{blog.title}</h1>
+                                        <div className={`blog-description`}>{blog.description}</div>
+                                    </div>
+                                    <div className="blog-info-section flex col gap1 flex-1">
+                                        <h1>Info</h1>
+                                        <div className={`info-unit flex center-y gap1`}>
+                                            <div className={`blog-author`}>
+                                                <img className={`cover`} src={`http://localhost/storage/${blog.user.img}`} alt=""/>
+                                            </div>
+                                            <p>{blog.user.name}</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                ))}
             </div>
         );
     }

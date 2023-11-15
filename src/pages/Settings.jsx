@@ -43,6 +43,9 @@ function Settings() {
         formData.append("name", name);
         formData.append("surname", surname);
         formData.append("email", email);
+        if(password !== undefined) {
+            formData.append("password", password);
+        }
         if(updateImg !== "") {
             formData.append("img", img);
         }

@@ -30,6 +30,22 @@
     height: 100%;
     .image-box{
       max-width: 1000px;
+      img{
+        border-radius: 25px;
+        max-height: 400px;
+
+      }
+    }
+  }
+  .blog-info-section{
+    margin-left: 20px;
+    .info-unit{
+      .blog-author{
+        img{
+          width: 60px;
+          height: 60px;
+        }
+      }
     }
   }
 }

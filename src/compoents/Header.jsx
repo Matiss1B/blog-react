@@ -68,7 +68,7 @@ function Header() {
                                     <p>Food</p>
                                 </NavLink >
                                 <NavLink  className={"flex center-y vertical-line gap1"} to="/fashion">
-                                    <p>Fashion</p>
+                                    <p>Fashion</p>§
                                 </NavLink >
                             </ul>
                             :
