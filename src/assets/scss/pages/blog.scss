@@ -12,6 +12,28 @@
       max-width: 4rem;
     }
   }
+  .saved-blog{
+    background-color: $accent;
+    cursor: pointer;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    border-radius: 20px;
+    &:hover{
+      color: white;
+    }
+    .icon{
+      font-size: 2rem;
+      color: white;
+    }
+  }
+  .save-blog{
+    background-color: $accent;
+    cursor: pointer;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    border-radius: 20px;
+    &:hover{
+      color: white;
+    }
+  }
   .blog-text-section{
     flex:1;
     height: 100%;

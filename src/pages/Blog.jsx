@@ -4,11 +4,14 @@ import {useNavigate, useParams} from "react-router-dom";
 import Header from "../compoents/Header";
 import Loader from "../compoents/Loading";
 import {TbCategory2, TbBookmark} from "react-icons/tb"
+import { IoBookmark } from "react-icons/io5";
+
 import logo from "../assets/icons/iconizer-logotypes-dots-svgrepo-com.svg";
 
 function Blog() {
     let { id } = useParams();
     const [data, setData] = useState(null);
+    const [saved, setSaved]=useState(false);
     const [blog, setBlog] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setErrorToken] = useState(null);
@@ -63,7 +66,20 @@ function Blog() {
                             <div className="blog-text-section rel flex col">
                                 <div className="text-box w-100 h-100 flex pad3 gap1 center-x ">
                                     <div className="text-section flex flex-2 gap1 col">
-                                        <h1 className={`blog-title`}>{blog.title}</h1>
+                                        <div className="flex gap2 center-y">
+                                            <h1 className={`blog-title`}>{blog.title} </h1>
+                                            {saved ?
+                                            <div className="saved-blog flex gap1 center-y" onClick={()=>{setSaved(false)}}>
+                                                <p>Saved</p>
+                                                <IoBookmark className={`icon`}/>
+                                            </div>
+                                                :
+                                            <div className="save-blog flex gap1 center-y" onClick={()=>{setSaved(true)}}>
+                                                <p>Save</p>
+                                            </div>
+                                            }
+                                        </div>
+
                                         <div className={`blog-description justified-text`}>{blog.description}</div>
                                     </div>
                                     <div className="blog-info-section flex col gap1 flex-1">
@@ -93,14 +109,6 @@ function Blog() {
                                             <div className="flex col">
                                                 <p className={`bold`}>Saves</p>
                                                 <p>14</p>
-                                            </div>
-                                        </div>
-                                        <div className={`info-unit flex center-y gap1`}>
-                                            <div className={`blog-info-icon`}>
-                                            </div>
-                                            <div className="flex col">
-                                                <p className={`bold`}>Author</p>
-                                                <p>{blog.user.name}</p>
                                             </div>
                                         </div>
                                     </div>

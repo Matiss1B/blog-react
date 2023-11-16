@@ -5,16 +5,16 @@ import Header from "../compoents/Header";
 import {GrClose, GrSearch} from "react-icons/gr";
 import Loader from "../compoents/Loading";
 
-function Blogs(props) {
+function MyBlogs() {
     const [data, setData] = useState(null);
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true);
     const [error, setErrorToken] = useState(null);
     let [blog, setBlogs] = useState([]);
     useEffect(()=>{
-        axios.get("http://localhost/api/v1/blogs?user="+props.category, {
+        axios.get("http://localhost/api/v1/blogs?author=this", {
             headers:{
-            "Authorization": sessionStorage.getItem("user"),
+                "Authorization": sessionStorage.getItem("user"),
             }} ).then(res => setBlogs(res.data)).catch(err => handleErr(err.response.data));
     },[]);
     const column1Blogs = [];
@@ -110,9 +110,9 @@ function Blogs(props) {
                                             <div className="profile-icon green">
                                                 {blog.user.img == ""
                                                     ?
-                                                        <img className={`cover`}
-                                                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0_8KptY-0dlRaE0h4yxWnwM4z8KdZEOfipg&usqp=CAU"
-                                                             alt=""/>
+                                                    <img className={`cover`}
+                                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0_8KptY-0dlRaE0h4yxWnwM4z8KdZEOfipg&usqp=CAU"
+                                                         alt=""/>
                                                     :
                                                     <img className={`cover`}
                                                          src={`http://localhost/storage/${blog.user.img}`}
@@ -245,4 +245,4 @@ function Blogs(props) {
     return null;
 }
 
-export default Blogs;
+export default MyBlogs;
