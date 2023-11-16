@@ -37,8 +37,8 @@ function MyBlogs() {
     const handleSearch = event =>{
         setSearch(event.target.value);
     }
-    const openBlog = (id) => {
-        navigate(`/blog/${id}`);
+    const editBlog = (id) => {
+        navigate(`/edit/${id}`);
     }
     const handleMouseUp = (event) => {
         const blogAuthorElement = event.currentTarget.querySelector("#blog-author");
@@ -101,7 +101,7 @@ function MyBlogs() {
                                 <div className={` rel single-blog`}
                                      onMouseEnter={handleMouseDown}
                                      onMouseLeave={handleMouseUp}
-                                     onClick={() => openBlog(blog.id)}
+                                     onClick={() => editBlog(blog.id)}
                                      style={{height: `${Math.floor(Math.random() * (45 - 20 + 1)) + 20}rem`}}
                                      key={blog.id}>
                                     <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
@@ -136,7 +136,7 @@ function MyBlogs() {
                                 <div className={` rel single-blog`}
                                      onMouseEnter={handleMouseDown}
                                      onMouseLeave={handleMouseUp}
-                                     onClick={() => openBlog(blog.id)}
+                                     onClick={() => editBlog(blog.id)}
                                      style={{height: `${Math.floor(Math.random() * (45 - 20 + 1)) + 20}rem`}}
                                      key={blog.id}>
                                     <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
@@ -171,7 +171,7 @@ function MyBlogs() {
                                 <div className={` rel single-blog`}
                                      onMouseEnter={handleMouseDown}
                                      onMouseLeave={handleMouseUp}
-                                     onClick={() => openBlog(blog.id)}
+                                     onClick={() => editBlog(blog.id)}
                                      style={{height: `${Math.floor(Math.random() * (45 - 20 + 1)) + 20}rem`}}
                                      key={blog.id}>
                                     <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
@@ -206,7 +206,7 @@ function MyBlogs() {
                                 <div className={` rel single-blog`}
                                      onMouseEnter={handleMouseDown}
                                      onMouseLeave={handleMouseUp}
-                                     onClick={() => openBlog(blog.id)}
+                                     onClick={() => editBlog(blog.id)}
                                      style={{height: `${Math.floor(Math.random() * (45 - 20 + 1)) + 20}rem`}}
                                      key={blog.id}>
                                     <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>

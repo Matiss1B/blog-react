@@ -12,7 +12,7 @@ function Blogs(props) {
     const [error, setErrorToken] = useState(null);
     let [blog, setBlogs] = useState([]);
     useEffect(()=>{
-        axios.get("http://localhost/api/v1/blogs?user="+props.category, {
+        axios.get("http://localhost/api/v1/blogs?category="+props.category, {
             headers:{
             "Authorization": sessionStorage.getItem("user"),
             }} ).then(res => setBlogs(res.data)).catch(err => handleErr(err.response.data));

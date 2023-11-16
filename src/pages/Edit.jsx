@@ -11,19 +11,17 @@ function Edit() {
     const [loading, setLoading] = useState(true);
     const [error, setErrorToken] = useState(null);
     useEffect(()=>{
-        axios.get("http://localhost/api/v1/blogs?id[eq]="+1,
+        axios.get("http://localhost/api/v1/blogs?id="+id,
             {
                 headers:{
                 "Authorization": sessionStorage.getItem("user"),
                 }
             }).then(res => {
-            const blogData = res.data.data[0];
+            const blogData = res.data[0];
             setTitle(blogData.title);
             setDescription(blogData.description);
             setCategory(blogData.category);
         }).catch(err => handleErr(err.response.data));
-        console.log(blog);
-
     },[]);
     const [title, setTitle] = useState(``);
     const [description, setDescription] = useState('');
@@ -42,10 +40,10 @@ function Edit() {
         formData.append('description', description);
         formData.append('category', category);
         formData.append('img', img);
-        formData.append('user', sessionStorage.getItem("user"));
         axios.post('http://localhost/api/v1/edit', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
+                'Authorization': sessionStorage.getItem('user'),
             },
         }).then(res => console.log(res)).catch(err => console.log(err));
     }
