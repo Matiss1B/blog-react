@@ -1,9 +1,11 @@
 @import "assets/variables";
 h1{
   font-size: 4rem;
+  padding: 0;
 }
 p{
   font-size: 2rem;
+  padding: 0;
 }
 *{
   margin: 0;
@@ -11,6 +13,13 @@ p{
 }
 .accent-color{
   color: $accent;
+}
+.bold{
+  font-weight: 600;
+}
+.justified-text {
+  text-align: justify;
+  text-justify: distribute-all-lines;
 }
 .main-button{
   cursor: pointer;

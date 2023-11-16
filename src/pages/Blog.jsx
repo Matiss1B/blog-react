@@ -3,52 +3,53 @@ import axios from "axios";
 import {useNavigate, useParams} from "react-router-dom";
 import Header from "../compoents/Header";
 import Loader from "../compoents/Loading";
+import {TbCategory2, TbBookmark} from "react-icons/tb"
 import logo from "../assets/icons/iconizer-logotypes-dots-svgrepo-com.svg";
 
 function Blog() {
     let { id } = useParams();
     const [data, setData] = useState(null);
-    const [blog, setBlog] = useState([]);
+    const [blog, setBlog] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setErrorToken] = useState(null);
     const navigate = useNavigate();
     useEffect(() => {
-        const data = {
-            token: sessionStorage.getItem("user"),
-        }
-        axios.post("http://localhost/api/v1/checkToken", data, {
-            headers: {
-                "Content-Type": "multipart/form-data"
-            },
-        })
-            .then(response => {
-                setData(response.data);
+        const fetchData = async () => {
+            try {
+                const blogResponse = await axios.get(
+                    `http://localhost/api/v1/blogs?id=${id}`,
+                    {
+                        headers: {
+                            Authorization: sessionStorage.getItem('user'),
+                        },
+                    }
+                );
+
+                setBlog(blogResponse.data[0]);
                 setLoading(false);
-            })
-            .catch(error => {
+            } catch (error) {
                 setErrorToken(error);
                 setLoading(false);
-            });
-            axios.get("http://localhost/api/v1/blogs?id="+id, {
-                headers:{
-                    "Authorization": sessionStorage.getItem("user"),
-                }
-            } ).then(res => setBlog(res.data[0])).catch(err => handleErr(err.response.data));
-    }, []);
+                // Handle other errors if needed
+            } finally {
+                console.log(blog);
+            }
+        };
+
+        fetchData();
+    }, [id]);
     const handleErr = (err) =>{
         if(err.status == 401){
-            console.log(err);
-            //navigate("/");
+            navigate("/");
         }
     }
     if (loading) {
         return <Loader/>;
     }
     if (error) {
-        // Redirect to another page if there's an error
         console.log(error);
     }
-    if(data) {
+    if(blog) {
         return (
             <div className={'flex'}>
                 <Header/>
@@ -63,7 +64,7 @@ function Blog() {
                                 <div className="text-box w-100 h-100 flex pad3 gap1 center-x ">
                                     <div className="text-section flex flex-2 gap1 col">
                                         <h1 className={`blog-title`}>{blog.title}</h1>
-                                        <div className={`blog-description`}>{blog.description}</div>
+                                        <div className={`blog-description justified-text`}>{blog.description}</div>
                                     </div>
                                     <div className="blog-info-section flex col gap1 flex-1">
                                         <h1>Info</h1>
@@ -71,7 +72,36 @@ function Blog() {
                                             <div className={`blog-author`}>
                                                 <img className={`cover`} src={`http://localhost/storage/${blog.user.img}`} alt=""/>
                                             </div>
-                                            <p>{blog.user.name}</p>
+                                            <div className="flex col">
+                                                <p className={`bold`}>Author</p>
+                                                <p>{blog.user.name}</p>
+                                            </div>
+                                        </div>
+                                        <div className={`info-unit flex center-y gap1`}>
+                                            <div className={`blog-info-icon flex middle`}>
+                                                <TbCategory2 className={`icon`}/>
+                                            </div>
+                                            <div className="flex col">
+                                                <p className={`bold`}>Category</p>
+                                                <p>{blog.category}</p>
+                                            </div>
+                                        </div>
+                                        <div className={`info-unit flex center-y gap1`}>
+                                            <div className={`blog-info-icon flex middle`}>
+                                                <TbBookmark className={`icon`}/>
+                                            </div>
+                                            <div className="flex col">
+                                                <p className={`bold`}>Saves</p>
+                                                <p>14</p>
+                                            </div>
+                                        </div>
+                                        <div className={`info-unit flex center-y gap1`}>
+                                            <div className={`blog-info-icon`}>
+                                            </div>
+                                            <div className="flex col">
+                                                <p className={`bold`}>Author</p>
+                                                <p>{blog.user.name}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

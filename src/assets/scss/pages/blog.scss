@@ -38,12 +38,24 @@
     }
   }
   .blog-info-section{
+    position: sticky;
     margin-left: 20px;
     .info-unit{
+      .blog-info-icon{
+        width: 60px;
+        height: 60px;
+        border-radius: 50px;
+        border:4px solid #bbbaba;
+        .icon{
+          font-size: 3.5rem;
+          color: $accent;
+        }
+      }
       .blog-author{
         img{
           width: 60px;
           height: 60px;
+          border-radius: 50px;
         }
       }
     }
