@@ -81,3 +81,10 @@
     }
   }
 }
+@media screen and (max-width: 750px) {
+    .list {
+      grid-template-columns: 1fr;
+
+      grid-template-areas: ".";
+    }
+}

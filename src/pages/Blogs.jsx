@@ -21,6 +21,12 @@ function Blogs(props) {
     const column2Blogs = [];
     const column3Blogs = [];
     const column4Blogs = [];
+
+    const heightsColumn1 = column1Blogs.map(() => `${Math.floor(Math.random() * (45 - 20 + 1)) + 20}rem`);
+    const heightsColumn2 = column2Blogs.map(() => `${Math.floor(Math.random() * (45 - 20 + 1)) + 20}rem`);
+    const heightsColumn3 = column3Blogs.map(() => `${Math.floor(Math.random() * (45 - 20 + 1)) + 20}rem`);
+    const heightsColumn4 = column4Blogs.map(() => `${Math.floor(Math.random() * (45 - 20 + 1)) + 20}rem`);
+
     const handleMouseDown = (event) => {
         const blogAuthorElement = event.currentTarget.querySelector("#blog-author");
         const blogInfoElement = event.currentTarget.querySelector("#blog-info");
@@ -102,8 +108,8 @@ function Blogs(props) {
                                      onMouseEnter={handleMouseDown}
                                      onMouseLeave={handleMouseUp}
                                      onClick={() => openBlog(blog.id)}
-                                     style={{height: `${Math.floor(Math.random() * (45 - 20 + 1)) + 20}rem`}}
-                                     key={blog.id}>
+                                     style={{ height: heightsColumn1[blog.id] }}
+                                     >
                                     <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
                                     <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
                                         <div className="flex w-100 gap2 center-y">
@@ -137,7 +143,7 @@ function Blogs(props) {
                                      onMouseEnter={handleMouseDown}
                                      onMouseLeave={handleMouseUp}
                                      onClick={() => openBlog(blog.id)}
-                                     style={{height: `${Math.floor(Math.random() * (45 - 20 + 1)) + 20}rem`}}
+                                     style={{ height: heightsColumn2[blog.id] }}
                                      key={blog.id}>
                                     <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
                                     <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
@@ -172,7 +178,7 @@ function Blogs(props) {
                                      onMouseEnter={handleMouseDown}
                                      onMouseLeave={handleMouseUp}
                                      onClick={() => openBlog(blog.id)}
-                                     style={{height: `${Math.floor(Math.random() * (45 - 20 + 1)) + 20}rem`}}
+                                     style={{ height: heightsColumn3[blog.id] }}
                                      key={blog.id}>
                                     <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
                                     <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
@@ -207,7 +213,7 @@ function Blogs(props) {
                                      onMouseEnter={handleMouseDown}
                                      onMouseLeave={handleMouseUp}
                                      onClick={() => openBlog(blog.id)}
-                                     style={{height: `${Math.floor(Math.random() * (45 - 20 + 1)) + 20}rem`}}
+                                     style={{ height: heightsColumn4[blog.id] }}
                                      key={blog.id}>
                                     <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
                                     <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">

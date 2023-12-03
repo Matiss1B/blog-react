@@ -88,6 +88,30 @@
   .login-image-container {
     clip-path: polygon(59% 27%, 40% 15%, 78% 0, 100% 0, 100% 0, 100% 15%, 100% 85%, 100% 100%, 57% 100%, 46% 89%, 32% 68%, 49% 57%);
   }
+  .social-box {
+    p{
+      color: #9a9a9a;
+    }
+    padding-top: 20px;
+    border-top: 3px solid #e3e3e3;
+    .auth-icon-box {
+      display: flex;
+      justify-content: center;
+      padding: 1rem;
+      border: 1.5px solid white;
+      border-radius: 15px;
+      min-width: 20rem;
+      width: 100%;
+
+      &:hover {
+        border: 1.5px solid $accent;
+      }
+
+      .auth-icon {
+        max-width: 3rem;
+      }
+    }
+  }
 }
 .register-success{
   h1{
