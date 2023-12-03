@@ -11,6 +11,7 @@ import Blog from "../pages/Blog";
 import MyBlogs from "../pages/MyBlogs";
 import Settings from "../pages/Settings";
 import {useEffect} from "react";
+import PasswordReset from "../pages/PasswordReset";
 function Router() {
 
     return (
@@ -23,6 +24,7 @@ function Router() {
             <Route path="/edit/:id" element={<Edit />} />
             <Route path="/blog/:id" element={<Blog/>} />
             <Route path="/loader" element={<Loader/>} />
+            <Route path="/password-reset/:token" element={<PasswordReset/>} />
             <Route path="/profile/settings" element={<Settings/>} />
             <Route path="/profile/blogs" element={<MyBlogs/>} />
 
