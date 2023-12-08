@@ -187,18 +187,21 @@ function Settings() {
                             </div>
                             <div
                                 className={`flex  input-box center-y between ${activeInput === 'pass' ? 'active' : ''}`}
-                                onClick={handleInputBoxClick}
                             >
                                 <div className="flex col center-x">
                                     <label
+                                        onClick={()=>{ navigate("/profile/reset-password")}}
                                         className={`font15 flex ${activeInput === 'pass' ? 'active-label' : ''}`}>Password
                                     </label>
                                     <input
                                         type="text"
                                         value={password}
                                         id="pass"
+                                        disabled={true}
                                         name="pass"
+                                        placeholder={"Click to reset"}
                                         autoComplete="off"
+                                        onClick={()=>{ navigate("/profile/reset-password")}}
                                         onChange={handleInputChange}
                                     />
                                 </div>

@@ -12,6 +12,7 @@ import MyBlogs from "../pages/MyBlogs";
 import Settings from "../pages/Settings";
 import {useEffect} from "react";
 import PasswordReset from "../pages/PasswordReset";
+import PasswordResetMail from "../pages/PasswordResetMail";
 function Router() {
 
     return (
@@ -27,7 +28,7 @@ function Router() {
             <Route path="/password-reset/:token" element={<PasswordReset/>} />
             <Route path="/profile/settings" element={<Settings/>} />
             <Route path="/profile/blogs" element={<MyBlogs/>} />
-
+            <Route path="/profile/reset-password" element={<PasswordResetMail/>}/>
         </Routes>
     );
 }
