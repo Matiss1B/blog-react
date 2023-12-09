@@ -160,21 +160,43 @@ function App() {
         setImg([]);
 
     }
-    useEffect(() => {
-        const data = {
-            token: sessionStorage.getItem("user"),
+    const handleCategoryBlur = () => {
+        // Add validation logic here if needed
+        // For example, you can check if the selected category is valid
+        if (!category) {
+            setCategoryErr('Category is required');
+        } else {
+            setCategoryErr('');
         }
-        axios.post("http://localhost/api/v1/checkToken", data, {
-            headers: { "Content-Type": "multipart/form-data" },
-        })
-            .then(response => {
-                setData(response.data);
-                setLoading(false);
-            })
-            .catch(error => {
-                setErrorToken(error);
-                setLoading(false);
-            });
+    };
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`http://localhost/api/v1/categories/get`,
+                    {
+                        headers:{
+                            Authorization: sessionStorage.getItem("user"),
+                        }
+                    }
+                );
+                const status = response.data.status;
+                const responseData = response.data;
+                if (status === 200) {
+                    setLoading(false);
+                    setData(responseData.categories);
+                }
+                if (status === 300) {
+                    // Handle status 300
+                }
+            } catch (error) {
+                if(error.response.data.status == 422){
+                    navigate("/");
+                }
+            }
+        };
+
+        fetchData(); // Call the fetchData function
+
     }, []);
     if (loading) {
         return <Loader/>;
@@ -238,24 +260,33 @@ function App() {
                                         </div>
                                     </div>
                                     <div
-                                        className={`flex  input-box center-y between ${activeInput === 'category' ? 'active' : ''}`}
-                                        onClick={handleInputBoxClick}>
+                                        className={`flex input-box center-y between ${activeInput === 'category' ? 'active' : ''}`}
+                                        onClick={handleInputBoxClick}
+                                    >
                                         <div className="flex col center-x">
                                             <label
-                                                className={`font15 flex ${activeInput === 'category' ? 'active-label' : ''}`}>Category
+                                                className={`font15 flex ${activeInput === 'category' ? 'active-label' : ''}`}
+                                            >
+                                                Category
                                                 <p className={`${activeInput === 'category' ? 'active-label' : ''} required`}>*</p>
                                             </label>
-                                            <input
-                                                type="text"
+                                            <select
                                                 id="category"
                                                 name="category"
+                                                value={category}
                                                 autoComplete="off"
                                                 onChange={handleCategory}
-                                            />
-                                            <p className="err">{categoryErr === "" ? '' : categoryErr}</p>
+                                                onBlur={handleCategoryBlur}
+                                            >
+                                                <option value="" disabled>Select a category</option>
+                                                {data.map((category) => (
+                                                    <option value={category.category}>{category.category}</option>
+                                                ))}
+                                            </select>
+                                            <p className="err">{categoryErr}</p>
                                         </div>
                                         <div className="icon pad1">
-                                            <TbCategory2 className={`icon`}/>
+                                            <TbCategory2 className={`icon`} />
                                         </div>
                                     </div>
                                 </div>

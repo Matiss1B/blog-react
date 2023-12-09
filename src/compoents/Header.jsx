@@ -58,16 +58,16 @@ function Header() {
                         </NavLink>
                         {activeNav === "blogs" ?
                             <ul className={"nav-list flex col gap1"} data-aos="fade-left">
-                                <NavLink  className={"flex center-y vertical-line gap1"} to="/home">
+                                <NavLink  className={"flex center-y vertical-line gap1"} to="/blogs/Home">
                                     <p>Home</p>
                                 </NavLink>
                                 <NavLink  className={"flex center-y vertical-line gap1"} to="/blogs/Cars">
                                     <p>Cars</p>
                                 </NavLink >
-                                <NavLink  className={"flex center-y vertical-line gap1"} to="/food">
+                                <NavLink  className={"flex center-y vertical-line gap1"} to="/blogs/Food">
                                     <p>Food</p>
                                 </NavLink >
-                                <NavLink  className={"flex center-y vertical-line gap1"} to="/fashion">
+                                <NavLink  className={"flex center-y vertical-line gap1"} to="/blogs/Fashion">
                                     <p>Fashion</p>§
                                 </NavLink >
                             </ul>

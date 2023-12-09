@@ -6,6 +6,7 @@
   }
   .input-box{
     padding: 0.2rem 0.2rem 0.2rem 1.2rem;
+    min-width: 25rem;
     border-radius: 15px;
     background-color: #efefef;
     .err{
@@ -36,6 +37,15 @@
     &:focus{
       outline:none;
     }
+  }
+  select{
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-size: 2rem;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
   }
   textarea{
     height: 15rem;

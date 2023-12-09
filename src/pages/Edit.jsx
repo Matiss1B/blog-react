@@ -8,6 +8,7 @@ import {MdEmail, MdTextSnippet} from "react-icons/md";
 import {TbCategory2} from "react-icons/tb";
 import {AiFillPhone, AiFillPlusCircle} from "react-icons/ai";
 import {FiUpload} from "react-icons/fi";
+import AOS from "aos";
 
 function Edit() {
     let { id } = useParams();
@@ -23,11 +24,12 @@ function Edit() {
     const [phoneErr, setPhoneErr] = useState("");
     const [imgErr, setImgErr] = useState("");
     const [error, setErrorToken] = useState(null);
-    useEffect(()=>{
+    useEffect(() => {
+        AOS.init();
         axios.get("http://localhost/api/v1/blogs?id="+id,
             {
                 headers:{
-                "Authorization": sessionStorage.getItem("user"),
+                    "Authorization": sessionStorage.getItem("user"),
                 }
             }).then(res => {
             const blogData = res.data[0];
@@ -45,7 +47,8 @@ function Edit() {
             // Append the image to the div
             div.appendChild(img);
         }).catch(err => handleErr(err.response.data));
-    },[]);
+    }, [id]);
+
     const [title, setTitle] = useState(``);
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState();
@@ -75,7 +78,19 @@ function Edit() {
                 'Content-Type': 'multipart/form-data',
                 'Authorization': sessionStorage.getItem('user'),
             },
-        }).then(res => console.log(res)).catch(err => console.log(err));
+        }).then(res => {
+            setSuccess(res.data.message);
+            setTimeout(() => {
+                const box = document.getElementById('success-pop-up');
+
+                box.style.transform = 'translateX(200%)';
+                box.style.transition = '.7s';
+
+
+            }, 2000);
+        }
+        )
+            .catch(err => console.log(err));
     }
     const handleTitle = event =>{
         setTitle(event.target.value);
@@ -93,6 +108,12 @@ function Edit() {
         setPhone(event.target.value);
     }
     const handleImg = event =>{
+        setImg([]);
+        const existingImg = document.getElementById('blog-image');
+        if (existingImg) {
+            existingImg.remove();
+        }
+
         setImg(event.target.files[0]);
         let file =  event.target.files[0]
         const src = URL.createObjectURL(file);
@@ -114,21 +135,43 @@ function Edit() {
     }
     const navigate = useNavigate();
     const [token, setCheck] = useState(false)
-    useEffect(() => {
-        const data = {
-            token: sessionStorage.getItem("user"),
+    const handleCategoryBlur = () => {
+        // Add validation logic here if needed
+        // For example, you can check if the selected category is valid
+        if (!category) {
+            setCategoryErr('Category is required');
+        } else {
+            setCategoryErr('');
         }
-        axios.post("http://localhost/api/v1/checkToken", data, {
-            headers: { "Content-Type": "multipart/form-data" },
-        })
-            .then(response => {
-                setData(response.data);
-                setLoading(false);
-            })
-            .catch(error => {
-                setErrorToken(error);
-                setLoading(false);
-            });
+    };
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`http://localhost/api/v1/categories/get`,
+                    {
+                        headers:{
+                            Authorization: sessionStorage.getItem("user"),
+                        }
+                    }
+                );
+                const status = response.data.status;
+                const responseData = response.data;
+                if (status === 200) {
+                    setLoading(false);
+                    setData(responseData.categories);
+                }
+                if (status === 300) {
+                    // Handle status 300
+                }
+            } catch (error) {
+                if(error.response.data.status == 422){
+                    navigate("/");
+                }
+            }
+        };
+
+        fetchData(); // Call the fetchData function
+
     }, []);
     if (loading) {
         return <Loader/>;
@@ -192,25 +235,33 @@ function Edit() {
                                         </div>
                                     </div>
                                     <div
-                                        className={`flex  input-box center-y between ${activeInput === 'category' ? 'active' : ''}`}
-                                        onClick={handleInputBoxClick}>
+                                        className={`flex input-box center-y between ${activeInput === 'category' ? 'active' : ''}`}
+                                        onClick={handleInputBoxClick}
+                                    >
                                         <div className="flex col center-x">
                                             <label
-                                                className={`font15 flex ${activeInput === 'category' ? 'active-label' : ''}`}>Category
+                                                className={`font15 flex ${activeInput === 'category' ? 'active-label' : ''}`}
+                                            >
+                                                Category
                                                 <p className={`${activeInput === 'category' ? 'active-label' : ''} required`}>*</p>
                                             </label>
-                                            <input
-                                                type="text"
+                                            <select
                                                 id="category"
-                                                value={category}
                                                 name="category"
+                                                value={category}
                                                 autoComplete="off"
                                                 onChange={handleCategory}
-                                            />
-                                            <p className="err">{categoryErr === "" ? '' : categoryErr}</p>
+                                                onBlur={handleCategoryBlur}
+                                            >
+                                                <option value="" disabled>Select a category</option>
+                                                {data.map((category) => (
+                                                    <option value={category.category}>{category.category}</option>
+                                                ))}
+                                            </select>
+                                            <p className="err">{categoryErr}</p>
                                         </div>
                                         <div className="icon pad1">
-                                            <TbCategory2 className={`icon`}/>
+                                            <TbCategory2 className={`icon`} />
                                         </div>
                                     </div>
                                 </div>
@@ -269,9 +320,10 @@ function Edit() {
                                                 id="description"
                                                 name="description"
                                                 autoComplete="off"
+                                                defaultValue={description}
+
                                                 onChange={handleDescription}
                                             >
-                                                {description}
                                         </textarea>
                                             <p className="err">{descErr === "" ? '' : descErr}</p>
                                         </div>

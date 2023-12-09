@@ -116,7 +116,9 @@ input{
 .err{
   color:red;
 }
-
+.auth-icon{
+  max-width: 2rem;
+}
 /* Media query for mobile devices */
 @media (max-width: $mobile-max-width) {
   .hidden-mobile {

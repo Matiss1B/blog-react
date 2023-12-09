@@ -64,7 +64,7 @@ function Blog() {
                                 </div>
                             </div>
                             <div className="blog-text-section rel flex col">
-                                <div className="text-box w-100 h-100 flex pad3 gap1 center-x ">
+                                <div className="text-box w-100 h-100 flex wrap pad3 gap1 center-x ">
                                     <div className="text-section flex flex-2 gap1 col">
                                         <div className="flex gap2 center-y">
                                             <h1 className={`blog-title`}>{blog.title} </h1>
