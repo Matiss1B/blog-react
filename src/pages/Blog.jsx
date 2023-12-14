@@ -20,7 +20,9 @@ function Blog() {
         const fetchData = async () => {
             try {
                 const blogResponse = await axios.get(
-                    `http://localhost/api/v1/blogs?id=${id}`,
+                    // `http://localhost/api/v1/blogs?id=${id}`,
+                    `http://localhost/api/v1/blog/get/${id}`,
+
                     {
                         headers: {
                             Authorization: sessionStorage.getItem('user'),
@@ -28,7 +30,10 @@ function Blog() {
                     }
                 );
 
-                setBlog(blogResponse.data[0]);
+                setBlog(blogResponse.data.data);
+                if(Object.keys(blogResponse.data.data.saved_blogs_for_current_user).length>0){
+                    setSaved(true);
+                }
                 setLoading(false);
             } catch (error) {
                 setErrorToken(error);
@@ -44,6 +49,28 @@ function Blog() {
     const handleErr = (err) =>{
         if(err.status == 401){
             navigate("/");
+        }
+    }
+    const handleSave = async () => {
+        try {
+            const response = await axios.post(
+                `http://localhost/api/v1/blog/save`,
+                {
+                    blog_id:id,
+                },
+                {
+                    headers: {
+                        Authorization: sessionStorage.getItem('user'),
+                    },
+                }
+            );
+
+            if(response.data.status == 200){
+                setSaved(!saved);
+            }
+        } catch (error) {
+            setErrorToken(error);
+            setLoading(false);
         }
     }
     if (loading) {
@@ -69,12 +96,12 @@ function Blog() {
                                         <div className="flex gap2 center-y">
                                             <h1 className={`blog-title`}>{blog.title} </h1>
                                             {saved ?
-                                            <div className="saved-blog flex gap1 center-y" onClick={()=>{setSaved(false)}}>
+                                            <div className="saved-blog flex gap1 center-y" onClick={handleSave}>
                                                 <p>Saved</p>
                                                 <IoBookmark className={`icon`}/>
                                             </div>
                                                 :
-                                            <div className="save-blog flex gap1 center-y" onClick={()=>{setSaved(true)}}>
+                                            <div className="save-blog flex gap1 center-y" onClick={handleSave}>
                                                 <p>Save</p>
                                             </div>
                                             }

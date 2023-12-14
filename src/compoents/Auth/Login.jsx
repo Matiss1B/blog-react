@@ -6,8 +6,10 @@ import {FaLock} from "react-icons/fa"
 import {useState, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
-import google from "../../assets/icons/google-color-svgrepo-com.svg";
+import GoogleLogin from "react-google-login";
+// import google from "../../assets/icons/google-color-svgrepo-com.svg";
 import facebook from "../../assets/icons/facebook-svgrepo-com (1).svg";
+import {gapi} from "gapi-script";
 
 function Login() {
     const [activeInput, setActiveInput] = useState(null);
@@ -19,6 +21,18 @@ function Login() {
     const [passwordErr, setPasswordErr] = useState("");
     const [activeIcon, setActiveIcon] = useState("lock");
     const navigate = useNavigate();
+
+    const responseGoogle = (response) => {
+        console.log('Google Sign-In Response:', response);
+
+        if (response.error === "popup_closed_by_user") {
+            console.log("Google Sign-In popup closed by the user");
+        } else {
+            // Handle user data from the response
+            console.log('User data:', response.profileObj);
+            // You can use the user data as needed, such as sending it to your server for authentication
+        }
+    };
     const submitLogin = () => {
         setCustomErr("");
         setEmailErr("");
@@ -33,6 +47,7 @@ function Login() {
             .catch(err => handleErrors(err));
     }
     const checkAuth = (response) =>{
+        console.log(response);
         if(response.status === 200) {
             sessionStorage.setItem("user", response.data.user);
             navigate("/"+response.data.link);
@@ -130,9 +145,6 @@ function Login() {
                 <div className={`flex col center-y gap2 `}>
                     <button className={`w-100`} onClick={submitLogin}>Login</button>
                     <div className={`flex center-y gap1 social-box`}>
-                        <div className={`auth-icon-box shadow-light`}>
-                            <img src={google} className={`auth-icon`} alt=""/>
-                        </div>
                         <div className={`auth-icon-box shadow-light`}>
                             <img src={facebook} className={`auth-icon`} alt=""/>
                         </div>

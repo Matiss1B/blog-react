@@ -10,11 +10,31 @@ import axios from "axios";
 function Header() {
     const[activeNav, setActiveNav] = useState("")
     const navigate = useNavigate();
+    const [categories, setCategories] = useState([]);
     useEffect(() => {
         const pathSegments = window.location.pathname.split('/');
         const desiredSegment = pathSegments[1];
         setActiveNav(desiredSegment);
         AOS.init();
+        const fetchCategories = async () =>{
+            try {
+                const response = await axios.get(
+                    `http://localhost/api/v1/categories/get`,
+                    {
+                        headers: {
+                            Authorization: sessionStorage.getItem('user'),
+                        },
+                    }
+                );
+                console.log(response.data);
+                if(response.data.status == 200){
+                    setCategories(response.data.categories);
+                }
+            } catch (error) {
+
+            }
+        }
+        fetchCategories();
     }, [])
     const submitLogout = () => {
             let data = {
@@ -58,18 +78,11 @@ function Header() {
                         </NavLink>
                         {activeNav === "blogs" ?
                             <ul className={"nav-list flex col gap1"} data-aos="fade-left">
-                                <NavLink  className={"flex center-y vertical-line gap1"} to="/blogs/Home">
-                                    <p>Home</p>
-                                </NavLink>
-                                <NavLink  className={"flex center-y vertical-line gap1"} to="/blogs/Cars">
-                                    <p>Cars</p>
-                                </NavLink >
-                                <NavLink  className={"flex center-y vertical-line gap1"} to="/blogs/Food">
-                                    <p>Food</p>
-                                </NavLink >
-                                <NavLink  className={"flex center-y vertical-line gap1"} to="/blogs/Fashion">
-                                    <p>Fashion</p>§
-                                </NavLink >
+                                {categories.map((category) => (
+                                    <NavLink key={category.id}  className={"flex center-y vertical-line gap1"} to={`/blogs/${category.category}`}>
+                                        <p>{category.category}</p>
+                                    </NavLink>
+                                ))}
                             </ul>
                             :
                             ""
@@ -90,6 +103,9 @@ function Header() {
                             <ul data-aos="fade-left" className={"nav-list flex col gap1"}>
                                 <NavLink  className={"flex center-y vertical-line gap1"} to="/profile/blogs">
                                     <p>My blogs</p>
+                                </NavLink >
+                                <NavLink  className={"flex center-y vertical-line gap1"} to="/profile/saved">
+                                    <p>Saved</p>
                                 </NavLink >
                                 <NavLink  className={"flex center-y vertical-line gap1"} to="/profile/settings">
                                     <p>Settings</p>
