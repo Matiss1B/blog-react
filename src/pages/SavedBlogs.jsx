@@ -10,17 +10,20 @@ function SavedBlogs() {
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true);
     const [error, setErrorToken] = useState(null);
+    const [column1Blogs, setColumn1Blogs] = useState([]);
+    const [column2Blogs, setColumn2Blogs] = useState([]);
+    const [column3Blogs, setColumn3Blogs] = useState([]);
+    const [column4Blogs, setColumn4Blogs] = useState([]);
     let [blog, setBlogs] = useState([]);
     useEffect(()=>{
         axios.get("http://localhost/api/v1/blog/get/all/saved", {
             headers:{
                 "Authorization": sessionStorage.getItem("user"),
-            }} ).then(res => setBlogs(res.data)).catch(err => handleErr(err.response.data));
+            }} ).then(res => {
+            setBlogs(res.data)
+            setData(res.data);
+        }).catch(err => handleErr(err.response.data));
     },[]);
-    const column1Blogs = [];
-    const column2Blogs = [];
-    const column3Blogs = [];
-    const column4Blogs = [];
     const handleMouseDown = (event) => {
         const blogAuthorElement = event.currentTarget.querySelector("#blog-author");
         const blogInfoElement = event.currentTarget.querySelector("#blog-info");
@@ -36,6 +39,11 @@ function SavedBlogs() {
     }
     const handleSearch = event =>{
         setSearch(event.target.value);
+        const filteredBlogs = data.filter(unit =>
+            unit.title.toLowerCase().includes(event.target.value.toLowerCase())
+        );
+        setBlogs(filteredBlogs);
+        console.log(filteredBlogs);
     }
     const editBlog = (id) => {
         navigate(`/edit/${id}`);
@@ -48,17 +56,25 @@ function SavedBlogs() {
             blogInfoElement.classList.add("none");
         }
     };
-    blog.forEach((blog, index) => {
-        if (index % 3 === 0) {
-            column1Blogs.push(blog);
-        } else if (index % 3 === 1) {
-            column2Blogs.push(blog);
-        } else if(index % 4 === 3){
-            column4Blogs.push(blog);
-        } else {
-            column3Blogs.push(blog);
-        }
-    });
+    useEffect(() => {
+        // Handle column assignments when 'blog' changes
+        setColumn1Blogs([]);
+        setColumn2Blogs([]);
+        setColumn3Blogs([]);
+        setColumn4Blogs([]);
+
+        blog.forEach((blog, index) => {
+            if (index % 3 === 0) {
+                setColumn1Blogs((prev) => [...prev, blog]);
+            } else if (index % 3 === 1) {
+                setColumn2Blogs((prev) => [...prev, blog]);
+            } else if (index % 4 === 3) {
+                setColumn4Blogs((prev) => [...prev, blog]);
+            } else {
+                setColumn3Blogs((prev) => [...prev, blog]);
+            }
+        });
+    }, [blog]);
     const navigate = useNavigate();
     useEffect(() => {
         const data = {
@@ -68,6 +84,7 @@ function SavedBlogs() {
             headers: { "Content-Type": "multipart/form-data" },
         })
             .then(response => {
+                console.log(response.data);
                 setData(response.data);
                 setLoading(false);
             })

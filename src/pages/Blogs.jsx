@@ -10,23 +10,26 @@ function Blogs(props) {
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true);
     const [error, setErrorToken] = useState(null);
+    const [column1Blogs, setColumn1Blogs] = useState([]);
+    const [column2Blogs, setColumn2Blogs] = useState([]);
+    const [column3Blogs, setColumn3Blogs] = useState([]);
+    const [column4Blogs, setColumn4Blogs] = useState([]);
     let [blog, setBlogs] = useState([]);
     useEffect(()=>{
         axios.get("http://localhost/api/v1/blogs?category="+props.category, {
             headers:{
             "Authorization": sessionStorage.getItem("user"),
-            }} ).then(res => setBlogs(res.data)).catch(err => handleErr(err.response.data));
+            }} ).then(res => {
+            setBlogs(res.data);
+            setData(res.data);
+        }).catch(err => handleErr(err.response.data));
     },[]);
-    const column1Blogs = [];
-    const column2Blogs = [];
-    const column3Blogs = [];
-    const column4Blogs = [];
+
 
     const heightsColumn1 = column1Blogs.map(() => `${Math.floor(Math.random() * (45 - 20 + 1)) + 20}rem`);
     const heightsColumn2 = column2Blogs.map(() => `${Math.floor(Math.random() * (45 - 20 + 1)) + 20}rem`);
     const heightsColumn3 = column3Blogs.map(() => `${Math.floor(Math.random() * (45 - 20 + 1)) + 20}rem`);
     const heightsColumn4 = column4Blogs.map(() => `${Math.floor(Math.random() * (45 - 20 + 1)) + 20}rem`);
-
     const handleMouseDown = (event) => {
         const blogAuthorElement = event.currentTarget.querySelector("#blog-author");
         const blogInfoElement = event.currentTarget.querySelector("#blog-info");
@@ -42,7 +45,30 @@ function Blogs(props) {
     }
     const handleSearch = event =>{
         setSearch(event.target.value);
+        const filteredBlogs = data.filter(unit =>
+            unit.title.toLowerCase().includes(event.target.value.toLowerCase())
+        );
+        setBlogs(filteredBlogs);
     }
+    useEffect(() => {
+        // Handle column assignments when 'blog' changes
+        setColumn1Blogs([]);
+        setColumn2Blogs([]);
+        setColumn3Blogs([]);
+        setColumn4Blogs([]);
+
+        blog.forEach((blog, index) => {
+            if (index % 3 === 0) {
+                setColumn1Blogs((prev) => [...prev, blog]);
+            } else if (index % 3 === 1) {
+                setColumn2Blogs((prev) => [...prev, blog]);
+            } else if (index % 4 === 3) {
+                setColumn4Blogs((prev) => [...prev, blog]);
+            } else {
+                setColumn3Blogs((prev) => [...prev, blog]);
+            }
+        });
+    }, [blog]);
     const openBlog = (id) => {
         navigate(`/blog/${id}`);
     }
@@ -54,17 +80,6 @@ function Blogs(props) {
             blogInfoElement.classList.add("none");
         }
     };
-    blog.forEach((blog, index) => {
-        if (index % 3 === 0) {
-            column1Blogs.push(blog);
-        } else if (index % 3 === 1) {
-            column2Blogs.push(blog);
-        } else if(index % 4 === 3){
-            column4Blogs.push(blog);
-        } else {
-            column3Blogs.push(blog);
-        }
-    });
     const navigate = useNavigate();
     useEffect(() => {
         const data = {
