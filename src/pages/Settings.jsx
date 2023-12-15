@@ -47,7 +47,7 @@ function Settings() {
             formData.append("password", password);
         }
         if(updateImg !== "") {
-            formData.append("img", img);
+            formData.append("img", updateImg);
         }
         axios.post("http://localhost/api/v1/user/edit", formData, {headers:{
             Authorization:sessionStorage.getItem("user"),
@@ -64,7 +64,6 @@ function Settings() {
                         "Authorization": sessionStorage.getItem("user")
                     }
                 });
-
                 setData(response.data);
                 setName(response.data.name);
                 setImg(response.data.img);

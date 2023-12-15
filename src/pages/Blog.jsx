@@ -12,6 +12,7 @@ function Blog() {
     let { id } = useParams();
     const [data, setData] = useState(null);
     const [saved, setSaved]=useState(false);
+    const [saves, setSaves] = useState(0);
     const [blog, setBlog] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setErrorToken] = useState(null);
@@ -29,8 +30,9 @@ function Blog() {
                         },
                     }
                 );
-
+                console.log(blogResponse.data.data);
                 setBlog(blogResponse.data.data);
+                setSaves(Object.keys(blogResponse.data.data.saves).length);
                 if(Object.keys(blogResponse.data.data.saved_blogs_for_current_user).length>0){
                     setSaved(true);
                 }
@@ -67,6 +69,11 @@ function Blog() {
 
             if(response.data.status == 200){
                 setSaved(!saved);
+                if(!saved === true){
+                    setSaves(saves+1);
+                }else{
+                    setSaves(saves-1);
+                }
             }
         } catch (error) {
             setErrorToken(error);
@@ -84,7 +91,7 @@ function Blog() {
             <div className={'flex'}>
                 <Header/>
                     <div id="single-blog-page" className="App h-v">
-                        <div className="flex col h-100vh max-1200">
+                        <div className="flex col h-100vh max-1200 w-100">
                             <div className="blog-image-section flex middle">
                                 <div className="image-box pad4 w-100">
                                     <img className={'cover blog-img shadow'} src={`http://localhost/storage/${blog.img}`} alt="Not found"/>
@@ -135,7 +142,7 @@ function Blog() {
                                             </div>
                                             <div className="flex col">
                                                 <p className={`bold`}>Saves</p>
-                                                <p>14</p>
+                                                <p>{saves}</p>
                                             </div>
                                         </div>
                                     </div>
