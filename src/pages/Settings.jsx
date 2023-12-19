@@ -5,19 +5,24 @@ import {MdEmail} from "react-icons/md"
 import {AiFillPhone} from "react-icons/ai"
 import Header from "../compoents/Header";
 import{AiFillEye} from "react-icons/ai"
-import {FaLock} from "react-icons/fa"
+import {FaLock, FaRegStickyNote} from "react-icons/fa"
 import Loader from "../compoents/Loading";
 import {FaAddressCard} from "react-icons/fa";
 function Settings() {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [successMessage, setSuccess] =useState("");
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
+    const [staticnName, setStaticName] = useState('');
+    const [staticEmail, setStaticEmail] = useState('');
+    const [staticnSurname, setStaticSurname] = useState('');
     const [img, setImg] = useState('');
     const [updateImg, setUpdateImg] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [activeInput, setActiveInput] = useState(null);
+    const [errors, setErrors] = useState({name:"", surname:"", email:""});
     const [error, setErrorToken] = useState(null);
     const navigate = useNavigate();
     const handleInputBoxClick = (event) => {
@@ -52,8 +57,31 @@ function Settings() {
         axios.post("http://localhost/api/v1/user/edit", formData, {headers:{
             Authorization:sessionStorage.getItem("user"),
             }}).then(
-                (res)=>console.log(res)
-        ).catch((err)=>console.log(err));
+                (res)=> {
+                    if(res.data.status == 200) {
+                        setSuccess(res.data.message);
+                        setTimeout(() => {
+                            const box = document.getElementById('success-pop-up');
+
+                            box.style.transform = 'translateX(200%)';
+                            box.style.transition = '.7s';
+                        }, 2000);
+                        setStaticName(name);
+                        setStaticSurname(surname);
+                        setStaticEmail(email);
+                        setErrors({name:"", surname:"", email:""})
+                    }
+
+                }
+        ).catch((err)=> {
+            console.log(err.response.data.errors);
+            if(err.response.status == 422){
+                setErrors(err.response.data.errors);
+            }
+            if(err.response.status == 401 ||err.response.data.status == 401){
+                navigate("/");
+            }
+        });
     }
     useEffect(() => {
         const fetchData = async () => {
@@ -68,7 +96,10 @@ function Settings() {
                 setName(response.data.name);
                 setImg(response.data.img);
                 setSurname(response.data.surname);
+                setStaticSurname(response.data.surname);
+                setStaticName(response.data.name);
                 setEmail(response.data.email);
+                setStaticEmail(response.data.email);
                 setPassword(response.data.password);
                 setLoading(false);
                 console.log(response)
@@ -96,11 +127,32 @@ function Settings() {
 
         return `rgba(${r}, ${g}, ${b}, ${alpha})`;
     }
+    function darkenHexColor(hex, percent) {
+        hex = hex.replace(/^#/, '');
+
+        let bigint = parseInt(hex, 16);
+        let r = (bigint >> 16) & 255;
+        let g = (bigint >> 8) & 255;
+        let b = bigint & 255;
+
+        let darkenFactor = 1 - percent / 100;
+
+        r = Math.round(r * darkenFactor);
+        g = Math.round(g * darkenFactor);
+        b = Math.round(b * darkenFactor);
+
+        r = Math.min(255, Math.max(0, r));
+        g = Math.min(255, Math.max(0, g));
+        b = Math.min(255, Math.max(0, b));
+
+        return `#${(r << 16 | g << 8 | b).toString(16).padStart(6, '0')}`;
+    }
 
     const changeAccent = (color) =>{
         const root = document.documentElement;
         root.style.setProperty('--accent', color);
         root.style.setProperty('--accent-shadow', hexToRgba(color, 0.7));
+        root.style.setProperty('--accent-hover', darkenHexColor(color, 15));
 
     }
     const handleInputChange = (event) => {
@@ -127,6 +179,18 @@ function Settings() {
             <div className={'flex'}>
                 <Header/>
                 <div className="App h-v">
+                    {successMessage !== ""
+                        ?
+                        <div id="success-pop-up" className={`success-pop-up flex gap2 center-y pad2`}>
+                            <FaRegStickyNote className={'icon'}/>
+                            <div className="text-message center-x flex col">
+                                <h1>{successMessage}</h1>
+                                <p>You can see it in My Profile/My Blogs</p>
+                            </div>
+                        </div>
+                        :
+                        ""
+                    }
                     <div className="main-settings-box h-100 flex gap5 col center-y evenly">
                         <div className="profile-box flex wrap center-y gap2 w-100 center-x">
                             <div className="flex col center-y gap1">
@@ -137,8 +201,8 @@ function Settings() {
                                 <label htmlFor="profileImg" className={`font15`}>Change profile image</label>
                             </div>
                             <div className="profile-info">
-                                <h1 onClick={changeAccent}>{name} {surname}</h1>
-                                <p>{email}</p>
+                                <h1 onClick={changeAccent}>{staticnName} {staticnSurname}</h1>
+                                <p>{staticEmail}</p>
                             </div>
                         </div>
                         <div className="profile-box gap5 wrap flex w-100 center-x">
@@ -158,6 +222,7 @@ function Settings() {
                                         autoComplete="off"
                                         onChange={handleInputChange}
                                     />
+                                    <p className="err">{errors.name == ""? "": errors.name}</p>
                                 </div>
                                 <div className="icon pad1">
                                     <FaAddressCard className={`icon`}/>
@@ -179,6 +244,7 @@ function Settings() {
                                         autoComplete="off"
                                         onChange={handleInputChange}
                                     />
+                                    <p className="err">{errors.surname == ""? "": errors.surname}</p>
                                 </div>
                                 <div className="icon pad1">
                                     <FaAddressCard className={`icon`}/>
@@ -202,6 +268,7 @@ function Settings() {
                                         autoComplete="off"
                                         onChange={handleInputChange}
                                     />
+                                    <p className="err">{errors.email == ""? "": errors.email}</p>
                                 </div>
                                 <div className="icon pad1">
                                     <MdEmail className={`icon`}/>

@@ -42,10 +42,13 @@ function Edit() {
             img.className = 'cover';
             img.src = "http://localhost/storage/"+blogData.img;
             img.id = "blog-image"
+
             const div = document.getElementsByClassName('image-upload-box')[0];
             document.getElementById('img-upload-content').classList.add("none");
-            // Append the image to the div
             div.appendChild(img);
+            if (div.getElementsByTagName('img').length > 1) {
+                div.getElementsByTagName('img')[0].remove();
+            }
         }).catch(err => handleErr(err.response.data));
     }, [id]);
 

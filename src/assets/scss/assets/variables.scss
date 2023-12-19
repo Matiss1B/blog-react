@@ -7,10 +7,11 @@
 :root {
   --accent: #90EB78;
   --accent-shadow: rgba(144, 245, 120, 0.7);
+  --accent-hover:#75cc5e ;
 }
 
 $accent: var(--accent);
-$accent-hover: #75cc5e;
+$accent-hover: var(--accent-hover);
 $gray-border:#838383;
 $p-tag-color:#575757;
 $gray-label:#9a9a9a;

@@ -189,7 +189,7 @@ function App() {
                     // Handle status 300
                 }
             } catch (error) {
-                if(error.response.data.status == 422){
+                if(error.response.data.status == 401 || error.response.status == 401){
                     navigate("/");
                 }
             }

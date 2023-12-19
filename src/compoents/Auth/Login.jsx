@@ -144,11 +144,11 @@ function Login() {
                 </div>
                 <div className={`flex col center-y gap2 `}>
                     <button className={`w-100`} onClick={submitLogin}>Login</button>
-                    <div className={`flex center-y gap1 social-box`}>
-                        <div className={`auth-icon-box shadow-light`}>
-                            <img src={facebook} className={`auth-icon`} alt=""/>
-                        </div>
-                    </div>
+                    {/*<div className={`flex center-y gap1 social-box`}>*/}
+                    {/*    <div className={`auth-icon-box shadow-light`}>*/}
+                    {/*        <img src={facebook} className={`auth-icon`} alt=""/>*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
                 </div>
             </div>
         </div>

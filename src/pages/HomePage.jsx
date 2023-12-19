@@ -46,7 +46,7 @@ function HomePage() {
                                     </h1>
                                 </div>
                                 <p>Exploring the world through captivating stories</p>
-                                <button className="intro-button">Get started</button>
+                                <button className="intro-button" onClick={()=>{navigate("/add")}}>Get started</button>
                             </div>
                             <div className="image-box hidden-mobile">
                                 <div className="circle">

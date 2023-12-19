@@ -67,7 +67,7 @@
         font-size: 2.5rem;
         outline: none;
         border: none;
-        box-shadow: 0 0 10px rgba(144, 245, 120, 0.7);
+        box-shadow: 0 0 10px $box-shadow-input;
         transition: 0.7s;
         &:hover{
           background-color: white;

@@ -126,7 +126,7 @@ function Blogs(props) {
                                      onMouseEnter={handleMouseDown}
                                      onMouseLeave={handleMouseUp}
                                      onClick={() => openBlog(blog.id)}
-                                     style={{ height: heightsColumn1[blog.id] }}
+                                     style={{ height: '20rem' }}
                                      >
                                     <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
                                     <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
@@ -161,7 +161,7 @@ function Blogs(props) {
                                      onMouseEnter={handleMouseDown}
                                      onMouseLeave={handleMouseUp}
                                      onClick={() => openBlog(blog.id)}
-                                     style={{ height: heightsColumn2[blog.id] }}
+                                     style={{ height: '20rem' }}
                                      key={blog.id}>
                                     <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
                                     <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
@@ -196,7 +196,7 @@ function Blogs(props) {
                                      onMouseEnter={handleMouseDown}
                                      onMouseLeave={handleMouseUp}
                                      onClick={() => openBlog(blog.id)}
-                                     style={{ height: heightsColumn3[blog.id] }}
+                                     style={{ height: '20rem' }}
                                      key={blog.id}>
                                     <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
                                     <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
@@ -231,7 +231,7 @@ function Blogs(props) {
                                      onMouseEnter={handleMouseDown}
                                      onMouseLeave={handleMouseUp}
                                      onClick={() => openBlog(blog.id)}
-                                     style={{ height: heightsColumn4[blog.id] }}
+                                     style={{ height: '20rem' }}
                                      key={blog.id}>
                                     <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
                                     <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
