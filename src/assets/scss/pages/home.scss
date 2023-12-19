@@ -7,7 +7,7 @@
     }
     p{
       font-family: $font-montserrat;
-      color: #575757;
+      color: $p-tag-color;
       font-weight: 600;
       font-size: 2rem;
     }
@@ -61,7 +61,7 @@
         width: 7rem;
         height: 7rem;
         border-radius: 50%;
-        border:4px solid #bbbaba;
+        border:4px solid $gray-label;
         .icon{
           font-size: 3rem;
           color: #bbbaba;
@@ -76,7 +76,7 @@
       }
       h1{
         font-size: 2.5rem;
-        color:#3b3b3b;
+        color:$p-tag-color;
       }
     }
   }

@@ -38,12 +38,15 @@ function MyBlogs() {
         }
     }
     const handleSearch = event =>{
-        setSearch(event.target.value);
-        const filteredBlogs = data.filter(unit =>
-            unit.title.toLowerCase().includes(event.target.value.toLowerCase())
-        );
-        setBlogs(filteredBlogs);
+        if(data.length > 0) {
+            setSearch(event.target.value);
+            const filteredBlogs = data.filter(unit =>
+                unit.title.toLowerCase().includes(event.target.value.toLowerCase())
+            );
+            setBlogs(filteredBlogs);
+        }
     }
+
     useEffect(() => {
         // Handle column assignments when 'blog' changes
         setColumn1Blogs([]);
@@ -51,17 +54,19 @@ function MyBlogs() {
         setColumn3Blogs([]);
         setColumn4Blogs([]);
 
-        blog.forEach((blog, index) => {
-            if (index % 3 === 0) {
-                setColumn1Blogs((prev) => [...prev, blog]);
-            } else if (index % 3 === 1) {
-                setColumn2Blogs((prev) => [...prev, blog]);
-            } else if (index % 4 === 3) {
-                setColumn4Blogs((prev) => [...prev, blog]);
-            } else {
-                setColumn3Blogs((prev) => [...prev, blog]);
-            }
-        });
+        if(blog.length > 0) {
+            blog.forEach((blog, index) => {
+                if (index % 3 === 0) {
+                    setColumn1Blogs((prev) => [...prev, blog]);
+                } else if (index % 3 === 1) {
+                    setColumn2Blogs((prev) => [...prev, blog]);
+                } else if (index % 4 === 3) {
+                    setColumn4Blogs((prev) => [...prev, blog]);
+                } else {
+                    setColumn3Blogs((prev) => [...prev, blog]);
+                }
+            });
+        }
     }, [blog]);
 
     const editBlog = (id) => {
@@ -111,6 +116,7 @@ function MyBlogs() {
                             <GrClose className={` ${search === "" ? "none" : "flex"} icon close-icon`}/>
                         </div>
                     </div>
+                    {Object.keys(blog).length > 0 ?
                     <div className="h-v flex blogs-list flex evenly wrap pad2">
                         <div id={`column-1`} className="column flex col gap1">
                             {column1Blogs.map((blog) => (
@@ -118,7 +124,7 @@ function MyBlogs() {
                                      onMouseEnter={handleMouseDown}
                                      onMouseLeave={handleMouseUp}
                                      onClick={() => editBlog(blog.id)}
-                                     style={{height: `${Math.floor(Math.random() * (45 - 20 + 1)) + 20}rem`}}
+                                     style={{height: `20rem`}}
                                      key={blog.id}>
                                     <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
                                     <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
@@ -153,7 +159,7 @@ function MyBlogs() {
                                      onMouseEnter={handleMouseDown}
                                      onMouseLeave={handleMouseUp}
                                      onClick={() => editBlog(blog.id)}
-                                     style={{height: `${Math.floor(Math.random() * (45 - 20 + 1)) + 20}rem`}}
+                                     style={{height: `20rem`}}
                                      key={blog.id}>
                                     <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
                                     <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
@@ -188,7 +194,7 @@ function MyBlogs() {
                                      onMouseEnter={handleMouseDown}
                                      onMouseLeave={handleMouseUp}
                                      onClick={() => editBlog(blog.id)}
-                                     style={{height: `${Math.floor(Math.random() * (45 - 20 + 1)) + 20}rem`}}
+                                     style={{height: `20rem`}}
                                      key={blog.id}>
                                     <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
                                     <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
@@ -223,7 +229,7 @@ function MyBlogs() {
                                      onMouseEnter={handleMouseDown}
                                      onMouseLeave={handleMouseUp}
                                      onClick={() => editBlog(blog.id)}
-                                     style={{height: `${Math.floor(Math.random() * (45 - 20 + 1)) + 20}rem`}}
+                                     style={{height: `20rem`}}
                                      key={blog.id}>
                                     <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
                                     <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
@@ -252,8 +258,10 @@ function MyBlogs() {
                                 </div>
                             ))}
                         </div>
-
                     </div>
+                        :
+                        ""
+                    }
                 </div>
             </div>
         );

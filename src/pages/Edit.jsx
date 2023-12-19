@@ -92,6 +92,31 @@ function Edit() {
         )
             .catch(err => console.log(err));
     }
+    const deleteBlog = () =>{
+        setSuccess("");
+        setTitleErr("");
+        setEmailErr("");
+        setDescErr("");
+        setPhoneErr("");
+        setImgErr("");
+        setCategoryErr("");
+        axios.get(`http://localhost/api/v1/blog/delete/${id}`, {
+            headers: {
+                "Authorization": sessionStorage.getItem("user"),
+            },
+        }, ).then(res => {
+                setSuccess(res.data.message);
+                setTimeout(() => {
+                    const box = document.getElementById('success-pop-up');
+
+                    box.style.transform = 'translateX(200%)';
+                    box.style.transition = '.7s';
+                    navigate("/profile/blogs")
+                }, 2000);
+            }
+        ).catch(err => console.log(err));
+    }
+
     const handleTitle = event =>{
         setTitle(event.target.value);
     }
@@ -320,7 +345,7 @@ function Edit() {
                                                 id="description"
                                                 name="description"
                                                 autoComplete="off"
-                                                defaultValue={description}
+                                                value={description}
 
                                                 onChange={handleDescription}
                                             >
@@ -342,7 +367,7 @@ function Edit() {
                                     <p>Upload as file</p>
                                 </div>
                                 <div className="flex add-buttons w-100 gap2">
-                                    <button id={`clear`} className={`w-100`}>Clear</button>
+                                    <button id={`clear`} className={`w-100`} onClick={deleteBlog}>Delete</button>
                                     <button id={`submit`} className={`w-100`} onClick={handleClick}>Submit</button>
                                 </div>
                             </div>

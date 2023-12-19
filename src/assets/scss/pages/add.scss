@@ -88,10 +88,18 @@
     #submit{
       background-color: $accent;
       color: white;
+      &:hover{
+        background-color: $accent-hover;
+      }
     }
     #clear{
-      color: $accent;
-      background-color: transparent;
+      color: white;
+      background-color: red;
+      outline: none;
+      border: none;
+      &:hover{
+        background-color: #961111;
+      }
     }
   }
   .docs-upload-box{
@@ -107,7 +115,7 @@
     .image-upload-box {
       overflow: hidden;
       border-radius: 15px;
-      border: 5px dashed #838383;
+      border: 5px dashed $gray-border;
       border-style: dashed;
       border-width: 2.5px;
       background-color: #efefef;

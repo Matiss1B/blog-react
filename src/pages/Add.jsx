@@ -249,6 +249,7 @@ function App() {
                                             <input
                                                 type="text"
                                                 id="title"
+                                                value={title}
                                                 name="title"
                                                 autoComplete="off"
                                                 onChange={handleTitle}
@@ -301,6 +302,7 @@ function App() {
                                                 type="number"
                                                 id="phone"
                                                 name="phone"
+                                                value={phone}
                                                 autoComplete="off"
                                                 onChange={handlePhone}
                                             />
@@ -320,6 +322,7 @@ function App() {
                                                 type="text"
                                                 id="email"
                                                 name="email"
+                                                value={email}
                                                 autoComplete="off"
                                                 onChange={handleEmail}
                                             />
@@ -342,6 +345,7 @@ function App() {
                                             <textarea
                                                 id="description"
                                                 name="description"
+                                                value={description}
                                                 autoComplete="off"
                                                 onChange={handleDescription}
                                             >
@@ -363,7 +367,6 @@ function App() {
                                     <p>Upload as file</p>
                                 </div>
                                 <div className="flex add-buttons w-100 gap2">
-                                    <button id={`clear`} className={`w-100`}>Clear</button>
                                     <button id={`submit`} className={`w-100`} onClick={handleClick}>Submit</button>
                                 </div>
                             </div>

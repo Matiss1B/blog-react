@@ -161,7 +161,7 @@ function Blog() {
                                             </div>
                                             <div className="flex col">
                                                 <p className={`bold`}>Category</p>
-                                                <p>{blog.category}</p>
+                                                <p className="pointer" onClick={()=>{navigate(`/blogs/${blog.category}`)}}>{blog.category}</p>
                                             </div>
                                         </div>
                                         <div className={`info-unit flex center-y gap1`}>

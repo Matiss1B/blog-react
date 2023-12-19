@@ -16,7 +16,14 @@
     color: black;
     padding: 5px 15px 5px 15px;
     width: 100%;
-    color: #9a9a9a;
+    color: $icon-gray;
+  }
+  .sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #fff;
+    z-index: 1000;
   }
   .icon{
     font-size: 2rem;
@@ -40,7 +47,7 @@
       background-color: $accent; /* Change this to the desired color of the line */
     }
     .vertical-line-logout {
-      color: #3b3b3b;
+      color: $p-tag-color;
       position: relative;
       padding-left: 2rem; /* Adjust this value to control the space between the line and the paragraph */
     }

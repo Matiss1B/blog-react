@@ -4,7 +4,7 @@
     .input-box{
       padding: 0.2rem 0.2rem 0.2rem 1.2rem;
       border-radius: 15px;
-      background-color: #efefef;
+      background-color: $input-bg;
       .err{
         font-size: 1.1rem;
         font-weight: 500;
@@ -42,12 +42,12 @@
       h1{
         font-family: $font-montserrat;
         font-weight: 500;
-        color: #3b3b3b;
+        color: $p-tag-color;
       }
       p{
         font-family: $font-montserrat;
         font-weight: 500;
-        color:#9a9a9a;
+        color:$icon-gray;
         font-style: italic;
       }
     }

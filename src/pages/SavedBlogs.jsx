@@ -38,12 +38,13 @@ function SavedBlogs() {
         }
     }
     const handleSearch = event =>{
-        setSearch(event.target.value);
-        const filteredBlogs = data.filter(unit =>
-            unit.title.toLowerCase().includes(event.target.value.toLowerCase())
-        );
-        setBlogs(filteredBlogs);
-        console.log(filteredBlogs);
+        if(data.length > 0) {
+            setSearch(event.target.value);
+            const filteredBlogs = data.filter(unit =>
+                unit.title.toLowerCase().includes(event.target.value.toLowerCase())
+            );
+            setBlogs(filteredBlogs);
+        }
     }
     const editBlog = (id) => {
         navigate(`/edit/${id}`);
@@ -62,18 +63,19 @@ function SavedBlogs() {
         setColumn2Blogs([]);
         setColumn3Blogs([]);
         setColumn4Blogs([]);
-
-        blog.forEach((blog, index) => {
-            if (index % 3 === 0) {
-                setColumn1Blogs((prev) => [...prev, blog]);
-            } else if (index % 3 === 1) {
-                setColumn2Blogs((prev) => [...prev, blog]);
-            } else if (index % 4 === 3) {
-                setColumn4Blogs((prev) => [...prev, blog]);
-            } else {
-                setColumn3Blogs((prev) => [...prev, blog]);
-            }
-        });
+        if(blog.length > 0) {
+            blog.forEach((blog, index) => {
+                if (index % 3 === 0) {
+                    setColumn1Blogs((prev) => [...prev, blog]);
+                } else if (index % 3 === 1) {
+                    setColumn2Blogs((prev) => [...prev, blog]);
+                } else if (index % 4 === 3) {
+                    setColumn4Blogs((prev) => [...prev, blog]);
+                } else {
+                    setColumn3Blogs((prev) => [...prev, blog]);
+                }
+            });
+        }
     }, [blog]);
     const navigate = useNavigate();
     useEffect(() => {
@@ -112,152 +114,155 @@ function SavedBlogs() {
                             <GrClose className={` ${search === "" ? "none" : "flex"} icon close-icon`}/>
                         </div>
                     </div>
-                    <div className="h-v flex blogs-list flex evenly wrap pad2">
-                        <div id={`column-1`} className="column flex col gap1">
-                            {column1Blogs.map((blog) => (
-                                <div className={` rel single-blog`}
-                                     onMouseEnter={handleMouseDown}
-                                     onMouseLeave={handleMouseUp}
-                                     onClick={() => {
-                                         navigate(`/blog/${blog.id}`);
+                    {Object.keys(blog).length > 0 ?
+                        <div className="h-v flex blogs-list flex evenly wrap pad2">
+                            <div id={`column-1`} className="column flex col gap1">
+                                {column1Blogs.map((blog) => (
+                                    <div className={` rel single-blog`}
+                                         onMouseEnter={handleMouseDown}
+                                         onMouseLeave={handleMouseUp}
+                                         onClick={() => {
+                                             navigate(`/blog/${blog.id}`);
 
-                                     }}
-                                     style={{height: `${Math.floor(Math.random() * (45 - 20 + 1)) + 20}rem`}}
-                                     key={blog.id}>
-                                    <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
-                                    <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
-                                        <div className="flex w-100 gap2 center-y">
-                                            <div className="profile-icon green">
-                                                {blog.user.img == ""
-                                                    ?
-                                                    <img className={`cover`}
-                                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0_8KptY-0dlRaE0h4yxWnwM4z8KdZEOfipg&usqp=CAU"
-                                                         alt=""/>
-                                                    :
-                                                    <img className={`cover`}
-                                                         src={`http://localhost/storage/${blog.user.img}`}
-                                                         alt=""/>
-                                                }
+                                         }}
+                                         style={{height: `20rem`}}
+                                         key={blog.id}>
+                                        <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
+                                        <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
+                                            <div className="flex w-100 gap2 center-y">
+                                                <div className="profile-icon green">
+                                                    {blog.user.img == ""
+                                                        ?
+                                                        <img className={`cover`}
+                                                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0_8KptY-0dlRaE0h4yxWnwM4z8KdZEOfipg&usqp=CAU"
+                                                             alt=""/>
+                                                        :
+                                                        <img className={`cover`}
+                                                             src={`http://localhost/storage/${blog.user.img}`}
+                                                             alt=""/>
+                                                    }
 
+                                                </div>
+                                                <h1>{blog.user.name}</h1>
                                             </div>
-                                            <h1>{blog.user.name}</h1>
                                         </div>
-                                    </div>
-                                    <div id={`blog-info`} className=" abs pad1 blog-info-box none center-y">
-                                        <div className="flex w-100 gap2 center-y">
-                                            <h1>{blog.title}</h1>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                        <div id={`column-2`} className="column  flex col gap1">
-                            {column2Blogs.map((blog) => (
-                                <div className={` rel single-blog`}
-                                     onMouseEnter={handleMouseDown}
-                                     onMouseLeave={handleMouseUp}
-                                     onClick={() => editBlog(blog.id)}
-                                     style={{height: `${Math.floor(Math.random() * (45 - 20 + 1)) + 20}rem`}}
-                                     key={blog.id}>
-                                    <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
-                                    <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
-                                        <div className="flex w-100 gap2 center-y">
-                                            <div className="profile-icon green">
-                                                {blog.user.img == ""
-                                                    ?
-                                                    <img className={`cover`}
-                                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0_8KptY-0dlRaE0h4yxWnwM4z8KdZEOfipg&usqp=CAU"
-                                                         alt=""/>
-                                                    :
-                                                    <img className={`cover`}
-                                                         src={`http://localhost/storage/${blog.user.img}`}
-                                                         alt=""/>
-                                                }
-
+                                        <div id={`blog-info`} className=" abs pad1 blog-info-box none center-y">
+                                            <div className="flex w-100 gap2 center-y">
+                                                <h1>{blog.title}</h1>
                                             </div>
-                                            <h1>{blog.user.name}</h1>
                                         </div>
                                     </div>
-                                    <div id={`blog-info`} className=" abs pad1 blog-info-box none center-y">
-                                        <div className="flex w-100 gap2 center-y">
-                                            <h1>{blog.title}</h1>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                        <div id={`column-3`} className="column  flex col gap1">
-                            {column3Blogs.map((blog) => (
-                                <div className={` rel single-blog`}
-                                     onMouseEnter={handleMouseDown}
-                                     onMouseLeave={handleMouseUp}
-                                     onClick={() => editBlog(blog.id)}
-                                     style={{height: `${Math.floor(Math.random() * (45 - 20 + 1)) + 20}rem`}}
-                                     key={blog.id}>
-                                    <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
-                                    <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
-                                        <div className="flex w-100 gap2 center-y">
-                                            <div className="profile-icon green">
-                                                {blog.user.img == ""
-                                                    ?
-                                                    <img className={`cover`}
-                                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0_8KptY-0dlRaE0h4yxWnwM4z8KdZEOfipg&usqp=CAU"
-                                                         alt=""/>
-                                                    :
-                                                    <img className={`cover`}
-                                                         src={`http://localhost/storage/${blog.user.img}`}
-                                                         alt=""/>
-                                                }
+                                ))}
+                            </div>
+                            <div id={`column-2`} className="column  flex col gap1">
+                                {column2Blogs.map((blog) => (
+                                    <div className={` rel single-blog`}
+                                         onMouseEnter={handleMouseDown}
+                                         onMouseLeave={handleMouseUp}
+                                         onClick={() => editBlog(blog.id)}
+                                         style={{height: `20rem`}}
+                                         key={blog.id}>
+                                        <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
+                                        <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
+                                            <div className="flex w-100 gap2 center-y">
+                                                <div className="profile-icon green">
+                                                    {blog.user.img == ""
+                                                        ?
+                                                        <img className={`cover`}
+                                                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0_8KptY-0dlRaE0h4yxWnwM4z8KdZEOfipg&usqp=CAU"
+                                                             alt=""/>
+                                                        :
+                                                        <img className={`cover`}
+                                                             src={`http://localhost/storage/${blog.user.img}`}
+                                                             alt=""/>
+                                                    }
 
+                                                </div>
+                                                <h1>{blog.user.name}</h1>
                                             </div>
-                                            <h1>{blog.user.name}</h1>
                                         </div>
-                                    </div>
-                                    <div id={`blog-info`} className=" abs pad1 blog-info-box none center-y">
-                                        <div className="flex w-100 gap2 center-y">
-                                            <h1>{blog.title}</h1>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                        <div id={`column-4`} className="column  flex col gap1">
-                            {column4Blogs.map((blog) => (
-                                <div className={` rel single-blog`}
-                                     onMouseEnter={handleMouseDown}
-                                     onMouseLeave={handleMouseUp}
-                                     onClick={() => editBlog(blog.id)}
-                                     style={{height: `${Math.floor(Math.random() * (45 - 20 + 1)) + 20}rem`}}
-                                     key={blog.id}>
-                                    <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
-                                    <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
-                                        <div className="flex w-100 gap2 center-y">
-                                            <div className="profile-icon green">
-                                                {blog.user.img == ""
-                                                    ?
-                                                    <img className={`cover`}
-                                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0_8KptY-0dlRaE0h4yxWnwM4z8KdZEOfipg&usqp=CAU"
-                                                         alt=""/>
-                                                    :
-                                                    <img className={`cover`}
-                                                         src={`http://localhost/storage/${blog.user.img}`}
-                                                         alt=""/>
-                                                }
-
+                                        <div id={`blog-info`} className=" abs pad1 blog-info-box none center-y">
+                                            <div className="flex w-100 gap2 center-y">
+                                                <h1>{blog.title}</h1>
                                             </div>
-                                            <h1>{blog.user.name}</h1>
                                         </div>
                                     </div>
-                                    <div id={`blog-info`} className=" abs pad1 blog-info-box none center-y">
-                                        <div className="flex w-100 gap2 center-y">
-                                            <h1>{blog.title}</h1>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                                ))}
+                            </div>
+                            <div id={`column-3`} className="column  flex col gap1">
+                                {column3Blogs.map((blog) => (
+                                    <div className={` rel single-blog`}
+                                         onMouseEnter={handleMouseDown}
+                                         onMouseLeave={handleMouseUp}
+                                         onClick={() => editBlog(blog.id)}
+                                         style={{height: `20rem`}}
+                                         key={blog.id}>
+                                        <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
+                                        <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
+                                            <div className="flex w-100 gap2 center-y">
+                                                <div className="profile-icon green">
+                                                    {blog.user.img == ""
+                                                        ?
+                                                        <img className={`cover`}
+                                                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0_8KptY-0dlRaE0h4yxWnwM4z8KdZEOfipg&usqp=CAU"
+                                                             alt=""/>
+                                                        :
+                                                        <img className={`cover`}
+                                                             src={`http://localhost/storage/${blog.user.img}`}
+                                                             alt=""/>
+                                                    }
 
-                    </div>
+                                                </div>
+                                                <h1>{blog.user.name}</h1>
+                                            </div>
+                                        </div>
+                                        <div id={`blog-info`} className=" abs pad1 blog-info-box none center-y">
+                                            <div className="flex w-100 gap2 center-y">
+                                                <h1>{blog.title}</h1>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                            <div id={`column-4`} className="column  flex col gap1">
+                                {column4Blogs.map((blog) => (
+                                    <div className={` rel single-blog`}
+                                         onMouseEnter={handleMouseDown}
+                                         onMouseLeave={handleMouseUp}
+                                         onClick={() => editBlog(blog.id)}
+                                         style={{height: `20rem`}}
+                                         key={blog.id}>
+                                        <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
+                                        <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
+                                            <div className="flex w-100 gap2 center-y">
+                                                <div className="profile-icon green">
+                                                    {blog.user.img == ""
+                                                        ?
+                                                        <img className={`cover`}
+                                                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0_8KptY-0dlRaE0h4yxWnwM4z8KdZEOfipg&usqp=CAU"
+                                                             alt=""/>
+                                                        :
+                                                        <img className={`cover`}
+                                                             src={`http://localhost/storage/${blog.user.img}`}
+                                                             alt=""/>
+                                                    }
+
+                                                </div>
+                                                <h1>{blog.user.name}</h1>
+                                            </div>
+                                        </div>
+                                        <div id={`blog-info`} className=" abs pad1 blog-info-box none center-y">
+                                            <div className="flex w-100 gap2 center-y">
+                                                <h1>{blog.title}</h1>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        :
+                        ""
+                    }
                 </div>
             </div>
         );

@@ -80,6 +80,29 @@ function Settings() {
 
         fetchData();
     }, []);
+    function hexToRgba(hex, alpha) {
+        hex = hex.replace(/^#/, '');
+
+        let bigint = parseInt(hex, 16);
+        let r = (bigint >> 16) & 255;
+        let g = (bigint >> 8) & 255;
+        let b = bigint & 255;
+
+        alpha = parseFloat(alpha);
+
+        if (isNaN(alpha) || alpha < 0 || alpha > 1) {
+            alpha = 1;
+        }
+
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    }
+
+    const changeAccent = (color) =>{
+        const root = document.documentElement;
+        root.style.setProperty('--accent', color);
+        root.style.setProperty('--accent-shadow', hexToRgba(color, 0.7));
+
+    }
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         // Update the corresponding state variable
@@ -114,8 +137,8 @@ function Settings() {
                                 <label htmlFor="profileImg" className={`font15`}>Change profile image</label>
                             </div>
                             <div className="profile-info">
-                                <h1>Matiss Balins</h1>
-                                <p>matiss@matiss</p>
+                                <h1 onClick={changeAccent}>{name} {surname}</h1>
+                                <p>{email}</p>
                             </div>
                         </div>
                         <div className="profile-box gap5 wrap flex w-100 center-x">
@@ -210,6 +233,24 @@ function Settings() {
                             </div>
                         </div>
                         <div className="profile-box gap5 wrap flex w-100 center-x">
+                        <div className="profile-box gap5 wrap flex w-100 center-x">
+                                <div
+                                    className={`flex  input-box center-y between ${activeInput === 'pass' ? 'active' : ''}`}
+                                >
+                                    <div className="flex col center-x">
+                                        <label
+                                            onClick={()=>{ navigate("/profile/reset-password")}}
+                                            className={`font15 flex ${activeInput === 'pass' ? 'active-label' : ''}`}>Accent color
+                                        </label>
+                                        <input
+                                            type="color"
+                                            onChange={(e)=>{changeAccent(e.target.value)}}
+                                        />
+                                    </div>
+                                    <div className="icon pad1">
+                                    </div>
+                                </div>
+                            </div>
                            <button className="base-button" onClick={editProfile}>Save Changes</button>
                         </div>
 
