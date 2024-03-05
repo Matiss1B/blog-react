@@ -153,6 +153,7 @@ function Settings() {
         root.style.setProperty('--accent', color);
         root.style.setProperty('--accent-shadow', hexToRgba(color, 0.7));
         root.style.setProperty('--accent-hover', darkenHexColor(color, 15));
+        root.style.setProperty('--bg-color', "rgb(48,48,48)");
 
     }
     const handleInputChange = (event) => {

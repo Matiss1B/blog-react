@@ -8,6 +8,7 @@
   --accent: #90EB78;
   --accent-shadow: rgba(144, 245, 120, 0.7);
   --accent-hover:#75cc5e ;
+  --bg-color:#fdfdfd;
 }
 
 $accent: var(--accent);
@@ -18,7 +19,7 @@ $gray-label:#9a9a9a;
 $input-bg:#efefef;
 $icon-gray:#9a9a9a;
 $box-shadow-input: var(--accent-shadow);
-$gray:#fdfdfd;
+$gray:var(--bg-color);;
 //FONTS
 //#90EB78
 //rgba(144, 245, 120, 0.7)

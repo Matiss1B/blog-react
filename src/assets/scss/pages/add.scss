@@ -173,3 +173,15 @@
     color: #3b3b3b;
   }
 }
+@media screen and (max-width: 750px) {
+  .main-add-box {
+    .input-box{
+      width: 100%;
+    }
+    .image-section {
+      .image-upload-box {
+        min-width: 30rem;
+      }
+    }
+  }
+}

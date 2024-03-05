@@ -232,12 +232,12 @@ function App() {
                             </div>
                             <p className={"flex gap1"}>Pen your journey, inspire hearts, and leave a mark forever</p>
                         </div>
-                        <div className="add-wrap-box flex   gap3 pad2 w-100">
+                        <div className="add-wrap-box flex gap2 pad1 w-100">
                             <div className="flex col gap2 w-100 add-input-box ">
                                 <h1 className={"subtitle hidden-mobile"}>Blog info</h1>
                                 <p className={"flex required-text gap1 hidden-mobile"}>All required fields will be
                                     marked with <p className={`required`}>*</p></p>
-                                <div className="flex gap2 2-100">
+                                <div className="flex gap2 wrap 2-100">
                                     <div
                                         className={`flex  input-box center-y between ${activeInput === 'title' ? 'active' : ''}`}
                                         onClick={handleInputBoxClick}>
@@ -291,7 +291,7 @@ function App() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="flex gap2 2-100">
+                                <div className="flex gap2 wrap 2-100">
                                     <div
                                         className={`flex  input-box center-y between ${activeInput === 'phone' ? 'active' : ''}`}
                                         onClick={handleInputBoxClick}>
