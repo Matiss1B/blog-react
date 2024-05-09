@@ -317,12 +317,14 @@ function Settings() {
                                 <div
                                     className={`flex  input-box center-y between ${activeInput === 'pass' ? 'active' : ''}`}
                                 >
-                                    <div className="flex col center-x">
+                                    <div className="flex col center-x center-y">
                                         <label
                                             className={`font15 flex ${activeInput === 'pass' ? 'active-label' : ''}`}>Accent color
                                         </label>
                                         <input
                                             type="color"
+                                            defaultValue={"#90EB78"}
+                                            className="accent-input"
                                             onChange={(e)=>{changeAccent(e.target.value)}}
                                         />
                                     </div>
