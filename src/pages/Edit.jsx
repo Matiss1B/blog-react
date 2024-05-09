@@ -85,6 +85,7 @@ function Edit() {
                 'Authorization': sessionStorage.getItem('user'),
             },
         }).then(res => {
+            console.log(res);
             setSuccess(res.data.message);
             setTimeout(() => {
                 const box = document.getElementById('success-pop-up');

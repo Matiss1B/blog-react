@@ -75,7 +75,9 @@ function App() {
         formData.append("email", email);
         formData.append("category", category);
         formData.append("descriptionfile", doc);
-        formData.append("img",img);
+        if(img) {
+            formData.append("img", img);
+        }
         axios.post("http://localhost/api/v1/create",formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
