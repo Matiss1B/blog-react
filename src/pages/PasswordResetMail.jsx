@@ -2,14 +2,18 @@ import React, {useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import logo from "../assets/icons/iconizer-logotypes-dots-svgrepo-com.svg";
 import axios from "axios";
+import LoaderRing from "../compoents/Loader";
 
 const PasswordResetMail = () => {
     const [email, setEmail] = useState("");
+    const [loader, setLoader] = useState(false);
+
     const [errors, setErrors] = useState({
         email: "",
     })
     const [success, setSuccess] = useState(false);
     const handleForm= async () =>{
+        setLoader(true)
         const formData = new FormData();
         formData.append("email", email);
         formData.append("token", Math.floor(1000000000 + Math.random() * 9000000000).toString());
@@ -29,6 +33,7 @@ const PasswordResetMail = () => {
                 setErrors(error.response.data.errors);
             }
         }
+        setLoader(false);
     }
     return (
         <div className={"h-v rel"}>
@@ -54,7 +59,7 @@ const PasswordResetMail = () => {
                                 <p className="err">{errors.email === "" ? '' : errors.email}</p>
                             </div>
                         </div>
-                        <button onClick={handleForm}>Send</button>
+                        <button onClick={handleForm}>{loader? <LoaderRing/>:"Send"}</button>
                     </div>
                     :
                     <div className="w-100 flex col center-y gap2">

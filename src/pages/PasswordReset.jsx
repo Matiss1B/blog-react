@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import logo from "../assets/icons/iconizer-logotypes-dots-svgrepo-com.svg";
 import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import axios from "axios";
+import LoaderRing from "../compoents/Loader";
 
 
 
@@ -9,6 +10,7 @@ const PasswordReset = () => {
     const navigate = useNavigate();
     const [password, setPassword] = useState("");
     const [success, setSuccess] = useState(false);
+    const [loader,setLoader] = useState(false);
     const [errors, setErrors] = useState({
         password:"",
         confirm_password:"",
@@ -16,6 +18,7 @@ const PasswordReset = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const { user, token } = useParams();
     const handleForm= async () =>{
+        setLoader(true);
         const formData = new FormData();
         formData.append("confirm_password", confirmPassword);
         formData.append("password", password);
@@ -26,11 +29,12 @@ const PasswordReset = () => {
                     Authorization:window.localStorage.getItem("user"),
                 }
             });
+            console.log(response);
             const data = response.data;
-            if(data.status === 200){
+            if(response.status === 201){
                 console.log(data.status);
                 sessionStorage.setItem("user", window.localStorage.getItem("user"));
-                window.localStorage.removeItem("user");  // Fix the typo here
+                window.localStorage.removeItem("user");
                 setSuccess(true);
             }
         } catch (error) {
@@ -38,6 +42,8 @@ const PasswordReset = () => {
                 setErrors(error.response.data.errors);
             }
         }
+        setLoader(false);
+
     }
     return (
         <div className={"h-v rel"}>
@@ -74,7 +80,7 @@ const PasswordReset = () => {
                                 <p className="err">{errors.confirm_password === "" ? '' : errors.confirm_password}</p>
                             </div>
                         </div>
-                        <button onClick={handleForm}>Reset</button>
+                        <button onClick={handleForm}>{loader?<LoaderRing/>:"Reset"}</button>
                     </div>
                     :
                     <div className="w-100 flex col center-y gap2">

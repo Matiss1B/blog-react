@@ -26,6 +26,8 @@
       .input-box{
         padding: 1rem 1rem 1rem 2rem;
         border-radius: 15px;
+        width: 100%;
+        min-width: 20rem;
         background-color: $input-bg;
         .err{
           font-size: 1.1rem;

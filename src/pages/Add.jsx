@@ -8,6 +8,7 @@ import {AiFillPlusCircle, AiFillPhone} from "react-icons/ai"
 import Header from "../compoents/Header";
 import {useNavigate} from "react-router-dom";
 import Loader from "../compoents/Loading";
+import LoaderRing from "../compoents/Loader";
 function App() {
     const [title, setTitle] = useState('');
     const [data, setData] = useState(null);
@@ -19,8 +20,9 @@ function App() {
     const [email, setEmail] = useState("");
     const [doc, setDoc] = useState([]);
     const [activeInput, setActiveInput] = useState(null);
-    const [img, setImg] = useState([]);
+    const [img, setImg] = useState(null);
     const navigate = useNavigate();
+    const [loader,setLoader] = useState(false);
     const [token, setCheck] = useState("No");
     //Errors
     const [emailErr, setEmailErr] = useState("");
@@ -58,6 +60,7 @@ function App() {
         }
     }
     const handleClick = () =>{
+        setLoader(true);
         setSuccess("");
         setTitleErr("");
         setEmailErr("");
@@ -79,6 +82,7 @@ function App() {
                 "Authorization": sessionStorage.getItem("user"),
             },
         }, ).then(res => confirmSubmit(res)).catch(err => handleErrors(err.response.data));
+        setLoader(false);
     }
     const handleErrors = (err) => {
         if (Object.keys(err.errors).length>0) {
@@ -142,22 +146,20 @@ function App() {
     }
     const handleImg = event =>{
         setImg(event.target.files[0]);
-        let file =  event.target.files[0]
-        const src = URL.createObjectURL(file);
-        const img = document.createElement('img');
-        img.className = 'cover';
-        img.src = src;
-        img.id = "blog-image"
-        const div = document.getElementsByClassName('image-upload-box')[0];
-        document.getElementById('img-upload-content').classList.add("none");
-        // Append the image to the div
-        div.appendChild(img);
-        console.log(event.target.files[0]);
+        // let file =  event.target.files[0]
+        // const src = URL.createObjectURL(file);
+        // const img = document.createElement('img');
+        // img.className = 'cover';
+        // img.src = src;
+        // img.id = "blog-image"
+        // const div = document.getElementsByClassName('image-upload-box')[0];
+        // document.getElementById('img-upload-content').classList.add("none");
+        // // Append the image to the div
+        // div.appendChild(img);
+        // console.log(event.target.files[0]);
     }
     const changeImg = () =>{
-        document.getElementById('blog-image').remove();
-        document.getElementById('img-upload-content').classList.remove("none");
-        setImg([]);
+          setImg(null);
 
     }
     const handleCategoryBlur = () => {
@@ -237,7 +239,7 @@ function App() {
                                 <h1 className={"subtitle hidden-mobile"}>Blog info</h1>
                                 <p className={"flex required-text gap1 hidden-mobile"}>All required fields will be
                                     marked with <p className={`required`}>*</p></p>
-                                <div className="flex gap2 wrap 2-100">
+                                <div className="flex gap1 wrap 2-100">
                                     <div
                                         className={`flex  input-box center-y between ${activeInput === 'title' ? 'active' : ''}`}
                                         onClick={handleInputBoxClick}>
@@ -291,7 +293,7 @@ function App() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="flex gap2 wrap 2-100">
+                                <div className="flex gap1 wrap 2-100">
                                     <div
                                         className={`flex  input-box center-y between ${activeInput === 'phone' ? 'active' : ''}`}
                                         onClick={handleInputBoxClick}>
@@ -367,7 +369,7 @@ function App() {
                                     <p>Upload as file</p>
                                 </div>
                                 <div className="flex add-buttons w-100 gap2">
-                                    <button id={`submit`} className={`w-100`} onClick={handleClick}>Submit</button>
+                                    <button id={`submit`} className={`w-100`} onClick={handleClick}>{loader ?<LoaderRing/>: "Submit"}</button>
                                 </div>
                             </div>
                             <div className="image-section gap2 flex col w-100 ">
@@ -375,6 +377,7 @@ function App() {
                                 <p className={"flex required-text gap1 hidden-mobile"}>Upload to see image</p>
                                 <p className="err font15">{imgErr === "" ? '' : imgErr}</p>
                                 <div className="image-upload-box middle">
+                                    {!img ?
                                     <div id={`img-upload-content`} className="flex col center-y gap1">
                                         <input type="file" id="img" accept="image/*" className={`none`}
                                                onChange={handleImg}/>
@@ -383,6 +386,9 @@ function App() {
                                         </label>
                                         <p>Upload an image</p>
                                     </div>
+                                        :
+                                        <img src={URL.createObjectURL(img)} className="cover w-100 w-100" alt=""/>
+                                    }
                                 </div>
                                 <button onClick={changeImg}>Change Image</button>
                             </div>

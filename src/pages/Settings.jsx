@@ -8,6 +8,7 @@ import{AiFillEye} from "react-icons/ai"
 import {FaLock, FaRegStickyNote} from "react-icons/fa"
 import Loader from "../compoents/Loading";
 import {FaAddressCard} from "react-icons/fa";
+import LoaderRing from "../compoents/Loader";
 function Settings() {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -17,6 +18,7 @@ function Settings() {
     const [staticnName, setStaticName] = useState('');
     const [staticEmail, setStaticEmail] = useState('');
     const [staticnSurname, setStaticSurname] = useState('');
+    const [loader, setLoader] = useState(false);
     const [img, setImg] = useState('');
     const [updateImg, setUpdateImg] = useState('');
     const [email, setEmail] = useState('');
@@ -43,6 +45,8 @@ function Settings() {
         console.log(div);
     }
     const editProfile = () => {
+        setLoader(true);
+        setSuccess("");
         const formData = new FormData();
         formData.append("_method", "put");
         formData.append("name", name);
@@ -82,6 +86,7 @@ function Settings() {
                 navigate("/");
             }
         });
+        setLoader(false);
     }
     useEffect(() => {
         const fetchData = async () => {
@@ -119,6 +124,12 @@ function Settings() {
         let g = (bigint >> 8) & 255;
         let b = bigint & 255;
 
+        // Check if the color is lighter than dark gray (i.e., if it's closer to white)
+        if (r + g + b > 382) { // 382 is approximately the sum of RGB values of dark gray
+            // Replace with dark gray
+            r = g = b = 85; // Dark gray color (RGB: 85, 85, 85)
+        }
+
         alpha = parseFloat(alpha);
 
         if (isNaN(alpha) || alpha < 0 || alpha > 1) {
@@ -153,7 +164,6 @@ function Settings() {
         root.style.setProperty('--accent', color);
         root.style.setProperty('--accent-shadow', hexToRgba(color, 0.7));
         root.style.setProperty('--accent-hover', darkenHexColor(color, 15));
-        root.style.setProperty('--bg-color', "rgb(48,48,48)");
 
     }
     const handleInputChange = (event) => {
@@ -278,7 +288,9 @@ function Settings() {
                             <div
                                 className={`flex  input-box center-y between ${activeInput === 'pass' ? 'active' : ''}`}
                             >
-                                <div className="flex col center-x">
+                                <div className="flex col center-x"
+                                     onClick={()=>{ navigate("/profile/reset-password")}}
+                                >
                                     <label
                                         onClick={()=>{ navigate("/profile/reset-password")}}
                                         className={`font15 flex ${activeInput === 'pass' ? 'active-label' : ''}`}>Password
@@ -287,7 +299,7 @@ function Settings() {
                                         type="text"
                                         value={password}
                                         id="pass"
-                                        disabled={true}
+                                        onFocus={()=>{ navigate("/profile/reset-password")}}
                                         name="pass"
                                         placeholder={"Click to reset"}
                                         autoComplete="off"
@@ -307,7 +319,6 @@ function Settings() {
                                 >
                                     <div className="flex col center-x">
                                         <label
-                                            onClick={()=>{ navigate("/profile/reset-password")}}
                                             className={`font15 flex ${activeInput === 'pass' ? 'active-label' : ''}`}>Accent color
                                         </label>
                                         <input
@@ -319,7 +330,7 @@ function Settings() {
                                     </div>
                                 </div>
                             </div>
-                           <button className="base-button" onClick={editProfile}>Save Changes</button>
+                           <button className="base-button" onClick={editProfile}>{loader ? <LoaderRing/>:"Save Changes"}</button>
                         </div>
 
                     </div>

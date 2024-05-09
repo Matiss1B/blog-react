@@ -38,7 +38,7 @@ function Router() {
     );
 }
 const BlogsWrapper = () => {
-    const { category } = useParams(); // This will get the "category" value from the URL paramete
+    const { category } = useParams();
     return <Blogs category={category} />;
 };
 export default Router;

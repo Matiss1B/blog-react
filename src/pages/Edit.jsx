@@ -3,6 +3,7 @@ import axios from "axios";
 import {useNavigate, useParams} from "react-router-dom";
 import Header from "../compoents/Header";
 import Loader from "../compoents/Loading";
+import LoaderRing from "../compoents/Loader";
 import {FaRegStickyNote} from "react-icons/fa";
 import {MdEmail, MdTextSnippet} from "react-icons/md";
 import {TbCategory2} from "react-icons/tb";
@@ -56,6 +57,7 @@ function Edit() {
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState();
     const [img, setImg] = useState([]);
+    const [loader,setLoader] = useState(false);
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
     const handleErr = (err) =>{
@@ -69,6 +71,7 @@ function Edit() {
         console.log(activeInput);
     };
     const handleClick = (event) =>{
+        setLoader(true);
         event.preventDefault();
         const formData = new FormData();
         formData.append('id', id);
@@ -76,7 +79,7 @@ function Edit() {
         formData.append('description', description);
         formData.append('category', category);
         formData.append('img', img);
-        axios.post('http://localhost/api/v1/edit', formData, {
+        axios.post('http://localhost/api/v1/blog/edit', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 'Authorization': sessionStorage.getItem('user'),
@@ -94,6 +97,8 @@ function Edit() {
         }
         )
             .catch(err => console.log(err));
+        setLoader(false);
+
     }
     const deleteBlog = () =>{
         setSuccess("");
@@ -239,7 +244,7 @@ function Edit() {
                                 <h1 className={"subtitle hidden-mobile"}>Blog info</h1>
                                 <p className={"flex required-text gap1 hidden-mobile"}>All required fields will be
                                     marked with <p className={`required`}>*</p></p>
-                                <div className="flex gap2 2-100">
+                                <div className="flex flex-wrap gap1S 2-100">
                                     <div
                                         className={`flex  input-box center-y between ${activeInput === 'title' ? 'active' : ''}`}
                                         onClick={handleInputBoxClick}>
@@ -293,7 +298,7 @@ function Edit() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="flex gap2 2-100">
+                                <div className="flex flex-wrap gap1 w-100">
                                     <div
                                         className={`flex  input-box center-y between ${activeInput === 'phone' ? 'active' : ''}`}
                                         onClick={handleInputBoxClick}>
@@ -371,7 +376,7 @@ function Edit() {
                                 </div>
                                 <div className="flex add-buttons w-100 gap2">
                                     <button id={`clear`} className={`w-100`} onClick={deleteBlog}>Delete</button>
-                                    <button id={`submit`} className={`w-100`} onClick={handleClick}>Submit</button>
+                                    <button id={`submit`} className={`w-100`} onClick={handleClick}>{loader ?<LoaderRing/>: "Submit"}</button>
                                 </div>
                             </div>
                             <div className="image-section gap2 flex col w-100 ">
