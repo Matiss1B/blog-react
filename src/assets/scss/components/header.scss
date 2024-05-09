@@ -1,4 +1,14 @@
 @import "../assets/variables";
+.side-menu{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  overflow:hidden;
+  z-index: 1000;
+}
 .header{
   .active-nav{
     color: #3b3b3b !important;
@@ -11,6 +21,7 @@
     img{
       max-width: 3rem;
     }
+    padding: 2rem;
   }
   .nav-link{
     color: black;
@@ -71,5 +82,20 @@
   .nav-list[data-aos="fade-left"].aos-animate {
     opacity: 1; /* When AOS starts the animation, show the list */
     transform: translateX(0); /* Slide it back to its original position */
+  }
+  padding: 3rem;
+  min-width: 25rem;
+  align-items: center;
+  flex-direction: column;
+}
+@media (max-width: $mobile-max-width) {
+  .header{
+    justify-content: space-between;
+    padding: 2rem;
+    align-items: center;
+    flex-direction: row;
+    .header-logo{
+      padding: 0rem;
+    }
   }
 }

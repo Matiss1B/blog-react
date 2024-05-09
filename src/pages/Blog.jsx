@@ -116,7 +116,7 @@ function Blog() {
     }
     if(blog) {
         return (
-            <div className={'flex'}>
+            <div className={'flex row-to-col'}>
                 <Header/>
                     <div id="single-blog-page" className="App h-v">
                         <div className="flex col h-100vh max-1200 w-100">

@@ -104,7 +104,7 @@ function SavedBlogs() {
     }
     if(data) {
         return (
-            <div className={'flex'}>
+            <div className={'flex row-to-col'}>
                 <Header/>
                 <div className="App h-v pad3">
                     <div className="blog-search-box w-100 flex middle">

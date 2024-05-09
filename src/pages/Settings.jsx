@@ -187,7 +187,7 @@ function Settings() {
     }
     if(data) {
         return (
-            <div className={'flex'}>
+            <div className={'flex row-to-col'}>
                 <Header/>
                 <div className="App h-v">
                     {successMessage !== ""

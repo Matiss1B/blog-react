@@ -34,7 +34,7 @@ function HomePage() {
     }
     if(data) {
         return (
-            <div className={"flex h-v"}>
+            <div className={"flex row-to-col h-v"}>
                 <Header/>
                 <div className="App w-100">
                     <div className="home-page center-x h-100 w-100 flex col gap2 pad4">

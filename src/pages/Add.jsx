@@ -212,7 +212,7 @@ function App() {
     }
     if(data) {
         return (
-            <div className={"flex h-v"}>
+            <div className={"flex row-to-col h-v"}>
                 <Header/>
                 <div className="App h-100vh w-100 pad3">
                     {successMessage !== ""

@@ -54,6 +54,7 @@ function Edit() {
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
     const [changedImg, setChangedImg] = useState(false);
+    const [deleteConfirmation, setDeleteConfirmation] = useState(false)
     const handleErr = (err) =>{
         if(err.status == 401){
             navigate("/");
@@ -140,6 +141,7 @@ function Edit() {
                 "Authorization": sessionStorage.getItem("user"),
             },
         }, ).then(res => {
+                setDeleteConfirmation(false)
                 setSuccess(res.data.message);
                 setTimeout(() => {
                     const box = document.getElementById('success-pop-up');
@@ -230,7 +232,25 @@ function Edit() {
     }
     if(data) {
         return (
-            <div className={"flex h-v"}>
+            <div className={"flex row-to-col h-v"}>
+                {deleteConfirmation
+                    ?
+                    <>
+                <div className="overlay"></div>
+                <div className="popup flex col gap3">
+                    <div className="flex col">
+                        <h2>Are you sure you want do delete blog?</h2>
+                        <p>If you agree, it will be deleted permanently</p>
+                    </div>
+                    <div className="flex w-100 center-y gap2">
+                        <button className={"cancel shadow-light"} onClick={()=>{setDeleteConfirmation(false)}}>Cancel</button>
+                        <button className={"delete shadow-light"} onClick={deleteBlog}>Delete</button>
+                    </div>
+                </div>
+                </>
+                    :
+                    ""
+                }
                 <Header/>
                 <div className="App h-100vh w-100 pad3">
                     {successMessage !== ""
@@ -239,7 +259,6 @@ function Edit() {
                             <FaRegStickyNote className={'icon'}/>
                             <div className="text-message center-x flex col">
                                 <h1>{successMessage}</h1>
-                                <p>You can see it in My Profile/My Blogs</p>
                             </div>
                         </div>
                         :
@@ -313,7 +332,7 @@ function Edit() {
                                             )}
                                         </div>
                                         <div className="icon pad1">
-                                            <TbCategory2 className={`icon`} />
+                                            <TbCategory2 className={`icon`}/>
                                         </div>
                                     </div>
                                 </div>
@@ -400,8 +419,9 @@ function Edit() {
                                     <p>Upload as file</p>
                                 </div>
                                 <div className="flex add-buttons w-100 gap2">
-                                    <button id={`clear`} className={`w-100`} onClick={deleteBlog}>Delete</button>
-                                    <button id={`submit`} className={`w-100`} onClick={handleClick}>{loader ?<LoaderRing/>: "Submit"}</button>
+                                    <button id={`clear`} className={`w-100`} onClick={()=>setDeleteConfirmation(true)}>Delete</button>
+                                    <button id={`submit`} className={`w-100`} onClick={handleClick}>{loader ?
+                                        <LoaderRing/> : "Submit"}</button>
                                 </div>
                             </div>
                             <div className="image-section gap2 flex col w-100 ">
@@ -412,17 +432,17 @@ function Edit() {
                                 )}
                                 <div className="image-upload-box middle">
                                     {!img ?
-                                    <div id={`img-upload-content`} className="flex col center-y gap1">
-                                        <input type="file" id="img" accept="image/*" className={`none`}
-                                               onChange={handleImg}/>
-                                        <label htmlFor="img">
-                                            <AiFillPlusCircle className={`icon`}/>
-                                        </label>
-                                        <p>Upload an image</p>
-                                    </div>
+                                        <div id={`img-upload-content`} className="flex col center-y gap1">
+                                            <input type="file" id="img" accept="image/*" className={`none`}
+                                                   onChange={handleImg}/>
+                                            <label htmlFor="img">
+                                                <AiFillPlusCircle className={`icon`}/>
+                                            </label>
+                                            <p>Upload an image</p>
+                                        </div>
                                         :
                                         <img
-                                            src={changedImg ? URL.createObjectURL(img) :`http://localhost/storage/${img}`}
+                                            src={changedImg ? URL.createObjectURL(img) : `http://localhost/storage/${img}`}
                                             className="w-100 h-100 cover"
                                         />
                                     }

@@ -101,6 +101,9 @@ $tablet-min-width: 768px;
 .hidden-mobile {
   display: flex; /* Default display value for the element */
 }
+.hidden-pc {
+  display: none;
+}
 .max-1200{
   max-width: 1200px;
 }
@@ -164,10 +167,77 @@ input{
 .auth-icon{
   max-width: 2rem;
 }
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.popup {
+  h2{
+    font-size: 2rem;
+  }
+  p{
+    color:$p-tag-color;
+    font-size: 1.4rem;
+  }
+  .cancel{
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    color:black;
+    cursor: pointer;
+    border-radius: 10px;
+    border: 1px solid black;
+    outline: none;
+    background: $accent;
+    font-size: 1.5rem;
+    &:hover{
+      border: 1px solid transparent;
+      color: white;
+
+    }
+  }
+  .delete{
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    color:black;
+    cursor: pointer;
+    border-radius: 10px;
+    border: 1px solid black;
+    outline: none;
+    background: #da6868;
+    font-size: 1.5rem;
+    &:hover{
+      border: 1px solid transparent;
+      color: white;
+
+    }
+  }
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 1001;
+}
 /* Media query for mobile devices */
+.row-to-col{
+  flex-direction: row;
+}
 @media (max-width: $mobile-max-width) {
+  .row-to-col{
+    flex-direction: column;
+  }
   .hidden-mobile {
     display: none !important; /* Hide the element on mobile devices */
+  }
+  .hidden-pc{
+    display: flex !important;
   }
   .add-wrap-box{
     flex-wrap: wrap;
