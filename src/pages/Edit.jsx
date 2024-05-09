@@ -12,18 +12,21 @@ import {FiUpload} from "react-icons/fi";
 import AOS from "aos";
 
 function Edit() {
+    const initialErrors = {
+        title:[""],
+        email:[""],
+        description:[""],
+        categoryErr:[""],
+        phone:[""],
+        img:[""],
+    };
     let { id } = useParams();
     let [blog, setBlogs] = useState([]);
     const [data, setData] = useState(null);
     const [successMessage, setSuccess] =useState("");
     const [loading, setLoading] = useState(true);
     const [activeInput, setActiveInput] = useState(null);
-    const [emailErr, setEmailErr] = useState("");
-    const [titleErr, setTitleErr] = useState("");
-    const [descErr, setDescErr] = useState("");
-    const [categoryErr, setCategoryErr] = useState("");
-    const [phoneErr, setPhoneErr] = useState("");
-    const [imgErr, setImgErr] = useState("");
+    const [errors, setErrors] = useState(initialErrors);
     const [error, setErrorToken] = useState(null);
     useEffect(() => {
         AOS.init();
@@ -39,27 +42,18 @@ function Edit() {
             setCategory(blogData.category);
             setPhone(blogData.phone);
             setEmail(blogData.email);
-            const img = document.createElement('img');
-            img.className = 'cover';
-            img.src = "http://localhost/storage/"+blogData.img;
-            img.id = "blog-image"
-
-            const div = document.getElementsByClassName('image-upload-box')[0];
-            document.getElementById('img-upload-content').classList.add("none");
-            div.appendChild(img);
-            if (div.getElementsByTagName('img').length > 1) {
-                div.getElementsByTagName('img')[0].remove();
-            }
+           setImg(blogData.img);
         }).catch(err => handleErr(err.response.data));
     }, [id]);
 
     const [title, setTitle] = useState(``);
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState();
-    const [img, setImg] = useState([]);
+    const [img, setImg] = useState(null);
     const [loader,setLoader] = useState(false);
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
+    const [changedImg, setChangedImg] = useState(false);
     const handleErr = (err) =>{
         if(err.status == 401){
             navigate("/");
@@ -72,6 +66,16 @@ function Edit() {
     };
     const handleClick = (event) =>{
         setLoader(true);
+        setSuccess("");
+        setErrors(initialErrors)
+        if(changedImg && !img){
+            setErrors(prevState => ({
+                ...prevState,
+                img: ["The img field is required"]
+            }));
+            setLoader(false);
+            return false;
+        }
         event.preventDefault();
         const formData = new FormData();
         formData.append('id', id);
@@ -97,18 +101,40 @@ function Edit() {
             }, 2000);
         }
         )
-            .catch(err => console.log(err));
+            .catch(err => handleErrors(err));
         setLoader(false);
 
     }
+    const handleErrors = (err) => {
+        if(err.response.status == 422) {
+            setErrors(prevState => ({
+                ...prevState,
+                ...err.response.data.errors
+            }));
+            // if (Object.keys(err.response.data.errors).length>0) {
+            //     const errorData = err.errors;
+            //     const errorMappings = {
+            //         title: setTitleErr,
+            //         email: setEmailErr,
+            //         description: setDescErr,
+            //         phone: setPhoneErr,
+            //         img:setImgErr,
+            //         category:setCategoryErr,
+            //     };
+            //
+            //     for (let key in errorData) {
+            //         if (key in errorMappings) {
+            //             errorMappings[key](errorData[key]);
+            //         }
+            //     }
+            // }
+        }
+        console.log(err.response.status);
+    };
+
     const deleteBlog = () =>{
         setSuccess("");
-        setTitleErr("");
-        setEmailErr("");
-        setDescErr("");
-        setPhoneErr("");
-        setImgErr("");
-        setCategoryErr("");
+        setErrors(initialErrors);
         axios.get(`http://localhost/api/v1/blog/delete/${id}`, {
             headers: {
                 "Authorization": sessionStorage.getItem("user"),
@@ -142,29 +168,11 @@ function Edit() {
         setPhone(event.target.value);
     }
     const handleImg = event =>{
-        setImg([]);
-        const existingImg = document.getElementById('blog-image');
-        if (existingImg) {
-            existingImg.remove();
-        }
-
         setImg(event.target.files[0]);
-        let file =  event.target.files[0]
-        const src = URL.createObjectURL(file);
-        const img = document.createElement('img');
-        img.className = 'cover';
-        img.src = src;
-        img.id = "blog-image"
-        const div = document.getElementsByClassName('image-upload-box')[0];
-        document.getElementById('img-upload-content').classList.add("none");
-        // Append the image to the div
-        div.appendChild(img);
-        console.log(event.target.files[0]);
     }
     const changeImg = () =>{
-        document.getElementById('blog-image').remove();
-        document.getElementById('img-upload-content').classList.remove("none");
-        setImg([]);
+        setChangedImg(true);
+        setImg(null);
 
     }
     const navigate = useNavigate();
@@ -173,9 +181,15 @@ function Edit() {
         // Add validation logic here if needed
         // For example, you can check if the selected category is valid
         if (!category) {
-            setCategoryErr('Category is required');
+            setErrors(prevState => ({
+                ...prevState,
+                category: ["Category is required"]
+            }));
         } else {
-            setCategoryErr('');
+            setErrors(prevState => ({
+                ...prevState,
+                category: [""]
+            }));
         }
     };
     useEffect(() => {
@@ -262,7 +276,9 @@ function Edit() {
                                                 autoComplete="off"
                                                 onChange={handleTitle}
                                             />
-                                            <p className="err">{titleErr === "" ? '' : titleErr}</p>
+                                            {errors.title && (
+                                                <p className="err">{errors.title[0]}</p>
+                                            )}
                                         </div>
                                         <div className="icon pad1">
                                             <MdTextSnippet className={`icon`}/>
@@ -292,7 +308,9 @@ function Edit() {
                                                     <option value={category.category}>{category.category}</option>
                                                 ))}
                                             </select>
-                                            <p className="err">{categoryErr}</p>
+                                            {errors.category && (
+                                                <p className="err">{errors.category[0]}</p>
+                                            )}
                                         </div>
                                         <div className="icon pad1">
                                             <TbCategory2 className={`icon`} />
@@ -314,7 +332,9 @@ function Edit() {
                                                 autoComplete="off"
                                                 onChange={handlePhone}
                                             />
-                                            <p className="err">{phoneErr === "" ? '' : phoneErr}</p>
+                                            {errors.phone && (
+                                                <p className="err">{errors.phone[0]}</p>
+                                            )}
                                         </div>
                                         <div className="icon pad1">
                                             <AiFillPhone className={`icon`}/>
@@ -334,7 +354,9 @@ function Edit() {
                                                 autoComplete="off"
                                                 onChange={handleEmail}
                                             />
-                                            <p className="err">{emailErr === "" ? '' : emailErr}</p>
+                                            {errors.email && (
+                                                <p className="err">{errors.email[0]}</p>
+                                            )}
                                         </div>
                                         <div className="icon pad1">
                                             <MdEmail className={`icon`}/>
@@ -359,7 +381,9 @@ function Edit() {
                                                 onChange={handleDescription}
                                             >
                                         </textarea>
-                                            <p className="err">{descErr === "" ? '' : descErr}</p>
+                                            {errors.description && (
+                                                <p className="err">{errors.description[0]}</p>
+                                            )}
                                         </div>
                                         <div className="icon pad1">
                                             <MdTextSnippet className={`icon`}/>
@@ -383,8 +407,11 @@ function Edit() {
                             <div className="image-section gap2 flex col w-100 ">
                                 <h1 className={"subtitle hidden-mobile"}>Image upload</h1>
                                 <p className={"flex required-text gap1 hidden-mobile"}>Upload to see image</p>
-                                <p className="err font15">{imgErr === "" ? '' : imgErr}</p>
+                                {errors.img && (
+                                    <p className="err font15">{errors.img[0]}</p>
+                                )}
                                 <div className="image-upload-box middle">
+                                    {!img ?
                                     <div id={`img-upload-content`} className="flex col center-y gap1">
                                         <input type="file" id="img" accept="image/*" className={`none`}
                                                onChange={handleImg}/>
@@ -393,6 +420,12 @@ function Edit() {
                                         </label>
                                         <p>Upload an image</p>
                                     </div>
+                                        :
+                                        <img
+                                            src={changedImg ? URL.createObjectURL(img) :`http://localhost/storage/${img}`}
+                                            className="w-100 h-100 cover"
+                                        />
+                                    }
                                 </div>
                                 <button onClick={changeImg}>Change Image</button>
                             </div>
