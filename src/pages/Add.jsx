@@ -241,99 +241,107 @@ function App() {
                                 <h1 className={"subtitle hidden-mobile"}>Blog info</h1>
                                 <p className={"flex required-text gap1 hidden-mobile"}>All required fields will be
                                     marked with <p className={`required`}>*</p></p>
-                                <div className="flex gap1 wrap 2-100">
-                                    <div
-                                        className={`flex  input-box center-y between ${activeInput === 'title' ? 'active' : ''}`}
-                                        onClick={handleInputBoxClick}>
-                                        <div className="flex col center-x">
-                                            <label
-                                                className={`font15 flex ${activeInput === 'title' ? 'active-label' : ''}`}>Title
-                                                <p className={`${activeInput === 'title' ? 'active-label' : ''} required`}>*</p>
-                                            </label>
-                                            <input
-                                                type="text"
-                                                id="title"
-                                                value={title}
-                                                name="title"
-                                                autoComplete="off"
-                                                onChange={handleTitle}
-                                            />
-                                            <p className="err">{titleErr === "" ? '' : titleErr}</p>
-                                        </div>
-                                        <div className="icon pad1">
-                                            <MdTextSnippet className={`icon`}/>
+                                <div className="input-section flex gap1 w-100">
+                                    <div className="width-box w-50">
+                                        <div
+                                            className={`flex  input-box center-y between ${activeInput === 'title' ? 'active' : ''}`}
+                                            onClick={handleInputBoxClick}>
+                                            <div className="flex col center-x">
+                                                <label
+                                                    className={`font15 flex ${activeInput === 'title' ? 'active-label' : ''}`}>Title
+                                                    <p className={`${activeInput === 'title' ? 'active-label' : ''} required`}>*</p>
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    id="title"
+                                                    value={title}
+                                                    name="title"
+                                                    autoComplete="off"
+                                                    onChange={handleTitle}
+                                                />
+                                                <p className="err">{titleErr === "" ? '' : titleErr}</p>
+                                            </div>
+                                            <div className="icon pad1">
+                                                <MdTextSnippet className={`icon`}/>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div
-                                        className={`flex input-box center-y between ${activeInput === 'category' ? 'active' : ''}`}
-                                        onClick={handleInputBoxClick}
-                                    >
-                                        <div className="flex col center-x">
-                                            <label
-                                                className={`font15 flex ${activeInput === 'category' ? 'active-label' : ''}`}
-                                            >
-                                                Category
-                                                <p className={`${activeInput === 'category' ? 'active-label' : ''} required`}>*</p>
-                                            </label>
-                                            <select
-                                                id="category"
-                                                name="category"
-                                                value={category}
-                                                autoComplete="off"
-                                                onChange={handleCategory}
-                                                onBlur={handleCategoryBlur}
-                                            >
-                                                <option value="" disabled>Select a category</option>
-                                                {data.map((category) => (
-                                                    <option value={category.category}>{category.category}</option>
-                                                ))}
-                                            </select>
-                                            <p className="err">{categoryErr}</p>
-                                        </div>
-                                        <div className="icon pad1">
-                                            <TbCategory2 className={`icon`} />
+                                    <div className="width-box w-50">
+                                        <div
+                                            className={`flex input-box center-y between ${activeInput === 'category' ? 'active' : ''}`}
+                                            onClick={handleInputBoxClick}
+                                        >
+                                            <div className="flex col center-x">
+                                                <label
+                                                    className={`font15 flex ${activeInput === 'category' ? 'active-label' : ''}`}
+                                                >
+                                                    Category
+                                                    <p className={`${activeInput === 'category' ? 'active-label' : ''} required`}>*</p>
+                                                </label>
+                                                <select
+                                                    id="category"
+                                                    name="category"
+                                                    value={category}
+                                                    autoComplete="off"
+                                                    onChange={handleCategory}
+                                                    onBlur={handleCategoryBlur}
+                                                >
+                                                    <option value="" disabled>Select a category</option>
+                                                    {data.map((category) => (
+                                                        <option value={category.category}>{category.category}</option>
+                                                    ))}
+                                                </select>
+                                                <p className="err">{categoryErr}</p>
+                                            </div>
+                                            <div className="icon pad1">
+                                                <TbCategory2 className={`icon`} />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="flex gap1 wrap 2-100">
-                                    <div
-                                        className={`flex  input-box center-y between ${activeInput === 'phone' ? 'active' : ''}`}
-                                        onClick={handleInputBoxClick}>
-                                        <div className="flex col center-x">
-                                            <label
-                                                className={`font15 ${activeInput === 'phone' ? 'active-label' : ''}`}>Phone</label>
-                                            <input
-                                                type="number"
-                                                id="phone"
-                                                name="phone"
-                                                value={phone}
-                                                autoComplete="off"
-                                                onChange={handlePhone}
-                                            />
-                                            <p className="err">{phoneErr === "" ? '' : phoneErr}</p>
-                                        </div>
-                                        <div className="icon pad1">
-                                            <AiFillPhone className={`icon`}/>
+                                <div className="input-section flex gap1 w-100">
+                                    <div className="width-box w-50">
+                                        <div
+                                            className={`flex  input-box center-y between ${activeInput === 'phone' ? 'active' : ''}`}
+                                            onClick={handleInputBoxClick}>
+                                            <div className="flex col center-x">
+                                                <label
+                                                    className={`font15 ${activeInput === 'phone' ? 'active-label' : ''}`}>Phone</label>
+                                                <input
+                                                    type="number"
+                                                    id="phone"
+                                                    name="phone"
+                                                    value={phone}
+                                                    autoComplete="off"
+                                                    onChange={handlePhone}
+                                                />
+                                                <p className="err">{phoneErr === "" ? '' : phoneErr}</p>
+                                            </div>
+                                            <div className="icon pad1">
+                                                <AiFillPhone className={`icon`}/>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div
-                                        className={`flex  input-box center-y between ${activeInput === 'email' ? 'active' : ''}`}
-                                        onClick={handleInputBoxClick}>
-                                        <div className="flex col center-x">
-                                            <label
-                                                className={`font15 ${activeInput === 'email' ? 'active-label' : ''}`}>Email</label>
-                                            <input
-                                                type="text"
-                                                id="email"
-                                                name="email"
-                                                value={email}
-                                                autoComplete="off"
-                                                onChange={handleEmail}
-                                            />
-                                            <p className="err">{emailErr === "" ? '' : emailErr}</p>
-                                        </div>
-                                        <div className="icon pad1">
-                                            <MdEmail className={`icon`}/>
+                                    <div className="width-box w-50">
+                                        <div
+                                            className={`flex  input-box center-y between ${activeInput === 'email' ? 'active' : ''}`}
+                                            onClick={handleInputBoxClick}>
+                                            <div className="flex col center-x">
+                                                <label
+                                                    className={`font15 ${activeInput === 'email' ? 'active-label' : ''}`}>Email</label>
+                                                <input
+                                                    type="text"
+                                                    id="email"
+                                                    name="email"
+                                                    value={email}
+                                                    autoComplete="off"
+                                                    onChange={handleEmail}
+                                                />
+                                                <p className="err">{emailErr === "" ? '' : emailErr}</p>
+                                            </div>
+                                            <div className="icon pad1">
+                                                <MdEmail className={`icon`}/>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

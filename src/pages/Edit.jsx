@@ -278,31 +278,34 @@ function Edit() {
                                 <h1 className={"subtitle hidden-mobile"}>Blog info</h1>
                                 <p className={"flex required-text gap1 hidden-mobile"}>All required fields will be
                                     marked with <p className={`required`}>*</p></p>
-                                <div className="flex flex-wrap gap1S 2-100">
-                                    <div
-                                        className={`flex  input-box center-y between ${activeInput === 'title' ? 'active' : ''}`}
-                                        onClick={handleInputBoxClick}>
-                                        <div className="flex col center-x">
-                                            <label
-                                                className={`font15 flex ${activeInput === 'title' ? 'active-label' : ''}`}>Title
-                                                <p className={`${activeInput === 'title' ? 'active-label' : ''} required`}>*</p>
-                                            </label>
-                                            <input
-                                                type="text"
-                                                id="title"
-                                                name="title"
-                                                value={title}
-                                                autoComplete="off"
-                                                onChange={handleTitle}
-                                            />
-                                            {errors.title && (
-                                                <p className="err">{errors.title[0]}</p>
-                                            )}
-                                        </div>
-                                        <div className="icon pad1">
-                                            <MdTextSnippet className={`icon`}/>
+                                <div  className="input-section flex gap1 w-100">
+                                    <div className="width-box w-50">
+                                        <div
+                                            className={`flex  input-box center-y between ${activeInput === 'title' ? 'active' : ''}`}
+                                            onClick={handleInputBoxClick}>
+                                            <div className="flex col center-x">
+                                                <label
+                                                    className={`font15 flex ${activeInput === 'title' ? 'active-label' : ''}`}>Title
+                                                    <p className={`${activeInput === 'title' ? 'active-label' : ''} required`}>*</p>
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    id="title"
+                                                    name="title"
+                                                    value={title}
+                                                    autoComplete="off"
+                                                    onChange={handleTitle}
+                                                />
+                                                {errors.title && (
+                                                    <p className="err">{errors.title[0]}</p>
+                                                )}
+                                            </div>
+                                            <div className="icon pad1">
+                                                <MdTextSnippet className={`icon`}/>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div className="width-box w-50">
                                     <div
                                         className={`flex input-box center-y between ${activeInput === 'category' ? 'active' : ''}`}
                                         onClick={handleInputBoxClick}
@@ -335,30 +338,34 @@ function Edit() {
                                             <TbCategory2 className={`icon`}/>
                                         </div>
                                     </div>
+                                    </div>
                                 </div>
-                                <div className="flex flex-wrap gap1 w-100">
-                                    <div
-                                        className={`flex  input-box center-y between ${activeInput === 'phone' ? 'active' : ''}`}
-                                        onClick={handleInputBoxClick}>
-                                        <div className="flex col center-x">
-                                            <label
-                                                className={`font15 ${activeInput === 'phone' ? 'active-label' : ''}`}>Phone</label>
-                                            <input
-                                                type="number"
-                                                id="phone"
-                                                name="phone"
-                                                value={phone}
-                                                autoComplete="off"
-                                                onChange={handlePhone}
-                                            />
-                                            {errors.phone && (
-                                                <p className="err">{errors.phone[0]}</p>
-                                            )}
-                                        </div>
-                                        <div className="icon pad1">
-                                            <AiFillPhone className={`icon`}/>
+                                <div className="input-section flex gap1 w-100">
+                                    <div className="width-box w-50">
+                                        <div
+                                            className={`flex  input-box center-y between ${activeInput === 'phone' ? 'active' : ''}`}
+                                            onClick={handleInputBoxClick}>
+                                            <div className="flex col center-x">
+                                                <label
+                                                    className={`font15 ${activeInput === 'phone' ? 'active-label' : ''}`}>Phone</label>
+                                                <input
+                                                    type="number"
+                                                    id="phone"
+                                                    name="phone"
+                                                    value={phone}
+                                                    autoComplete="off"
+                                                    onChange={handlePhone}
+                                                />
+                                                {errors.phone && (
+                                                    <p className="err">{errors.phone[0]}</p>
+                                                )}
+                                            </div>
+                                            <div className="icon pad1">
+                                                <AiFillPhone className={`icon`}/>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div className="width-box w-50">
                                     <div
                                         className={`flex  input-box center-y between ${activeInput === 'email' ? 'active' : ''}`}
                                         onClick={handleInputBoxClick}>
@@ -380,6 +387,7 @@ function Edit() {
                                         <div className="icon pad1">
                                             <MdEmail className={`icon`}/>
                                         </div>
+                                    </div>
                                     </div>
                                 </div>
                                 <div

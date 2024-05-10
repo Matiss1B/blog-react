@@ -121,12 +121,12 @@ function Blog() {
                     <div id="single-blog-page" className="App h-v">
                         <div className="flex col h-100vh max-1200 w-100">
                             <div className="blog-image-section flex middle">
-                                <div className="image-box pad4 w-100">
+                                <div className="image-box w-100">
                                     <img className={'cover blog-img shadow'} src={`http://localhost/storage/${blog.img}`} alt="Not found"/>
                                 </div>
                             </div>
                             <div className="blog-text-section rel flex col">
-                                <div className="text-box w-100 h-100 flex wrap pad3 gap1 center-x ">
+                                <div className="text-box w-100 h-100 flex wrap gap1 center-x ">
                                     <div className="text-section flex flex-2 gap1 col">
                                         <div className="flex gap2 center-y">
                                             <h1 className={`blog-title`}>{blog.title} </h1>
@@ -143,7 +143,7 @@ function Blog() {
                                         </div>
                                         <div className={`blog-description justified-text`}>{blog.description}</div>
                                     </div>
-                                    <div className="flex flex-1 col gap2 pad2">
+                                    <div id="blog-info-section-id" className="flex flex-1 col">
                                         <div className="blog-info-section flex col gap1 flex-1">
                                         <h1>Info</h1>
                                         <div className={`info-unit flex center-y gap1`}>

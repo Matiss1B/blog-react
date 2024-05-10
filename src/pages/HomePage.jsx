@@ -37,7 +37,7 @@ function HomePage() {
             <div className={"flex row-to-col h-v"}>
                 <Header/>
                 <div className="App w-100">
-                    <div className="home-page center-x h-100 w-100 flex col gap2 pad4">
+                    <div className="home-page center-x h-100 w-100 flex col">
                         <div className="flex gap2">
                             <div className="flex col gap2 home-page-welcome-title">
                                 <div className="flex col">
@@ -56,7 +56,7 @@ function HomePage() {
                                 </div>
                             </div>
                         </div>
-                        <div className="stats-box flex gap2 wrap w-100 around">
+                        <div className="stats-box flex gap2 wrap w-100">
                             <div className="stats-unit center-y flex gap1">
                                 <div className="icon-box flex middle">
                                     <TbUsers className={`icon`}/>

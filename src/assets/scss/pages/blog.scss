@@ -38,6 +38,7 @@
     flex:1;
     height: 100%;
     .text-box {
+      padding: 3rem;
       .blog-title {
         text-decoration: underline 7px solid $accent;
       }
@@ -53,6 +54,7 @@
     flex:1;
     height: 100%;
     .image-box{
+      padding: 4rem;
       max-width: 1000px;
       img{
         border-radius: 25px;
@@ -160,4 +162,29 @@
       }
     }
   }
+}
+#blog-info-section-id{
+  gap:2rem;
+  padding: 2rem;
+}
+@media (max-width: $mobile-max-width) {
+  #blog-info-section-id{
+    gap:3rem;
+    padding: 0rem;
+  }
+ #single-blog-page{
+   .blog-image-section {
+     .image-box {
+       padding: 2rem;
+     }
+   }
+   .blog-text-section{
+     .text-box{
+       padding: 2rem;
+     }
+     .blog-info-section{
+       margin-left: 0px;
+     }
+   }
+ }
 }
