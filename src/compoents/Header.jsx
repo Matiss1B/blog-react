@@ -59,6 +59,17 @@ function Header() {
         const clickedNavLink = event.target.id;
         setActiveNav(clickedNavLink);
     };
+
+    useEffect(() => {
+        if (menu) {
+            // Add class to body to disable scroll
+            document.body.classList.add("no-scroll");
+        } else {
+            // Remove class to enable scroll
+            document.body.classList.remove("no-scroll");
+        }
+    }, [menu]);
+
     const windowWidth = useRef(window.innerWidth);
     return (
         <header className="header sticky shadow-light flex gap1 ">
