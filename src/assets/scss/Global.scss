@@ -225,13 +225,24 @@ input{
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   z-index: 1001;
 }
-/* Media query for mobile devices */
 .row-to-col{
   flex-direction: row;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 @media (max-width: $mobile-max-width) {
   .row-to-col{
     flex-direction: column;
+  }
+  .App{
+    margin-top: 60px;
   }
   .hidden-mobile {
     display: none !important; /* Hide the element on mobile devices */

@@ -124,3 +124,8 @@
     color: $accent;
   }
 }
+@media (max-width: $mobile-max-width) {
+  .login-form{
+    padding: 1rem;
+  }
+}

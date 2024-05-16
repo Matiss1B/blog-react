@@ -10,6 +10,7 @@ import Loader from "../compoents/Loading";
 import {FaAddressCard} from "react-icons/fa";
 import LoaderRing from "../compoents/Loader";
 function Settings() {
+    const initialErrors = {name:"", surname:"", email:"", img:""};
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [successMessage, setSuccess] =useState("");
@@ -24,7 +25,7 @@ function Settings() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [activeInput, setActiveInput] = useState(null);
-    const [errors, setErrors] = useState({name:"", surname:"", email:""});
+    const [errors, setErrors] = useState(initialErrors);
     const [error, setErrorToken] = useState(null);
     const navigate = useNavigate();
     const handleInputBoxClick = (event) => {
@@ -32,6 +33,15 @@ function Settings() {
         setActiveInput(clickedInputBox);
     };
     const handleImg = event =>{
+        let maxSize = 1.9 * 1024 * 1024
+        setErrors(initialErrors);
+        if(!event.target.files[0]){
+            return false
+        }
+        if(event.target.files[0].size > maxSize){
+            setErrors({img:"Max size 1.9mb"});
+            return false;
+        }
         setUpdateImg(event.target.files[0]);
         let file =  event.target.files[0]
         const src = URL.createObjectURL(file);
@@ -58,7 +68,7 @@ function Settings() {
         if(updateImg !== "") {
             formData.append("img", updateImg);
         }
-        axios.post("http://localhost/api/v1/user/edit", formData, {headers:{
+        axios.post(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/user/edit`, formData, {headers:{
             Authorization:sessionStorage.getItem("user"),
             }}).then(
                 (res)=> {
@@ -73,7 +83,7 @@ function Settings() {
                         setStaticName(name);
                         setStaticSurname(surname);
                         setStaticEmail(email);
-                        setErrors({name:"", surname:"", email:""})
+                        setErrors({name:"", surname:"", email:"", img:""})
                     }
 
                 }
@@ -91,7 +101,7 @@ function Settings() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get("http://localhost/api/v1/user/get", {
+                const response = await axios.get(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/user/get`, {
                     headers: {
                         "Content-Type": "multipart/form-data",
                         "Authorization": sessionStorage.getItem("user")
@@ -203,12 +213,15 @@ function Settings() {
                         ""
                     }
                     <div className="main-settings-box h-100 flex gap5 col center-y evenly">
-                        <div className="profile-box flex wrap center-y gap2 w-100 center-x">
+                        <div className="profile-box flex wrap center-y gap2 w-100 center-x pad3">
                             <div className="flex col center-y gap1">
                                 <div id={`profile-image`} className="profile-img">
-                                    <img className={`cover image`} src={`http://localhost/storage/${img}`} alt=""/>
+                                    <img className={`cover image`}
+                                         src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${img}`} alt=""/>
                                 </div>
-                                <input onChange={handleImg} type="file" id={`profileImg`} name={`profileImg`} className={`none`}/>
+                                <input onChange={handleImg} type="file" id={`profileImg`} name={`profileImg`}
+                                       className={`none`}/>
+                                <p className="err font15">{errors.img == "" ? "" : errors.img}</p>
                                 <label htmlFor="profileImg" className={`font15`}>Change profile image</label>
                             </div>
                             <div className="profile-info">

@@ -3,6 +3,7 @@ import axios from "axios";
 import {useNavigate, useParams} from "react-router-dom";
 import Header from "../compoents/Header";
 import {GrClose, GrSearch} from "react-icons/gr";
+import {FaUser} from "react-icons/fa";
 import Loader from "../compoents/Loading";
 
 function Blogs(props) {
@@ -14,12 +15,21 @@ function Blogs(props) {
     const [column2Blogs, setColumn2Blogs] = useState([]);
     const [column3Blogs, setColumn3Blogs] = useState([]);
     const [column4Blogs, setColumn4Blogs] = useState([]);
+    const [focus, setFocus] = useState(false);
     let [blog, setBlogs] = useState([]);
     useEffect(()=>{
-        axios.get("http://localhost/api/v1/blogs?category="+props.category, {
+        let url = `${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blogs?category=`+props.category
+        if(props.category == "list"){
+            url = `${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blogs`
+        }
+        if(props.category == "for"){
+            url = `${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blog/for`
+        }
+        axios.get(url, {
             headers:{
             "Authorization": sessionStorage.getItem("user"),
             }} ).then(res => {
+                console.log(res.data);
             setBlogs(res.data);
             setData(res.data);
         }).catch(err => handleErr(err.response.data));
@@ -43,13 +53,31 @@ function Blogs(props) {
             navigate("/");
         }
     }
-    const handleSearch = event =>{
+    const handleSearchClose = () =>{
+        setSearch("");
+        setFocus(false);
+        setBlogs(data);
+    }
+    const handleSearch = (type) =>{
         if(data.length > 0) {
-            setSearch(event.target.value);
-            const filteredBlogs = data.filter(unit =>
-                unit.title.toLowerCase().includes(event.target.value.toLowerCase())
-            );
-            setBlogs(filteredBlogs);
+            if(type == "title") {
+                const filteredBlogs = data.filter(unit =>
+                    unit.title.toLowerCase().includes(search.toLowerCase())
+                );
+                setBlogs(filteredBlogs);
+
+            }else{
+                const filteredBlogs = data.filter(unit =>
+                    unit.tags.some(tag => {
+                        const tagLowerCase = tag.tag.toLowerCase();
+                        const searchTextLowerCase = search.toLowerCase();
+                        return tagLowerCase.includes(searchTextLowerCase) && tagLowerCase.indexOf(searchTextLowerCase) !== -1;
+                    })
+                );
+
+                setBlogs(filteredBlogs);
+            }
+            setFocus(false);
         }
     }
     useEffect(() => {
@@ -88,7 +116,7 @@ function Blogs(props) {
         const data = {
             token: sessionStorage.getItem("user"),
         }
-        axios.post("http://localhost/api/v1/checkToken", data, {
+        axios.post(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/checkToken`, data, {
             headers: { "Content-Type": "multipart/form-data" },
         })
             .then(response => {
@@ -112,34 +140,56 @@ function Blogs(props) {
             <div className={'flex row-to-col'}>
                 <Header/>
                 <div className="App h-v pad3">
-                    <div className="blog-search-box w-100 flex middle">
-                        <div className="search-box flex gap1 center-y">
-                            <GrSearch className={` ${search === "" ? "flex" : "none"} icon`}/>
-                            <input onChange={handleSearch} type="text" className={`blog-search-input w-100`}/>
-                            <GrClose className={` ${search === "" ? "none" : "flex"} icon close-icon`}/>
+                    <h1>{props.category.charAt(0).toUpperCase() + props.category.slice(1)}</h1>
+                    <div className="blog-search-box flex col middle">
+                        <div className="search-box flex col">
+                            <div className="flex gap1 center-y">
+                                <GrSearch className={`icon`}/>
+                                <input
+                                    type="text"
+                                    value={search}
+                                    onChange={(event)=>{setSearch(event.target.value)}}
+                                    className={`blog-search-input w-100`}
+                                    onFocus={()=>setFocus(true)}
+                                />
+                                <GrClose className={` ${search === "" ? "none" : "flex"} icon close-icon`} onClick={handleSearchClose}/>
+                            </div>
+                            {focus && search !== ""?
+                            <div className="search-options flex col gap1">
+                                <div className="flex center-y search-option gap05" onClick={()=>handleSearch("title")}>
+                                    <p className="search-title">{search}</p>
+                                    <p className="search-category">Search title</p>
+                                </div>
+                                <div className="flex center-y search-option gap05" onClick={()=>handleSearch("tag")}>
+                                    <p className="search-title">{search}</p>
+                                    <p className="search-category">Search #hashtag</p>
+                                </div>
+                            </div>
+                                :
+                                ""
+                            }
                         </div>
                     </div>
                     <div className="h-v flex blogs-list flex evenly wrap pad2">
                         <div id={`column-1`} className="column flex col gap1">
-                            {column1Blogs.map((blog) => (
+                        {column1Blogs.map((blog) => (
                                 <div className={` rel single-blog`}
                                      onMouseEnter={handleMouseDown}
                                      onMouseLeave={handleMouseUp}
                                      onClick={() => openBlog(blog.id)}
-                                     style={{ height: '20rem' }}
-                                     >
-                                    <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
+                                     style={{height: '20rem'}}
+                                >
+                                    <img className={`cover`}
+                                         src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.img}`} alt=""/>
                                     <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
                                         <div className="flex w-100 gap2 center-y">
-                                            <div className="profile-icon green">
+                                            <div className="profile-icon green flex center-y center-x">
                                                 {blog.user.img == ""
                                                     ?
-                                                        <img className={`cover`}
-                                                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0_8KptY-0dlRaE0h4yxWnwM4z8KdZEOfipg&usqp=CAU"
-                                                             alt=""/>
+                                                    <FaUser/>
                                                     :
                                                     <img className={`cover`}
-                                                         src={`http://localhost/storage/${blog.user.img}`}
+                                                         src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.user.img}`}
                                                          alt=""/>
                                                 }
 
@@ -161,20 +211,19 @@ function Blogs(props) {
                                      onMouseEnter={handleMouseDown}
                                      onMouseLeave={handleMouseUp}
                                      onClick={() => openBlog(blog.id)}
-                                     style={{ height: '20rem' }}
+                                     style={{height: '20rem'}}
                                      key={blog.id}>
-                                    <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
+                                    <img className={`cover`}
+                                         src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.img}`} alt=""/>
                                     <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
                                         <div className="flex w-100 gap2 center-y">
-                                            <div className="profile-icon green">
-                                                {blog.user.img == ""
+                                            <div className="profile-icon green flex center-x center-y">
+                                                {!blog.user.img
                                                     ?
-                                                    <img className={`cover`}
-                                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0_8KptY-0dlRaE0h4yxWnwM4z8KdZEOfipg&usqp=CAU"
-                                                         alt=""/>
+                                                    <FaUser/>
                                                     :
                                                     <img className={`cover`}
-                                                         src={`http://localhost/storage/${blog.user.img}`}
+                                                         src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.user.img}`}
                                                          alt=""/>
                                                 }
 
@@ -196,9 +245,10 @@ function Blogs(props) {
                                      onMouseEnter={handleMouseDown}
                                      onMouseLeave={handleMouseUp}
                                      onClick={() => openBlog(blog.id)}
-                                     style={{ height: '20rem' }}
+                                     style={{height: '20rem'}}
                                      key={blog.id}>
-                                    <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
+                                    <img className={`cover`}
+                                         src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.img}`} alt=""/>
                                     <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
                                         <div className="flex w-100 gap2 center-y">
                                             <div className="profile-icon green">
@@ -209,7 +259,7 @@ function Blogs(props) {
                                                          alt=""/>
                                                     :
                                                     <img className={`cover`}
-                                                         src={`http://localhost/storage/${blog.user.img}`}
+                                                         src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.user.img}`}
                                                          alt=""/>
                                                 }
 
@@ -231,9 +281,10 @@ function Blogs(props) {
                                      onMouseEnter={handleMouseDown}
                                      onMouseLeave={handleMouseUp}
                                      onClick={() => openBlog(blog.id)}
-                                     style={{ height: '20rem' }}
+                                     style={{height: '20rem'}}
                                      key={blog.id}>
-                                    <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
+                                    <img className={`cover`}
+                                         src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.img}`} alt=""/>
                                     <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
                                         <div className="flex w-100 gap2 center-y">
                                             <div className="profile-icon green">
@@ -244,7 +295,7 @@ function Blogs(props) {
                                                          alt=""/>
                                                     :
                                                     <img className={`cover`}
-                                                         src={`http://localhost/storage/${blog.user.img}`}
+                                                         src={`h${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.user.img}`}
                                                          alt=""/>
                                                 }
 

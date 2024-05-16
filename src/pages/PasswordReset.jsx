@@ -24,7 +24,7 @@ const PasswordReset = () => {
         formData.append("password", password);
 
         try {
-            const response = await axios.post(`http://localhost/api/v1/user/password-reset`, formData,{
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/user/password-reset`, formData,{
                 headers:{
                     Authorization:window.localStorage.getItem("user"),
                 }

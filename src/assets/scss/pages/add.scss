@@ -185,6 +185,17 @@
     }
   }
 }
+.hashtag-unit{
+  border-radius: 10rem;
+  p {
+    font-size: 1.2rem;
+  }
+  .icon{
+    font-size: 1.5rem;
+  }
+  background: $input-bg;
+  padding: 0.5rem;
+}
 @media (max-width: $mobile-max-width) {
   .input-section{
     flex-direction: column;

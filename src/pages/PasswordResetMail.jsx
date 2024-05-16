@@ -18,7 +18,7 @@ const PasswordResetMail = () => {
         formData.append("email", email);
         formData.append("token", Math.floor(1000000000 + Math.random() * 9000000000).toString());
         try {
-            const response = await axios.post(`http://localhost/api/v1/user/password-reset-mail`, formData,{
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/user/password-reset-mail`, formData,{
                 headers:{
                     Authorization:sessionStorage.getItem("user"),
                 }

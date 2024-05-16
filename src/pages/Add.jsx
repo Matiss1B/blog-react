@@ -3,7 +3,8 @@ import axios from "axios";
 import {MdTextSnippet, MdEmail} from "react-icons/md";
 import {TbCategory2} from "react-icons/tb"
 import {FiUpload} from "react-icons/fi"
-import {FaRegStickyNote} from "react-icons/fa";
+import { IoClose } from "react-icons/io5";
+import {FaRegStickyNote, FaHashtag} from "react-icons/fa";
 import {AiFillPlusCircle, AiFillPhone} from "react-icons/ai"
 import Header from "../compoents/Header";
 import {useNavigate} from "react-router-dom";
@@ -34,10 +35,31 @@ function App() {
     //Message
     const [successMessage, setSuccess] =useState("");
 
-    const handleInputBoxClick = (event) => {
-        const clickedInputBox = event.target.id;
-        setActiveInput(clickedInputBox);
-        console.log(activeInput);
+    const handleInputBoxClick = (id) => {
+        setActiveInput(id);
+        const element = document.getElementById(id);
+        if (element) {
+            element.focus();
+        }
+    };
+    const [hashtagValue, setHashtagValue] = useState('');
+    const [hashtags, setHashtags] = useState([]);
+
+    const handleInputChange = (e) => {
+        setHashtagValue(e.target.value);
+    };
+
+    const handleKeyPress = (e) => {
+        if ((e.key === ' ' || e.key === 'Enter') && hashtagValue.trim() !== '') {
+            setHashtags([...hashtags, hashtagValue.trim()]);
+            setHashtagValue('');
+        }
+    };
+
+    const handleRemoveItem = (index) => {
+        const newItems = [...hashtags];
+        newItems.splice(index, 1);
+        setHashtags(newItems);
     };
     const setError = (key, error) => {
         if(key === "title"){
@@ -75,10 +97,13 @@ function App() {
         formData.append("email", email);
         formData.append("category", category);
         formData.append("descriptionfile", doc);
+        if(hashtags.length>0){
+            formData.append("tags", hashtags.join(","))
+        }
         if(img) {
             formData.append("img", img);
         }
-        axios.post("http://localhost/api/v1/create",formData, {
+        axios.post(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/create`,formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
                 "Authorization": sessionStorage.getItem("user"),
@@ -111,6 +136,7 @@ function App() {
         if(results.status == 200){
             setSuccess(results.data.message);
             setTitle("");
+            setHashtags([]);
             setEmail("");
             setDescription("");
             setPhone("");
@@ -147,26 +173,22 @@ function App() {
         console.log(event.target.files[0]);
     }
     const handleImg = event =>{
+        let maxSize = 1.9 * 1024 * 1024
+        setImgErr("");
+        if(!event.target.files[0]){
+            return false
+        }
+        if(event.target.files[0].size > maxSize){
+            setImgErr("Max size 1.9mb");
+            return false;
+        }
         setImg(event.target.files[0]);
-        // let file =  event.target.files[0]
-        // const src = URL.createObjectURL(file);
-        // const img = document.createElement('img');
-        // img.className = 'cover';
-        // img.src = src;
-        // img.id = "blog-image"
-        // const div = document.getElementsByClassName('image-upload-box')[0];
-        // document.getElementById('img-upload-content').classList.add("none");
-        // // Append the image to the div
-        // div.appendChild(img);
-        // console.log(event.target.files[0]);
     }
     const changeImg = () =>{
           setImg(null);
 
     }
     const handleCategoryBlur = () => {
-        // Add validation logic here if needed
-        // For example, you can check if the selected category is valid
         if (!category) {
             setCategoryErr('Category is required');
         } else {
@@ -176,7 +198,7 @@ function App() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost/api/v1/categories/get`,
+                const response = await axios.get(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/categories/get`,
                     {
                         headers:{
                             Authorization: sessionStorage.getItem("user"),
@@ -245,7 +267,9 @@ function App() {
                                     <div className="width-box w-50">
                                         <div
                                             className={`flex  input-box center-y between ${activeInput === 'title' ? 'active' : ''}`}
-                                            onClick={handleInputBoxClick}>
+                                            onClick={() => {
+                                                handleInputBoxClick("title")
+                                            }}>
                                             <div className="flex col center-x">
                                                 <label
                                                     className={`font15 flex ${activeInput === 'title' ? 'active-label' : ''}`}>Title
@@ -269,7 +293,9 @@ function App() {
                                     <div className="width-box w-50">
                                         <div
                                             className={`flex input-box center-y between ${activeInput === 'category' ? 'active' : ''}`}
-                                            onClick={handleInputBoxClick}
+                                            onClick={() => {
+                                                handleInputBoxClick("category")
+                                            }}
                                         >
                                             <div className="flex col center-x">
                                                 <label
@@ -294,7 +320,7 @@ function App() {
                                                 <p className="err">{categoryErr}</p>
                                             </div>
                                             <div className="icon pad1">
-                                                <TbCategory2 className={`icon`} />
+                                                <TbCategory2 className={`icon`}/>
                                             </div>
                                         </div>
                                     </div>
@@ -303,7 +329,9 @@ function App() {
                                     <div className="width-box w-50">
                                         <div
                                             className={`flex  input-box center-y between ${activeInput === 'phone' ? 'active' : ''}`}
-                                            onClick={handleInputBoxClick}>
+                                            onClick={() => {
+                                                handleInputBoxClick("phone")
+                                            }}>
                                             <div className="flex col center-x">
                                                 <label
                                                     className={`font15 ${activeInput === 'phone' ? 'active-label' : ''}`}>Phone</label>
@@ -325,7 +353,9 @@ function App() {
                                     <div className="width-box w-50">
                                         <div
                                             className={`flex  input-box center-y between ${activeInput === 'email' ? 'active' : ''}`}
-                                            onClick={handleInputBoxClick}>
+                                            onClick={() => {
+                                                handleInputBoxClick("email")
+                                            }}>
                                             <div className="flex col center-x">
                                                 <label
                                                     className={`font15 ${activeInput === 'email' ? 'active-label' : ''}`}>Email</label>
@@ -345,10 +375,49 @@ function App() {
                                         </div>
                                     </div>
                                 </div>
+                                <div className="input-section flex gap1 w-100">
+                                    <div className="width-box w-100">
+                                        <div
+                                            className={`flex  input-box center-y between ${activeInput === 'tag' ? 'active' : ''}`}
+                                            onClick={() => {
+                                                handleInputBoxClick("tag")
+                                            }}>
+                                            <div className="flex col center-x">
+                                                <label
+                                                    className={`font15 ${activeInput === 'tag' ? 'active-label' : ''}`}>Add
+                                                    hashtags</label>
+                                                <input
+                                                    id="tag"
+                                                    type="text"
+                                                    value={hashtagValue}
+                                                    onChange={handleInputChange}
+                                                    onKeyPress={handleKeyPress}
+                                                />
+                                                <div className="flex w-100 wrap gap1 center-y pad1">
+                                                    {hashtags.map((item, index) => (
+                                                        <div className={"flex center-y gap05 hashtag-unit"} key={index}>
+                                                            <p>
+                                                            #{item}
+                                                            </p>
+                                                            <IoClose className="icon" onClick={() => handleRemoveItem(index)}/>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                                <p className="err">{phoneErr === "" ? '' : phoneErr}</p>
+                                            </div>
+                                            <div className="icon pad1">
+                                                <FaHashtag className={`icon`}/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div
                                     className={`flex col  textarea-input-box gap1 ${activeInput === 'description' ? 'active' : ''}`}
-                                    onClick={handleInputBoxClick}>
-                                    <div className="flex between w-100">
+                                    onClick={() => {
+                                        handleInputBoxClick("description")
+                                    }}>
+                                <div className="flex between w-100">
                                         <div className="flex col center-x">
                                             <label
                                                 className={`font15 flex ${activeInput === 'description' ? 'active-label' : ''}`}>Description
@@ -379,7 +448,8 @@ function App() {
                                     <p>Upload as file</p>
                                 </div>
                                 <div className="flex add-buttons w-100 gap2">
-                                    <button id={`submit`} className={`w-100`} onClick={handleClick}>{loader ?<LoaderRing/>: "Submit"}</button>
+                                    <button id={`submit`} className={`w-100`} onClick={handleClick}>{loader ?
+                                        <LoaderRing/> : "Submit"}</button>
                                 </div>
                             </div>
                             <div className="image-section gap2 flex col w-100 ">
@@ -388,14 +458,14 @@ function App() {
                                 <p className="err font15">{imgErr === "" ? '' : imgErr}</p>
                                 <div className="image-upload-box middle">
                                     {!img ?
-                                    <div id={`img-upload-content`} className="flex col center-y gap1">
-                                        <input type="file" id="img" accept="image/*" className={`none`}
-                                               onChange={handleImg}/>
-                                        <label htmlFor="img">
-                                            <AiFillPlusCircle className={`icon`}/>
-                                        </label>
-                                        <p>Upload an image</p>
-                                    </div>
+                                        <div id={`img-upload-content`} className="flex col center-y gap1">
+                                            <input type="file" id="img" accept="image/*" className={`none`}
+                                                   onChange={handleImg}/>
+                                            <label htmlFor="img">
+                                                <AiFillPlusCircle className={`icon`}/>
+                                            </label>
+                                            <p>Upload an image</p>
+                                        </div>
                                         :
                                         <img src={URL.createObjectURL(img)} className="cover w-100 w-100" alt=""/>
                                     }

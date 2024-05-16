@@ -6,11 +6,6 @@ import {FaLock} from "react-icons/fa"
 import {useState, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
-import GoogleLogin from "react-google-login";
-// import google from "../../assets/icons/google-color-svgrepo-com.svg";
-import facebook from "../../assets/icons/facebook-svgrepo-com (1).svg";
-import {gapi} from "gapi-script";
-
 function Login() {
     const [activeInput, setActiveInput] = useState(null);
     const [isPasswordVisible, setPasswordVisible] = useState(false);
@@ -22,17 +17,6 @@ function Login() {
     const [activeIcon, setActiveIcon] = useState("lock");
     const navigate = useNavigate();
 
-    const responseGoogle = (response) => {
-        console.log('Google Sign-In Response:', response);
-
-        if (response.error === "popup_closed_by_user") {
-            console.log("Google Sign-In popup closed by the user");
-        } else {
-            // Handle user data from the response
-            console.log('User data:', response.profileObj);
-            // You can use the user data as needed, such as sending it to your server for authentication
-        }
-    };
     const submitLogin = () => {
         setCustomErr("");
         setEmailErr("");
@@ -42,7 +26,7 @@ function Login() {
             password: password,
         }
         axios
-            .post("http://localhost/api/v1/login",data)
+            .post(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/login`,data)
             .then(response => checkAuth(response))
             .catch(err => handleErrors(err));
     }
@@ -70,9 +54,12 @@ function Login() {
         }
         console.log(err);
     };
-    const handleInputBoxClick = (event) => {
-        const clickedInputBox = event.target.id;
-        setActiveInput(clickedInputBox);
+    const handleInputBoxClick = (id) => {
+        setActiveInput(id);
+        const element = document.getElementById(id);
+        if (element) {
+            element.focus();
+        }
     };
     const handleMouseDown = () => {
         setPasswordVisible(true);
@@ -96,12 +83,12 @@ function Login() {
         <div className="login-form flex col gap5">
             <div className="login-form-titles flex col gap2">
                 <p>START RIGHT NOW</p>
-                <h1>Jump right into it</h1>
+                <h1>Jump in</h1>
                 {customErr === "" ?<div className="flex gap1"> <p>Dont have an account?</p><p><a href="/register">Register</a></p></div> : <p className={"custom-err"}>{customErr}</p>}
             </div>
             <div className="form flex col gap2">
                 <div className={`flex  input-box center-y between ${activeInput === 'email' ? 'active' : ''}`}
-                     onClick={handleInputBoxClick}>
+                     onClick={() => {handleInputBoxClick("email")}}>
                     <div className="flex col center-x">
                         <label className={`font15 ${activeInput === 'email' ? 'active-label' : ''}`}>Email</label>
                         <input
@@ -117,7 +104,7 @@ function Login() {
                     </div>
                 </div>
                 <div className={`flex  input-box center-y between ${activeInput === 'password' ? 'active' : ''}`}
-                     onClick={handleInputBoxClick}>
+                     onClick={() => {handleInputBoxClick("password")}}>
                     <div className="flex col center-x">
                         <label className={`font15 ${activeInput === 'password' ? 'active-label' : ''}`}>Password</label>
                         <input
@@ -144,11 +131,6 @@ function Login() {
                 </div>
                 <div className={`flex col center-y gap2 `}>
                     <button className={`w-100`} onClick={submitLogin}>Login</button>
-                    {/*<div className={`flex center-y gap1 social-box`}>*/}
-                    {/*    <div className={`auth-icon-box shadow-light`}>*/}
-                    {/*        <img src={facebook} className={`auth-icon`} alt=""/>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
                 </div>
             </div>
         </div>

@@ -22,7 +22,7 @@ function Header() {
         const fetchCategories = async () =>{
             try {
                 const response = await axios.get(
-                    `http://localhost/api/v1/categories/get`,
+                    `${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/categories/get`,
                     {
                         headers: {
                             Authorization: sessionStorage.getItem('user'),
@@ -44,7 +44,7 @@ function Header() {
                 user: sessionStorage.getItem("user"),
             }
         axios
-            .post("http://localhost/api/v1/logout",data)
+            .post(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/logout`,data)
             .then(response => checkLogout(response))
             .catch(err => console.log(err));
     }
@@ -99,14 +99,14 @@ function Header() {
                                 <p id={"blogs"}> Blogs</p>
                             </NavLink>
                             {activeNav === "blogs" ?
-                                <ul className={"nav-list flex col gap1"} data-aos="fade-left">
-                                    {categories.map((category) => (
-                                        <NavLink key={category.id} className={"flex center-y vertical-line gap1"}
-                                                 to={`/blogs/${category.category}`}>
-                                            <p>{category.category}</p>
-                                        </NavLink>
-                                    ))}
-                                </ul>
+                                    <ul className={"nav-list flex col gap1"} data-aos="fade-left">
+                                        {categories.map((category) => (
+                                            <NavLink key={category.id} className={"flex center-y vertical-line gap1"}
+                                                     to={`/blogs/${category.category}`}>
+                                                <p>{category.category}</p>
+                                            </NavLink>
+                                        ))}
+                                    </ul>
                                 :
                                 ""
                             }
@@ -172,6 +172,15 @@ function Header() {
                         </NavLink>
                         {activeNav === "blogs" ?
                             <ul className={"nav-list flex col gap1"} data-aos="fade-left">
+                                <NavLink  className={"flex center-y vertical-line gap1"}
+                                         to={`/blogs/list`}>
+                                    <p>All blogs</p>
+                                </NavLink>
+                                <NavLink  className={"flex center-y vertical-line gap1"}
+                                          to={`/blogs/for`}>
+                                    <p>For you</p>
+                                </NavLink>
+                                <p className="font15 bold">Categories</p>
                                 {categories.map((category) => (
                                     <NavLink key={category.id} className={"flex center-y vertical-line gap1"}
                                              to={`/blogs/${category.category}`}>

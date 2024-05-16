@@ -4,12 +4,13 @@ import {useNavigate, useParams} from "react-router-dom";
 import Header from "../compoents/Header";
 import Loader from "../compoents/Loading";
 import LoaderRing from "../compoents/Loader";
-import {FaRegStickyNote} from "react-icons/fa";
+import {FaHashtag, FaRegStickyNote} from "react-icons/fa";
 import {MdEmail, MdTextSnippet} from "react-icons/md";
 import {TbCategory2} from "react-icons/tb";
 import {AiFillPhone, AiFillPlusCircle} from "react-icons/ai";
 import {FiUpload} from "react-icons/fi";
 import AOS from "aos";
+import {IoClose} from "react-icons/io5";
 
 function Edit() {
     const initialErrors = {
@@ -28,15 +29,21 @@ function Edit() {
     const [activeInput, setActiveInput] = useState(null);
     const [errors, setErrors] = useState(initialErrors);
     const [error, setErrorToken] = useState(null);
+    const [hashtagValue, setHashtagValue] = useState('');
+    const [hashtags, setHashtags] = useState([]);
+    const [initialHashtags, setInitialHashtags] = useState([])
     useEffect(() => {
         AOS.init();
-        axios.get("http://localhost/api/v1/blogs?id="+id,
+        axios.get(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blogs?id=`+id,
             {
                 headers:{
                     "Authorization": sessionStorage.getItem("user"),
                 }
             }).then(res => {
             const blogData = res.data[0];
+            const tags = blogData.tags.map(tag => tag.tag);
+            setHashtags(tags)
+            setInitialHashtags(tags);
             setTitle(blogData.title);
             setDescription(blogData.description);
             setCategory(blogData.category);
@@ -60,10 +67,28 @@ function Edit() {
             navigate("/");
         }
     }
-    const handleInputBoxClick = (event) => {
-        const clickedInputBox = event.target.id;
-        setActiveInput(clickedInputBox);
-        console.log(activeInput);
+    const handleInputChange = (e) => {
+        setHashtagValue(e.target.value);
+    };
+
+    const handleKeyPress = (e) => {
+        if ((e.key === ' ' || e.key === 'Enter') && hashtagValue.trim() !== '') {
+            setHashtags([...hashtags, hashtagValue.trim()]);
+            setHashtagValue('');
+        }
+    };
+
+    const handleRemoveItem = (index) => {
+        const newItems = [...hashtags];
+        newItems.splice(index, 1);
+        setHashtags(newItems);
+    };
+    const handleInputBoxClick = (id) => {
+        setActiveInput(id);
+        const element = document.getElementById(id);
+        if (element) {
+            element.focus();
+        }
     };
     const handleClick = (event) =>{
         setLoader(true);
@@ -84,7 +109,10 @@ function Edit() {
         formData.append('description', description);
         formData.append('category', category);
         formData.append('img', img);
-        axios.post('http://localhost/api/v1/blog/edit', formData, {
+        if(initialHashtags !== hashtags) {
+            formData.append("tags", hashtags);
+        }
+        axios.post(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blog/edit`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 'Authorization': sessionStorage.getItem('user'),
@@ -136,7 +164,7 @@ function Edit() {
     const deleteBlog = () =>{
         setSuccess("");
         setErrors(initialErrors);
-        axios.get(`http://localhost/api/v1/blog/delete/${id}`, {
+        axios.get(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blog/delete/${id}`, {
             headers: {
                 "Authorization": sessionStorage.getItem("user"),
             },
@@ -170,6 +198,18 @@ function Edit() {
         setPhone(event.target.value);
     }
     const handleImg = event =>{
+        let maxSize = 1.9 * 1024 * 1024
+        setErrors(initialErrors);
+        if(!event.target.files[0]){
+            return false
+        }
+        if(event.target.files[0].size > maxSize){
+            setErrors(prevState => ({
+                ...prevState,
+                img: ["Max size is 1.9mb"]
+            }));
+            return false;
+        }
         setImg(event.target.files[0]);
     }
     const changeImg = () =>{
@@ -197,7 +237,7 @@ function Edit() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost/api/v1/categories/get`,
+                const response = await axios.get(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/categories/get`,
                     {
                         headers:{
                             Authorization: sessionStorage.getItem("user"),
@@ -278,11 +318,13 @@ function Edit() {
                                 <h1 className={"subtitle hidden-mobile"}>Blog info</h1>
                                 <p className={"flex required-text gap1 hidden-mobile"}>All required fields will be
                                     marked with <p className={`required`}>*</p></p>
-                                <div  className="input-section flex gap1 w-100">
+                                <div className="input-section flex gap1 w-100">
                                     <div className="width-box w-50">
                                         <div
                                             className={`flex  input-box center-y between ${activeInput === 'title' ? 'active' : ''}`}
-                                            onClick={handleInputBoxClick}>
+                                            onClick={() => {
+                                                handleInputBoxClick("title")
+                                            }}>
                                             <div className="flex col center-x">
                                                 <label
                                                     className={`font15 flex ${activeInput === 'title' ? 'active-label' : ''}`}>Title
@@ -306,45 +348,49 @@ function Edit() {
                                         </div>
                                     </div>
                                     <div className="width-box w-50">
-                                    <div
-                                        className={`flex input-box center-y between ${activeInput === 'category' ? 'active' : ''}`}
-                                        onClick={handleInputBoxClick}
-                                    >
-                                        <div className="flex col center-x">
-                                            <label
-                                                className={`font15 flex ${activeInput === 'category' ? 'active-label' : ''}`}
-                                            >
-                                                Category
-                                                <p className={`${activeInput === 'category' ? 'active-label' : ''} required`}>*</p>
-                                            </label>
-                                            <select
-                                                id="category"
-                                                name="category"
-                                                value={category}
-                                                autoComplete="off"
-                                                onChange={handleCategory}
-                                                onBlur={handleCategoryBlur}
-                                            >
-                                                <option value="" disabled>Select a category</option>
-                                                {data.map((category) => (
-                                                    <option value={category.category}>{category.category}</option>
-                                                ))}
-                                            </select>
-                                            {errors.category && (
-                                                <p className="err">{errors.category[0]}</p>
-                                            )}
+                                        <div
+                                            className={`flex input-box center-y between ${activeInput === 'category' ? 'active' : ''}`}
+                                            onClick={() => {
+                                                handleInputBoxClick("category")
+                                            }}
+                                        >
+                                            <div className="flex col center-x">
+                                                <label
+                                                    className={`font15 flex ${activeInput === 'category' ? 'active-label' : ''}`}
+                                                >
+                                                    Category
+                                                    <p className={`${activeInput === 'category' ? 'active-label' : ''} required`}>*</p>
+                                                </label>
+                                                <select
+                                                    id="category"
+                                                    name="category"
+                                                    value={category}
+                                                    autoComplete="off"
+                                                    onChange={handleCategory}
+                                                    onBlur={handleCategoryBlur}
+                                                >
+                                                    <option value="" disabled>Select a category</option>
+                                                    {data.map((category) => (
+                                                        <option value={category.category}>{category.category}</option>
+                                                    ))}
+                                                </select>
+                                                {errors.category && (
+                                                    <p className="err">{errors.category[0]}</p>
+                                                )}
+                                            </div>
+                                            <div className="icon pad1">
+                                                <TbCategory2 className={`icon`}/>
+                                            </div>
                                         </div>
-                                        <div className="icon pad1">
-                                            <TbCategory2 className={`icon`}/>
-                                        </div>
-                                    </div>
                                     </div>
                                 </div>
                                 <div className="input-section flex gap1 w-100">
                                     <div className="width-box w-50">
                                         <div
                                             className={`flex  input-box center-y between ${activeInput === 'phone' ? 'active' : ''}`}
-                                            onClick={handleInputBoxClick}>
+                                            onClick={() => {
+                                                handleInputBoxClick("phone")
+                                            }}>
                                             <div className="flex col center-x">
                                                 <label
                                                     className={`font15 ${activeInput === 'phone' ? 'active-label' : ''}`}>Phone</label>
@@ -366,33 +412,73 @@ function Edit() {
                                         </div>
                                     </div>
                                     <div className="width-box w-50">
-                                    <div
-                                        className={`flex  input-box center-y between ${activeInput === 'email' ? 'active' : ''}`}
-                                        onClick={handleInputBoxClick}>
-                                        <div className="flex col center-x">
-                                            <label
-                                                className={`font15 ${activeInput === 'email' ? 'active-label' : ''}`}>Email</label>
-                                            <input
-                                                type="text"
-                                                id="email"
-                                                value={email}
-                                                name="email"
-                                                autoComplete="off"
-                                                onChange={handleEmail}
-                                            />
-                                            {errors.email && (
-                                                <p className="err">{errors.email[0]}</p>
-                                            )}
-                                        </div>
-                                        <div className="icon pad1">
-                                            <MdEmail className={`icon`}/>
+                                        <div
+                                            className={`flex  input-box center-y between ${activeInput === 'email' ? 'active' : ''}`}
+                                            onClick={() => {
+                                                handleInputBoxClick("email")
+                                            }}>
+                                            <div className="flex col center-x">
+                                                <label
+                                                    className={`font15 ${activeInput === 'email' ? 'active-label' : ''}`}>Email</label>
+                                                <input
+                                                    type="text"
+                                                    id="email"
+                                                    value={email}
+                                                    name="email"
+                                                    autoComplete="off"
+                                                    onChange={handleEmail}
+                                                />
+                                                {errors.email && (
+                                                    <p className="err">{errors.email[0]}</p>
+                                                )}
+                                            </div>
+                                            <div className="icon pad1">
+                                                <MdEmail className={`icon`}/>
+                                            </div>
                                         </div>
                                     </div>
+                                </div>
+                                <div className="input-section flex gap1 w-100">
+                                    <div className="width-box w-100">
+                                        <div
+                                            className={`flex  input-box center-y between ${activeInput === 'tag' ? 'active' : ''}`}
+                                            onClick={() => {
+                                                handleInputBoxClick("tag")
+                                            }}>
+                                            <div className="flex col center-x">
+                                                <label
+                                                    className={`font15 ${activeInput === 'tag' ? 'active-label' : ''}`}>Add
+                                                    hashtags</label>
+                                                <input
+                                                    id="tag"
+                                                    type="text"
+                                                    value={hashtagValue}
+                                                    onChange={handleInputChange}
+                                                    onKeyPress={handleKeyPress}
+                                                />
+                                                <div className="flex w-100 wrap gap1 center-y pad1">
+                                                    {hashtags.map((item, index) => (
+                                                        <div className={"flex center-y gap05 hashtag-unit"} key={index}>
+                                                            <p>
+                                                                #{item}
+                                                            </p>
+                                                            <IoClose className="icon"
+                                                                     onClick={() => handleRemoveItem(index)}/>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                            <div className="icon pad1">
+                                                <FaHashtag className={`icon`}/>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div
                                     className={`flex col  textarea-input-box gap1 ${activeInput === 'description' ? 'active' : ''}`}
-                                    onClick={handleInputBoxClick}>
+                                    onClick={() => {
+                                        handleInputBoxClick("description")
+                                    }}>
                                     <div className="flex between w-100">
                                         <div className="flex col center-x">
                                             <label
@@ -427,7 +513,9 @@ function Edit() {
                                     <p>Upload as file</p>
                                 </div>
                                 <div className="flex add-buttons w-100 gap2">
-                                    <button id={`clear`} className={`w-100`} onClick={()=>setDeleteConfirmation(true)}>Delete</button>
+                                    <button id={`clear`} className={`w-100`}
+                                            onClick={() => setDeleteConfirmation(true)}>Delete
+                                    </button>
                                     <button id={`submit`} className={`w-100`} onClick={handleClick}>{loader ?
                                         <LoaderRing/> : "Submit"}</button>
                                 </div>
@@ -450,7 +538,7 @@ function Edit() {
                                         </div>
                                         :
                                         <img
-                                            src={changedImg ? URL.createObjectURL(img) : `http://localhost/storage/${img}`}
+                                            src={changedImg ? URL.createObjectURL(img) : `${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${img}`}
                                             className="w-100 h-100 cover"
                                         />
                                     }

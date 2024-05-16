@@ -16,13 +16,18 @@ function MyBlogs() {
     const [column3Blogs, setColumn3Blogs] = useState([]);
     const [column4Blogs, setColumn4Blogs] = useState([]);
     useEffect(()=>{
-        axios.get("http://localhost/api/v1/blogs?author=this", {
-            headers:{
-                "Authorization": sessionStorage.getItem("user"),
-            }} ).then(res => {
-            setBlogs(res.data)
-            setData(res.data);
-        }).catch(err => handleErr(err.response.data));
+        const fetchBlogs = async () => {
+            const response = await axios.get(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blogs?author=this`, {
+                headers: {
+                    "Authorization": sessionStorage.getItem("user"),
+                }
+            });
+            setBlogs(response.data);
+            setData(response.data);
+            console.log(response);
+        }
+        fetchBlogs();
+
     },[]);
     const handleMouseDown = (event) => {
         const blogAuthorElement = event.currentTarget.querySelector("#blog-author");
@@ -85,7 +90,7 @@ function MyBlogs() {
         const data = {
             token: sessionStorage.getItem("user"),
         }
-        axios.post("http://localhost/api/v1/checkToken", data, {
+        axios.post(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/checkToken`, data, {
             headers: { "Content-Type": "multipart/form-data" },
         })
             .then(response => {
@@ -109,6 +114,7 @@ function MyBlogs() {
             <div className={'flex row-to-col'}>
                 <Header/>
                 <div className="App h-v pad3">
+                    <h1>My blogs</h1>
                     <div className="blog-search-box w-100 flex middle">
                         <div className="search-box flex gap1 center-y">
                             <GrSearch className={` ${search === "" ? "flex" : "none"} icon`}/>
@@ -126,7 +132,7 @@ function MyBlogs() {
                                      onClick={() => editBlog(blog.id)}
                                      style={{height: `20rem`}}
                                      key={blog.id}>
-                                    <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
+                                    <img className={`cover`} src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.img}`} alt=""/>
                                     <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
                                         <div className="flex w-100 gap2 center-y">
                                             <div className="profile-icon green">
@@ -137,7 +143,7 @@ function MyBlogs() {
                                                          alt=""/>
                                                     :
                                                     <img className={`cover`}
-                                                         src={`http://localhost/storage/${blog.user.img}`}
+                                                         src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.user.img}`}
                                                          alt=""/>
                                                 }
 
@@ -161,7 +167,7 @@ function MyBlogs() {
                                      onClick={() => editBlog(blog.id)}
                                      style={{height: `20rem`}}
                                      key={blog.id}>
-                                    <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
+                                    <img className={`cover`} src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.img}`} alt=""/>
                                     <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
                                         <div className="flex w-100 gap2 center-y">
                                             <div className="profile-icon green">
@@ -172,7 +178,7 @@ function MyBlogs() {
                                                          alt=""/>
                                                     :
                                                     <img className={`cover`}
-                                                         src={`http://localhost/storage/${blog.user.img}`}
+                                                         src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.user.img}`}
                                                          alt=""/>
                                                 }
 
@@ -196,7 +202,7 @@ function MyBlogs() {
                                      onClick={() => editBlog(blog.id)}
                                      style={{height: `20rem`}}
                                      key={blog.id}>
-                                    <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
+                                    <img className={`cover`} src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.img}`} alt=""/>
                                     <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
                                         <div className="flex w-100 gap2 center-y">
                                             <div className="profile-icon green">
@@ -207,7 +213,7 @@ function MyBlogs() {
                                                          alt=""/>
                                                     :
                                                     <img className={`cover`}
-                                                         src={`http://localhost/storage/${blog.user.img}`}
+                                                         src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.user.img}`}
                                                          alt=""/>
                                                 }
 
@@ -231,7 +237,7 @@ function MyBlogs() {
                                      onClick={() => editBlog(blog.id)}
                                      style={{height: `20rem`}}
                                      key={blog.id}>
-                                    <img className={`cover`} src={`http://localhost/storage/${blog.img}`} alt=""/>
+                                    <img className={`cover`} src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.img}`} alt=""/>
                                     <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
                                         <div className="flex w-100 gap2 center-y">
                                             <div className="profile-icon green">
@@ -242,7 +248,7 @@ function MyBlogs() {
                                                          alt=""/>
                                                     :
                                                     <img className={`cover`}
-                                                         src={`http://localhost/storage/${blog.user.img}`}
+                                                         src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.user.img}`}
                                                          alt=""/>
                                                 }
 

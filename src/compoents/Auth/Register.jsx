@@ -22,10 +22,12 @@ function Register() {
     const [surnameErr, setSurnameErr] = useState("");
     const [activeIcon, setActiveIcon] = useState("lock");
     const navigate = useNavigate();
-    const handleInputBoxClick = (event) => {
-        const clickedInputBox = event.target.id;
-        setActiveInput(clickedInputBox);
-        console.log(activeInput);
+    const handleInputBoxClick = (id) => {
+        setActiveInput(id);
+        const element = document.getElementById(id);
+        if (element) {
+            element.focus();
+        }
     };
     const submitRegister = () => {
         setEmailErr("");
@@ -39,7 +41,7 @@ function Register() {
             password: password,
         }
         axios
-            .post("http://localhost/api/v1/register",data)
+            .post(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/register`,data)
             .then(response => checkAuth(response))
             .catch(err => handleErrors(err));
     }
@@ -49,7 +51,7 @@ function Register() {
             password: password,
         }
         axios
-            .post("http://localhost/api/v1/login",data)
+            .post(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/login`,data)
             .then(response => fastLogin(response))
             .catch(err => console.log(err));
     }
@@ -136,9 +138,9 @@ function Register() {
             </div>
             }
             <div className="form flex col gap2">
-                <div className="flex gap2 center-y">
+                <div className="flex gap2 row-to-col center-y">
                     <div className={`flex  input-box center-y between ${activeInput === 'name' ? 'active' : ''}`}
-                         onClick={handleInputBoxClick}>
+                         onClick={() => {handleInputBoxClick("name")}}>
                         <div className="flex col center-x">
                             <label className={`font15 ${activeInput === 'name' ? 'active-label' : ''}`}>Name</label>
                             <input
@@ -154,7 +156,7 @@ function Register() {
                         </div>
                     </div>
                     <div className={`flex  input-box center-y between ${activeInput === 'surname' ? 'active' : ''}`}
-                         onClick={handleInputBoxClick}>
+                         onClick={() => {handleInputBoxClick("surname")}}>
                         <div className="flex col center-x">
                             <label className={`font15 ${activeInput === 'surname' ? 'active-label' : ''}`}>Surname</label>
                             <input
@@ -174,7 +176,7 @@ function Register() {
                     </div>
                 </div>
                 <div className={`flex  input-box center-y between ${activeInput === 'email' ? 'active' : ''}`}
-                     onClick={handleInputBoxClick}>
+                     onClick={() => {handleInputBoxClick("email")}}>
                     <div className="flex col center-x">
                         <label className={`font15 ${activeInput === 'email' ? 'active-label' : ''}`}>Email</label>
                         <input
@@ -190,7 +192,7 @@ function Register() {
                     </div>
                 </div>
                 <div className={`flex  input-box center-y between ${activeInput === 'password' ? 'active' : ''}`}
-                     onClick={handleInputBoxClick}>
+                     onClick={() => {handleInputBoxClick("password")}}>
                     <div className="flex col center-x">
                         <label className={`font15`}>Password</label>
                         <input
