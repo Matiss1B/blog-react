@@ -14,6 +14,7 @@ function SavedBlogs() {
     const [column2Blogs, setColumn2Blogs] = useState([]);
     const [column3Blogs, setColumn3Blogs] = useState([]);
     const [column4Blogs, setColumn4Blogs] = useState([]);
+    const [focus, setFocus] = useState(false);
     let [blog, setBlogs] = useState([]);
     useEffect(()=>{
         axios.get(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blog/get/all/saved`, {
@@ -37,13 +38,31 @@ function SavedBlogs() {
             navigate("/");
         }
     }
-    const handleSearch = event =>{
+    const handleSearchClose = () =>{
+        setSearch("");
+        setFocus(false);
+        setBlogs(data);
+    }
+    const handleSearch = (type) =>{
         if(data.length > 0) {
-            setSearch(event.target.value);
-            const filteredBlogs = data.filter(unit =>
-                unit.title.toLowerCase().includes(event.target.value.toLowerCase())
-            );
-            setBlogs(filteredBlogs);
+            if(type == "title") {
+                const filteredBlogs = data.filter(unit =>
+                    unit.title.toLowerCase().includes(search.toLowerCase())
+                );
+                setBlogs(filteredBlogs);
+
+            }else{
+                const filteredBlogs = data.filter(unit =>
+                    unit.tags.some(tag => {
+                        const tagLowerCase = tag.tag.toLowerCase();
+                        const searchTextLowerCase = search.toLowerCase();
+                        return tagLowerCase.includes(searchTextLowerCase);
+                    })
+                );
+
+                setBlogs(filteredBlogs);
+            }
+            setFocus(false);
         }
     }
     const editBlog = (id) => {
@@ -109,10 +128,37 @@ function SavedBlogs() {
                 <div className="App h-v pad3">
                     <h1>Saved blogs</h1>
                     <div className="blog-search-box w-100 flex middle">
-                        <div className="search-box flex gap1 center-y">
-                            <GrSearch className={` ${search === "" ? "flex" : "none"} icon`}/>
-                            <input onChange={handleSearch} type="text" className={`blog-search-input w-100`}/>
-                            <GrClose className={` ${search === "" ? "none" : "flex"} icon close-icon`}/>
+                        <div className="search-box flex col">
+                            <div className="flex gap1 center-y">
+                                <GrSearch className={`icon`}/>
+                                <input
+                                    type="text"
+                                    value={search}
+                                    onChange={(event) => {
+                                        setSearch(event.target.value)
+                                    }}
+                                    className={`blog-search-input w-100`}
+                                    onFocus={() => setFocus(true)}
+                                />
+                                <GrClose className={` ${search === "" ? "none" : "flex"} icon close-icon`}
+                                         onClick={handleSearchClose}/>
+                            </div>
+                            {focus && search !== "" ?
+                                <div className="search-options flex col gap1">
+                                    <div className="flex center-y search-option gap05"
+                                         onClick={() => handleSearch("title")}>
+                                        <p className="search-title">{search}</p>
+                                        <p className="search-category">Search title</p>
+                                    </div>
+                                    <div className="flex center-y search-option gap05"
+                                         onClick={() => handleSearch("tag")}>
+                                        <p className="search-title">{search}</p>
+                                        <p className="search-category">Search #hashtag</p>
+                                    </div>
+                                </div>
+                                :
+                                ""
+                            }
                         </div>
                     </div>
                     {Object.keys(blog).length > 0 ?
@@ -160,7 +206,10 @@ function SavedBlogs() {
                                     <div className={` rel single-blog`}
                                          onMouseEnter={handleMouseDown}
                                          onMouseLeave={handleMouseUp}
-                                         onClick={() => editBlog(blog.id)}
+                                         onClick={() => {
+                                             navigate(`/blog/${blog.id}`);
+
+                                         }}
                                          style={{height: `20rem`}}
                                          key={blog.id}>
                                         <img className={`cover`} src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.img}`} alt=""/>
@@ -195,7 +244,10 @@ function SavedBlogs() {
                                     <div className={` rel single-blog`}
                                          onMouseEnter={handleMouseDown}
                                          onMouseLeave={handleMouseUp}
-                                         onClick={() => editBlog(blog.id)}
+                                         onClick={() => {
+                                             navigate(`/blog/${blog.id}`);
+
+                                         }}
                                          style={{height: `20rem`}}
                                          key={blog.id}>
                                         <img className={`cover`} src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.img}`} alt=""/>
@@ -230,7 +282,10 @@ function SavedBlogs() {
                                     <div className={` rel single-blog`}
                                          onMouseEnter={handleMouseDown}
                                          onMouseLeave={handleMouseUp}
-                                         onClick={() => editBlog(blog.id)}
+                                         onClick={() => {
+                                             navigate(`/blog/${blog.id}`);
+
+                                         }}
                                          style={{height: `20rem`}}
                                          key={blog.id}>
                                         <img className={`cover`} src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.img}`} alt=""/>

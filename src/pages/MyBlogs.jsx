@@ -10,6 +10,7 @@ function MyBlogs() {
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true);
     const [error, setErrorToken] = useState(null);
+    const [focus, setFocus] = useState(false);
     let [blog, setBlogs] = useState([]);
     const [column1Blogs, setColumn1Blogs] = useState([]);
     const [column2Blogs, setColumn2Blogs] = useState([]);
@@ -42,15 +43,43 @@ function MyBlogs() {
             navigate("/");
         }
     }
-    const handleSearch = event =>{
+    const handleSearchClose = () =>{
+        setSearch("");
+        setFocus(false);
+        setBlogs(data);
+    }
+    const handleSearch = (type) =>{
         if(data.length > 0) {
-            setSearch(event.target.value);
-            const filteredBlogs = data.filter(unit =>
-                unit.title.toLowerCase().includes(event.target.value.toLowerCase())
-            );
-            setBlogs(filteredBlogs);
+            if(type == "title") {
+                const filteredBlogs = data.filter(unit =>
+                    unit.title.toLowerCase().includes(search.toLowerCase())
+                );
+                setBlogs(filteredBlogs);
+
+            }else{
+                const filteredBlogs = data.filter(unit =>
+                    unit.tags.some(tag => {
+                        const tagLowerCase = tag.tag.toLowerCase();
+                        const searchTextLowerCase = search.toLowerCase();
+                        return tagLowerCase.includes(searchTextLowerCase);
+                    })
+                );
+
+                setBlogs(filteredBlogs);
+            }
+            setFocus(false);
         }
     }
+
+    // const handleSearch = event =>{
+    //     if(data.length > 0) {
+    //         setSearch(event.target.value);
+    //         const filteredBlogs = data.filter(unit =>
+    //             unit.title.toLowerCase().includes(event.target.value.toLowerCase())
+    //         );
+    //         setBlogs(filteredBlogs);
+    //     }
+    // }
 
     useEffect(() => {
         // Handle column assignments when 'blog' changes
@@ -116,34 +145,63 @@ function MyBlogs() {
                 <div className="App h-v pad3">
                     <h1>My blogs</h1>
                     <div className="blog-search-box w-100 flex middle">
-                        <div className="search-box flex gap1 center-y">
-                            <GrSearch className={` ${search === "" ? "flex" : "none"} icon`}/>
-                            <input onChange={handleSearch} type="text" className={`blog-search-input w-100`}/>
-                            <GrClose className={` ${search === "" ? "none" : "flex"} icon close-icon`}/>
+                        <div className="search-box flex col">
+                            <div className="flex gap1 center-y">
+                                <GrSearch className={`icon`}/>
+                                <input
+                                    type="text"
+                                    value={search}
+                                    onChange={(event) => {
+                                        setSearch(event.target.value)
+                                    }}
+                                    className={`blog-search-input w-100`}
+                                    onFocus={() => setFocus(true)}
+                                />
+                                <GrClose className={` ${search === "" ? "none" : "flex"} icon close-icon`}
+                                         onClick={handleSearchClose}/>
+                            </div>
+                            {focus && search !== "" ?
+                                <div className="search-options flex col gap1">
+                                    <div className="flex center-y search-option gap05"
+                                         onClick={() => handleSearch("title")}>
+                                        <p className="search-title">{search}</p>
+                                        <p className="search-category">Search title</p>
+                                    </div>
+                                    <div className="flex center-y search-option gap05"
+                                         onClick={() => handleSearch("tag")}>
+                                        <p className="search-title">{search}</p>
+                                        <p className="search-category">Search #hashtag</p>
+                                    </div>
+                                </div>
+                                :
+                                ""
+                            }
                         </div>
                     </div>
                     {Object.keys(blog).length > 0 ?
-                    <div className="h-v flex blogs-list flex evenly wrap pad2">
-                        <div id={`column-1`} className="column flex col gap1">
-                            {column1Blogs.map((blog) => (
-                                <div className={` rel single-blog`}
-                                     onMouseEnter={handleMouseDown}
-                                     onMouseLeave={handleMouseUp}
-                                     onClick={() => editBlog(blog.id)}
-                                     style={{height: `20rem`}}
-                                     key={blog.id}>
-                                    <img className={`cover`} src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.img}`} alt=""/>
-                                    <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
-                                        <div className="flex w-100 gap2 center-y">
-                                            <div className="profile-icon green">
-                                                {blog.user.img == ""
-                                                    ?
-                                                    <img className={`cover`}
-                                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0_8KptY-0dlRaE0h4yxWnwM4z8KdZEOfipg&usqp=CAU"
-                                                         alt=""/>
-                                                    :
-                                                    <img className={`cover`}
-                                                         src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.user.img}`}
+                        <div className="h-v flex blogs-list flex evenly wrap pad2">
+                            <div id={`column-1`} className="column flex col gap1">
+                                {column1Blogs.map((blog) => (
+                                    <div className={` rel single-blog`}
+                                         onMouseEnter={handleMouseDown}
+                                         onMouseLeave={handleMouseUp}
+                                         onClick={() => editBlog(blog.id)}
+                                         style={{height: `20rem`}}
+                                         key={blog.id}>
+                                        <img className={`cover`}
+                                             src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.img}`}
+                                             alt=""/>
+                                        <div id={`blog-author`} className=" abs pad1 blog-author-box none center-y">
+                                            <div className="flex w-100 gap2 center-y">
+                                                <div className="profile-icon green">
+                                                    {blog.user.img == ""
+                                                        ?
+                                                        <img className={`cover`}
+                                                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0_8KptY-0dlRaE0h4yxWnwM4z8KdZEOfipg&usqp=CAU"
+                                                             alt=""/>
+                                                        :
+                                                        <img className={`cover`}
+                                                             src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.user.img}`}
                                                          alt=""/>
                                                 }
 

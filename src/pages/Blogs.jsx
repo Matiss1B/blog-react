@@ -71,7 +71,7 @@ function Blogs(props) {
                     unit.tags.some(tag => {
                         const tagLowerCase = tag.tag.toLowerCase();
                         const searchTextLowerCase = search.toLowerCase();
-                        return tagLowerCase.includes(searchTextLowerCase) && tagLowerCase.indexOf(searchTextLowerCase) !== -1;
+                        return tagLowerCase.includes(searchTextLowerCase);
                     })
                 );
 
