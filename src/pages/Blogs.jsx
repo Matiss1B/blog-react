@@ -25,6 +25,9 @@ function Blogs(props) {
         if(props.category == "for"){
             url = `${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blog/for`
         }
+        if(props.category == "followers"){
+            url = `${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blog/followers`
+        }
         axios.get(url, {
             headers:{
             "Authorization": sessionStorage.getItem("user"),
@@ -148,7 +151,12 @@ function Blogs(props) {
                                 <input
                                     type="text"
                                     value={search}
-                                    onChange={(event)=>{setSearch(event.target.value)}}
+                                    onChange={(event)=>{
+                                        if(event.target.value == ""){
+                                            setBlogs(data);
+                                        }
+                                        setSearch(event.target.value)
+                                    }}
                                     className={`blog-search-input w-100`}
                                     onFocus={()=>setFocus(true)}
                                 />
@@ -194,7 +202,7 @@ function Blogs(props) {
                                                 }
 
                                             </div>
-                                            <h1>{blog.user.name}</h1>
+                                            <h1>{blog.user.name} {blog.user.surname}</h1>
                                         </div>
                                     </div>
                                     <div id={`blog-info`} className=" abs pad1 blog-info-box none center-y">
@@ -228,7 +236,7 @@ function Blogs(props) {
                                                 }
 
                                             </div>
-                                            <h1>{blog.user.name}</h1>
+                                            <h1>{blog.user.name} {blog.user.surname}</h1>
                                         </div>
                                     </div>
                                     <div id={`blog-info`} className=" abs pad1 blog-info-box none center-y">
@@ -264,7 +272,7 @@ function Blogs(props) {
                                                 }
 
                                             </div>
-                                            <h1>{blog.user.name}</h1>
+                                            <h1>{blog.user.name} {blog.user.surname}</h1>
                                         </div>
                                     </div>
                                     <div id={`blog-info`} className=" abs pad1 blog-info-box none center-y">
@@ -300,7 +308,7 @@ function Blogs(props) {
                                                 }
 
                                             </div>
-                                            <h1>{blog.user.name}</h1>
+                                            <h1>{blog.user.name} {blog.user.surname}</h1>
                                         </div>
                                     </div>
                                     <div id={`blog-info`} className=" abs pad1 blog-info-box none center-y">

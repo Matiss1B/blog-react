@@ -126,15 +126,15 @@ function Header() {
                             </NavLink>
                             {activeNav === "profile" ?
                                 <ul data-aos="fade-left" className={"nav-list flex col gap1"}>
-                                    <NavLink className={"flex center-y vertical-line gap1"} to="/profile/blogs">
-                                        <p>My blogs</p>
+                                    <NavLink className={"flex center-y vertical-line gap1"} to="/profile">
+                                        <p>Profile</p>
                                     </NavLink>
                                     <NavLink className={"flex center-y vertical-line gap1"} to="/profile/saved">
                                         <p>Saved</p>
                                     </NavLink>
-                                    <NavLink className={"flex center-y vertical-line gap1"} to="/profile/settings">
-                                        <p>Settings</p>
-                                    </NavLink>
+                                    {/*<NavLink className={"flex center-y vertical-line gap1"} to="/profile/settings">*/}
+                                    {/*    <p>Settings</p>*/}
+                                    {/*</NavLink>*/}
                                     <li onClick={submitLogout}
                                         className={"pointer flex center-y vertical-line-logout gap1"}>
                                         <p>Logout</p>
@@ -150,80 +150,86 @@ function Header() {
                 :
                     ""
             }
-            <div className="header-logo gap1 center-y flex">
-                <img src={logo} alt=""/>
-                <h1 className="font25">BlogIt</h1>
-            </div>
-            <IoMenu className="hidden-pc font35" onClick={()=>setMenu(true)}/>
-            <div className=" gap3 col flex  w-100 hidden-mobile">
-                <div className="flex col gap2">
-                    <div className="nav-link-group">
-                        <NavLink to="/home" onClick={handleNavLink} id={"home"}
-                                 className={`nav-link flex center-y gap1 ${activeNav === "home" ? "active-nav" : ""}`}>
-                            <BiHomeAlt id={"home"} className={"icon"}/>
-                            <p id={"home"}>Home</p>
-                        </NavLink>
-                    </div>
-                    <div className="nav-link-group flex col gap1">
-                        <NavLink onClick={handleNavLink} id={"blogs"}
-                                 className={`nav-link flex center-y gap1 ${activeNav === "blogs" ? "active-nav" : ""}`}>
-                            <BsBookHalf id={"blogs"} className={"icon"}/>
-                            <p id={"blogs"}> Blogs</p>
-                        </NavLink>
-                        {activeNav === "blogs" ?
-                            <ul className={"nav-list flex col gap1"} data-aos="fade-left">
-                                <NavLink  className={"flex center-y vertical-line gap1"}
-                                         to={`/blogs/list`}>
-                                    <p>All blogs</p>
-                                </NavLink>
-                                <NavLink  className={"flex center-y vertical-line gap1"}
-                                          to={`/blogs/for`}>
-                                    <p>For you</p>
-                                </NavLink>
-                                <p className="font15 bold">Categories</p>
-                                {categories.map((category) => (
-                                    <NavLink key={category.id} className={"flex center-y vertical-line gap1"}
-                                             to={`/blogs/${category.category}`}>
-                                        <p>{category.category}</p>
+            <div className="header-fixed">
+                <div className="header-logo gap1 center-y flex">
+                    <img src={logo} alt=""/>
+                    <h1 className="font25">BlogIt</h1>
+                </div>
+                <IoMenu className="hidden-pc font35" onClick={()=>setMenu(true)}/>
+                <div className=" gap3 col flex  w-100 hidden-mobile">
+                    <div className="flex col gap2">
+                        <div className="nav-link-group">
+                            <NavLink to="/home" onClick={handleNavLink} id={"home"}
+                                     className={`nav-link flex center-y gap1 ${activeNav === "home" ? "active-nav" : ""}`}>
+                                <BiHomeAlt id={"home"} className={"icon"}/>
+                                <p id={"home"}>Home</p>
+                            </NavLink>
+                        </div>
+                        <div className="nav-link-group flex col gap1">
+                            <NavLink onClick={handleNavLink} id={"blogs"}
+                                     className={`nav-link flex center-y gap1 ${activeNav === "blogs" ? "active-nav" : ""}`}>
+                                <BsBookHalf id={"blogs"} className={"icon"}/>
+                                <p id={"blogs"}> Blogs</p>
+                            </NavLink>
+                            {activeNav === "blogs" ?
+                                <ul className={"nav-list flex col gap1"} data-aos="fade-left">
+                                    <NavLink  className={"flex center-y vertical-line gap1"}
+                                             to={`/blogs/list`}>
+                                        <p>All blogs</p>
                                     </NavLink>
-                                ))}
-                            </ul>
-                            :
-                            ""
-                        }
-                    </div>
-                    <div className="nav-link-group">
-                        <NavLink to="/add" onClick={handleNavLink} id={"add"}
-                                 className={`nav-link nav-link-new-blog flex center-y gap1 ${activeNav === "add" ? "active-nav" : ""}`}>
-                            <BiPlusCircle id={"add"} className={"icon"}/>
-                            <p id={"add"}>New blog</p>
-                        </NavLink>
-                    </div>
-                    <div className="nav-link-group flex col gap1">
-                        <NavLink onClick={handleNavLink} id={"profile"}
-                                 className={`nav-link flex center-y gap1 ${activeNav === "profile" ? "active-nav" : ""}`}>
-                            <BiUser id={"profile"} className={"icon"}/>
-                            <p id={"profile"}> My profile</p>
-                        </NavLink>
-                        {activeNav === "profile" ?
-                            <ul data-aos="fade-left" className={"nav-list flex col gap1"}>
-                                <NavLink className={"flex center-y vertical-line gap1"} to="/profile/blogs">
-                                    <p>My blogs</p>
-                                </NavLink>
-                                <NavLink className={"flex center-y vertical-line gap1"} to="/profile/saved">
-                                    <p>Saved</p>
-                                </NavLink>
-                                <NavLink className={"flex center-y vertical-line gap1"} to="/profile/settings">
-                                    <p>Settings</p>
-                                </NavLink>
-                                <li onClick={submitLogout}
-                                    className={"pointer flex center-y vertical-line-logout gap1"}>
-                                    <p>Logout</p>
-                                </li>
-                            </ul>
-                            :
-                            ""
-                        }
+                                    <NavLink  className={"flex center-y vertical-line gap1"}
+                                              to={`/blogs/followers`}>
+                                        <p>Followers</p>
+                                    </NavLink>
+                                    <NavLink  className={"flex center-y vertical-line gap1"}
+                                              to={`/blogs/for`}>
+                                        <p>For you</p>
+                                    </NavLink>
+                                    <p className="font15 bold">Categories</p>
+                                    {categories.map((category) => (
+                                        <NavLink key={category.id} className={"flex center-y vertical-line gap1"}
+                                                 to={`/blogs/${category.category}`}>
+                                            <p>{category.category}</p>
+                                        </NavLink>
+                                    ))}
+                                </ul>
+                                :
+                                ""
+                            }
+                        </div>
+                        <div className="nav-link-group">
+                            <NavLink to="/add" onClick={handleNavLink} id={"add"}
+                                     className={`nav-link nav-link-new-blog flex center-y gap1 ${activeNav === "add" ? "active-nav" : ""}`}>
+                                <BiPlusCircle id={"add"} className={"icon"}/>
+                                <p id={"add"}>New blog</p>
+                            </NavLink>
+                        </div>
+                        <div className="nav-link-group flex col gap1">
+                            <NavLink onClick={handleNavLink} id={"profile"}
+                                     className={`nav-link flex center-y gap1 ${activeNav === "profile" ? "active-nav" : ""}`}>
+                                <BiUser id={"profile"} className={"icon"}/>
+                                <p id={"profile"}> My profile</p>
+                            </NavLink>
+                            {activeNav === "profile" ?
+                                <ul data-aos="fade-left" className={"nav-list flex col gap1"}>
+                                    <NavLink className={"flex center-y vertical-line gap1"} to="/profile">
+                                        <p>Profile</p>
+                                    </NavLink>
+                                    <NavLink className={"flex center-y vertical-line gap1"} to="/profile/saved">
+                                        <p>Saved</p>
+                                    </NavLink>
+                                    {/*<NavLink className={"flex center-y vertical-line gap1"} to="/profile/settings">*/}
+                                    {/*    <p>Settings</p>*/}
+                                    {/*</NavLink>*/}
+                                    <li onClick={submitLogout}
+                                        className={"pointer flex center-y vertical-line-logout gap1"}>
+                                        <p>Logout</p>
+                                    </li>
+                                </ul>
+                                :
+                                ""
+                            }
+                        </div>
                     </div>
                 </div>
             </div>

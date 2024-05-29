@@ -34,12 +34,13 @@ function Edit() {
     const [initialHashtags, setInitialHashtags] = useState([])
     useEffect(() => {
         AOS.init();
-        axios.get(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blogs?id=`+id,
+        axios.get(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blog/for/edit?id=`+id,
             {
                 headers:{
                     "Authorization": sessionStorage.getItem("user"),
                 }
             }).then(res => {
+                console.log(res)
             const blogData = res.data[0];
             const tags = blogData.tags.map(tag => tag.tag);
             setHashtags(tags)
@@ -65,6 +66,9 @@ function Edit() {
     const handleErr = (err) =>{
         if(err.status == 401){
             navigate("/");
+        }
+        if(err.type && err.type == "owner"){
+            navigate("/error");
         }
     }
     const handleInputChange = (e) => {
@@ -158,7 +162,7 @@ function Edit() {
             //     }
             // }
         }
-        console.log(err.response.status);
+        console.log(err.response);
     };
 
     const deleteBlog = () =>{
@@ -277,7 +281,7 @@ function Edit() {
                     ?
                     <>
                 <div className="overlay"></div>
-                <div className="popup flex col gap3">
+                <div className="popup between flex col gap3">
                     <div className="flex col">
                         <h2>Are you sure you want do delete blog?</h2>
                         <p>If you agree, it will be deleted permanently</p>
@@ -529,7 +533,7 @@ function Edit() {
                                 <div className="image-upload-box middle">
                                     {!img ?
                                         <div id={`img-upload-content`} className="flex col center-y gap1">
-                                            <input type="file" id="img" accept="image/*" className={`none`}
+                                            <input type="file" id="img" accept=".jpeg,.jpg,.png" className={`none`}
                                                    onChange={handleImg}/>
                                             <label htmlFor="img">
                                                 <AiFillPlusCircle className={`icon`}/>

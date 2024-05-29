@@ -36,7 +36,9 @@ function HomePage() {
                 });
                 setOnline(response.data.online);
             } catch (e){
-                console.log(e)
+                if(e.response.status == 401){
+                    navigate("/")
+                }
             }
 
         }
@@ -49,7 +51,9 @@ function HomePage() {
                 });
                 setBlogCount(response.data.length);
             } catch (e){
-                console.log(e)
+                if(e.response.status == 401){
+                    navigate("/")
+                }
             }
 
         }
@@ -67,7 +71,10 @@ function HomePage() {
                 if(response.data.status == 200){
                     setCategoriesCount(response.data.categories.length);
                 }
-            } catch (error) {
+            } catch (e) {
+                if(e.response.status == 401){
+                    navigate("/")
+                }
 
             }
         }

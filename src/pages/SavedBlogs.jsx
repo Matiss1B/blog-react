@@ -134,7 +134,10 @@ function SavedBlogs() {
                                 <input
                                     type="text"
                                     value={search}
-                                    onChange={(event) => {
+                                    onChange={(event)=>{
+                                        if(event.target.value == ""){
+                                            setBlogs(data);
+                                        }
                                         setSearch(event.target.value)
                                     }}
                                     className={`blog-search-input w-100`}
@@ -190,7 +193,7 @@ function SavedBlogs() {
                                                     }
 
                                                 </div>
-                                                <h1>{blog.user.name}</h1>
+                                                <h1>{blog.user.name} {blog.user.surname}</h1>
                                             </div>
                                         </div>
                                         <div id={`blog-info`} className=" abs pad1 blog-info-box none center-y">
@@ -228,7 +231,7 @@ function SavedBlogs() {
                                                     }
 
                                                 </div>
-                                                <h1>{blog.user.name}</h1>
+                                                <h1>{blog.user.name} {blog.user.surname}</h1>
                                             </div>
                                         </div>
                                         <div id={`blog-info`} className=" abs pad1 blog-info-box none center-y">
@@ -266,7 +269,7 @@ function SavedBlogs() {
                                                     }
 
                                                 </div>
-                                                <h1>{blog.user.name}</h1>
+                                                <h1>{blog.user.name} {blog.user.surname}</h1>
                                             </div>
                                         </div>
                                         <div id={`blog-info`} className=" abs pad1 blog-info-box none center-y">
@@ -304,7 +307,7 @@ function SavedBlogs() {
                                                     }
 
                                                 </div>
-                                                <h1>{blog.user.name}</h1>
+                                                <h1>{blog.user.name} {blog.user.surname}</h1>
                                             </div>
                                         </div>
                                         <div id={`blog-info`} className=" abs pad1 blog-info-box none center-y">

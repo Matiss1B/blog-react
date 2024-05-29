@@ -162,7 +162,7 @@ function Blog() {
                                     <div id="blog-info-section-id" className="flex flex-1 col">
                                         <div className="blog-info-section flex col gap1 flex-1">
                                             <h1>Info</h1>
-                                            <div className={`info-unit flex center-y gap1`}>
+                                            <div className={`info-unit flex center-y gap1`} onClick={()=>navigate(`/profile/${blog.user.id}`)}>
                                                 <div className={`blog-author`}>
                                                     <img className={`cover`}
                                                          src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.user.img}`}
@@ -170,7 +170,7 @@ function Blog() {
                                                 </div>
                                                 <div className="flex col">
                                                     <p className={`bold`}>Author</p>
-                                                    <p>{blog.user.name}</p>
+                                                    <p>{blog.user.name} {blog.user.surname}</p>
                                                 </div>
                                             </div>
                                             <div className={`info-unit flex center-y gap1`}>

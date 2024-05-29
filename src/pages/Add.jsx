@@ -459,7 +459,7 @@ function App() {
                                 <div className="image-upload-box middle">
                                     {!img ?
                                         <div id={`img-upload-content`} className="flex col center-y gap1">
-                                            <input type="file" id="img" accept="image/*" className={`none`}
+                                            <input type="file" id="img" accept=".jpeg,.jpg,.png" className={`none`}
                                                    onChange={handleImg}/>
                                             <label htmlFor="img">
                                                 <AiFillPlusCircle className={`icon`}/>

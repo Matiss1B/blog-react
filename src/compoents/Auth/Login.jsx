@@ -84,7 +84,8 @@ function Login() {
             <div className="login-form-titles flex col gap2">
                 <p>START RIGHT NOW</p>
                 <h1>Jump in</h1>
-                {customErr === "" ?<div className="flex gap1"> <p>Dont have an account?</p><p><a href="/register">Register</a></p></div> : <p className={"custom-err"}>{customErr}</p>}
+                <div className="flex gap1"><p>Dont have an account?</p><p><a href="/register">Register</a></p></div>
+                {customErr && (<p className={"custom-err"}>{customErr}</p>)}
             </div>
             <div className="form flex col gap2">
                 <div className={`flex  input-box center-y between ${activeInput === 'email' ? 'active' : ''}`}

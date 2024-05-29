@@ -1,4 +1,9 @@
 @import "../assets/variables";
+.header-fixed{
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+}
 .side-menu{
   position: fixed;
   top: 0;
@@ -89,6 +94,12 @@
   flex-direction: column;
 }
 @media (max-width: $mobile-max-width) {
+  .header-fixed{
+    flex-direction: row;
+    position: static;
+    justify-content: space-between;
+    width: 100%;
+  }
   .header{
     z-index: 999;
     position: fixed;
