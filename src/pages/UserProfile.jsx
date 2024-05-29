@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Header from "../compoents/Header";
 import {FaUser} from "react-icons/fa";
 import axios from "axios";
+import Loading from "../compoents/Loading";
 import {useNavigate, useParams} from "react-router-dom";
 
 const UserProfile = () => {
@@ -80,6 +81,9 @@ const UserProfile = () => {
             blogInfoElement.classList.remove("none");
         }
     };
+    if(profile.length<1){
+        return <Loading/>
+    }
     return (
         <div className={'flex row-to-col'}>
             <Header/>

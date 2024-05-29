@@ -5,6 +5,7 @@ import { FaGear } from "react-icons/fa6";
 import { IoIosClose } from "react-icons/io";
 import axios from "axios";
 import {useNavigate, useParams} from "react-router-dom";
+import Loading from "../compoents/Loading";
 
 const Profile = () => {
     const [profile, setProfile] = useState([]);
@@ -34,7 +35,6 @@ const Profile = () => {
             }
         }
         fetchBlogs();
-
     },[]);
     const navigate = useNavigate();
     const handleMouseUp = (event) => {
@@ -111,6 +111,11 @@ const Profile = () => {
             }
         }
     };
+    if(profile.length<1){
+        return (
+            <Loading/>
+        )
+    }
 
     return (
         <div className={'flex row-to-col'}>

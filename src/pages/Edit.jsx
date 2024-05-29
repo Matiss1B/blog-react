@@ -180,7 +180,7 @@ function Edit() {
 
                     box.style.transform = 'translateX(200%)';
                     box.style.transition = '.7s';
-                    navigate("/profile/blogs")
+                    navigate("/profile")
                 }, 2000);
             }
         ).catch(err => console.log(err));
