@@ -80,6 +80,7 @@ function Blogs(props) {
                     })
                 );
             }
+            setFocus(false);
             setBlogs(filteredBlogs); // Update the original blog state
             setCurrentPage(1); // Reset the current page to the first page
         }
