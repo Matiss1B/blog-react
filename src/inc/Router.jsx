@@ -33,7 +33,7 @@ function Router() {
             <Route path="/password-reset/:token" element={<PasswordReset/>} />
             <Route path="/profile/settings" element={<Settings/>} />
             <Route path="/profile" element={<Profile/>} />
-{/*x            <Route path="/profile/:id" element={<UserProfile/>} />*/}
+            <Route path="/profile/:id" element={<UserProfile/>} />
             <Route path="/profile/saved" element={<SavedBlogs/>} />
             <Route path="/profile/reset-password" element={<PasswordResetMail/>}/>
             <Route path="*" element={<NotFound />} />

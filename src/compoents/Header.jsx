@@ -99,14 +99,27 @@ function Header() {
                                 <p id={"blogs"}> Blogs</p>
                             </NavLink>
                             {activeNav === "blogs" ?
-                                    <ul className={"nav-list flex col gap1"} data-aos="fade-left">
-                                        {categories.map((category) => (
-                                            <NavLink key={category.id} className={"flex center-y vertical-line gap1"}
-                                                     to={`/blogs/${category.category}`}>
-                                                <p>{category.category}</p>
-                                            </NavLink>
-                                        ))}
-                                    </ul>
+                                <ul className={"nav-list flex col gap1"} data-aos="fade-left">
+                                    <NavLink className={"flex center-y vertical-line gap1"}
+                                             to={`/blogs/list`}>
+                                        <p>All blogs</p>
+                                    </NavLink>
+                                    <NavLink className={"flex center-y vertical-line gap1"}
+                                             to={`/blogs/followers`}>
+                                        <p>Followers</p>
+                                    </NavLink>
+                                    <NavLink className={"flex center-y vertical-line gap1"}
+                                             to={`/blogs/for`}>
+                                        <p>For you</p>
+                                    </NavLink>
+                                    <p className="font15 bold">Categories</p>
+                                    {categories.map((category) => (
+                                        <NavLink key={category.id} className={"flex center-y vertical-line gap1"}
+                                                 to={`/blogs/${category.category}`}>
+                                            <p>{category.category}</p>
+                                        </NavLink>
+                                    ))}
+                                </ul>
                                 :
                                 ""
                             }
@@ -146,7 +159,7 @@ function Header() {
                         </div>
                     </div>
                 </div>
-            </div>
+                    </div>
                 :
                     ""
             }

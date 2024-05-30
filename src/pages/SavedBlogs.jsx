@@ -6,6 +6,7 @@ import { GrClose, GrSearch } from "react-icons/gr";
 import { FaUser } from "react-icons/fa";
 import Loader from "../compoents/Loading";
 import { FaRegArrowAltCircleLeft, FaRegArrowAltCircleRight } from "react-icons/fa";
+import {IoMdInformationCircleOutline} from "react-icons/io";
 
 
 function SavedBlogs() {
@@ -163,63 +164,78 @@ function SavedBlogs() {
                         }
                     </div>
                 </div>
-                <div className="blogs-list">
-                    {paginatedBlogs.map((blog) => (
-                        <div className={`rel single-blog`}
-                             onMouseEnter={handleMouseDown}
-                             onMouseLeave={handleMouseUp}
-                             onClick={() => openBlog(blog.id)}
-                             style={{ height: '20rem' }}
-                             key={blog.id}
-                        >
-                            <img className={`cover`}
-                                 src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.img}`} alt="" />
-                            <div id={`blog-author`} className="abs pad1 blog-author-box none center-y">
-                                <div className="flex w-100 gap2 center-y">
-                                    <div className="profile-icon green flex center-y center-x">
-                                        {blog.user.img === ""
-                                            ? <FaUser />
-                                            : <img className={`cover`}
-                                                   src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.user.img}`}
-                                                   alt="" />
-                                        }
+                {paginatedBlogs.length<1
+                    ?
+                    <div className="no-results flex center-y gap2">
+                        <IoMdInformationCircleOutline className={"icon"}/>
+                        <p>There is not saved blogs</p>
+                    </div>
+                    :
+                    <div className="blogs-list">
+                        {
+                            paginatedBlogs.map((blog) => (
+                                <div className={`rel single-blog`}
+                                     onMouseEnter={handleMouseDown}
+                                     onMouseLeave={handleMouseUp}
+                                     onClick={() => openBlog(blog.id)}
+                                     style={{ height: '20rem' }}
+                                     key={blog.id}
+                                >
+                                    <img className={`cover`}
+                                         src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.img}`} alt="" />
+                                    <div id={`blog-author`} className="abs pad1 blog-author-box none center-y">
+                                        <div className="flex w-100 gap2 center-y">
+                                            <div className="profile-icon green flex center-y center-x">
+                                                {blog.user.img === ""
+                                                    ? <FaUser />
+                                                    : <img className={`cover`}
+                                                           src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.user.img}`}
+                                                           alt="" />
+                                                }
+                                            </div>
+                                            <h1>{blog.user.name}</h1>
+                                        </div>
                                     </div>
-                                    <h1>{blog.user.name}</h1>
+                                    <div id={`blog-info`} className="abs pad1 blog-info-box none center-y">
+                                        <div className="flex w-100 gap2 center-y">
+                                            <h1>{blog.title}</h1>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div id={`blog-info`} className="abs pad1 blog-info-box none center-y">
-                                <div className="flex w-100 gap2 center-y">
-                                    <h1>{blog.title}</h1>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                <div className="pagination flex center">
-                    <button
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        className={`pagination-btn ${currentPage === 1 ? 'disabled' : ''}`}
-                        disabled={currentPage === 1}
-                    >
-                        <FaRegArrowAltCircleLeft className={currentPage === Math.ceil(blog.length / blogsPerPage) ? 'font25' : 'icon'}/>
-                    </button>
-                    {Array.from({ length: Math.ceil(blog.length / blogsPerPage) }, (_, index) => (
+                            ))
+
+                        }
+                    </div>
+                }
+                {paginatedBlogs.length>0 && (
+                    <div className="pagination flex center">
                         <button
-                            key={index + 1}
-                            onClick={() => handlePageChange(index + 1)}
-                            className={`pagination-btn ${currentPage === index + 1 ? 'active' : ''}`}
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            className={`pagination-btn ${currentPage === 1 ? 'disabled' : ''}`}
+                            disabled={currentPage === 1}
                         >
-                            <p className="number">{index + 1}</p>
+                            <FaRegArrowAltCircleLeft
+                                className={currentPage === Math.ceil(blog.length / blogsPerPage) ? 'font25' : 'icon'}/>
                         </button>
-                    ))}
-                    <button
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        className={`pagination-btn ${currentPage === Math.ceil(blog.length / blogsPerPage) ? 'disabled' : ''}`}
-                        disabled={currentPage === Math.ceil(blog.length / blogsPerPage)}
-                    >
-                        <FaRegArrowAltCircleRight className={currentPage === Math.ceil(blog.length / blogsPerPage) ? 'font25' : 'icon'}/>
-                    </button>
-                </div>
+                        {Array.from({length: Math.ceil(blog.length / blogsPerPage)}, (_, index) => (
+                            <button
+                                key={index + 1}
+                                onClick={() => handlePageChange(index + 1)}
+                                className={`pagination-btn ${currentPage === index + 1 ? 'active' : ''}`}
+                            >
+                                <p className="number">{index + 1}</p>
+                            </button>
+                        ))}
+                        <button
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            className={`pagination-btn ${currentPage === Math.ceil(blog.length / blogsPerPage) ? 'disabled' : ''}`}
+                            disabled={currentPage === Math.ceil(blog.length / blogsPerPage)}
+                        >
+                            <FaRegArrowAltCircleRight
+                                className={currentPage === Math.ceil(blog.length / blogsPerPage) ? 'font25' : 'icon'}/>
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );

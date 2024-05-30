@@ -65,8 +65,28 @@ function Blog() {
                 //console.log(blog);
             }
         };
+        const handleView = async () => {
+            try {
+                const response = await axios.get(
+                    // `${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blogs?id=${id}`,
+                    `${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blog/view/${id}`,
+
+                    {
+                        headers: {
+                            "Authorization": sessionStorage.getItem('user'),
+                        },
+                    }
+                );
+            } catch (error) {
+                console.log(error);
+                setErrorToken(error);
+                setLoading(false);
+            }
+        };
+
         if (!isMounted) {
             setIsMounted(true)
+            handleView();
             fetchData();
         }
     }, [id]);

@@ -244,8 +244,8 @@ const Profile = () => {
                         <div className="list pad1">
                             {blogs.map((blog) => (
                                 <div className={`rel single-blog`}
-                                     onMouseEnter={handleMouseDown}
-                                     onMouseLeave={handleMouseUp}
+                                     // onMouseEnter={handleMouseDown}
+                                     // onMouseLeave={handleMouseUp}
                                      style={{height: '20rem'}}
                                 >
 
@@ -253,7 +253,7 @@ const Profile = () => {
                                          onClick={()=>navigate(`/blog/${blog.id}`)}
                                          src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.img}`}
                                          alt=""/>
-                                    <div id={`blog-info`} className=" abs pad1 blog-info-box none center-y">
+                                    <div id={`blog-info`} className=" abs pad1 blog-info-box center-y">
                                         <div className="flex w-100 between center-y">
                                             <h1 onClick={()=>navigate(`/blog/${blog.id}`)}>{blog.title}</h1>
                                             <div className=" edit-section pad05 center-y">

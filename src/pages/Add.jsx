@@ -82,6 +82,9 @@ function App() {
         }
     }
     const handleClick = () =>{
+        if(loader){
+            return null
+        }
         setLoader(true);
         setSuccess("");
         setTitleErr("");
@@ -109,9 +112,9 @@ function App() {
                 "Authorization": sessionStorage.getItem("user"),
             },
         }, ).then(res => confirmSubmit(res)).catch(err => handleErrors(err.response.data));
-        setLoader(false);
     }
     const handleErrors = (err) => {
+        setLoader(false);
         if (Object.keys(err.errors).length>0) {
             const errorData = err.errors;
             const errorMappings = {
@@ -133,6 +136,7 @@ function App() {
     };
 
     const confirmSubmit = (results) => {
+        setLoader(false);
         if(results.status == 200){
             setSuccess(results.data.message);
             setTitle("");

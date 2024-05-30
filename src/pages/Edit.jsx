@@ -95,6 +95,9 @@ function Edit() {
         }
     };
     const handleClick = (event) =>{
+        if(loader){
+            return null
+        }
         setLoader(true);
         setSuccess("");
         setErrors(initialErrors)
