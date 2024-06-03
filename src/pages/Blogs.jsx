@@ -22,6 +22,9 @@ function Blogs(props) {
     const navigate = useNavigate();
 
     useEffect(() => {
+        setLoading(true);
+        setBlogs([]);
+        setData([]);
         let url = `${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blogs?category=${props.category}`;
         if (props.category === "list") {
             url = `${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blogs`;
@@ -37,6 +40,7 @@ function Blogs(props) {
                 "Authorization": sessionStorage.getItem("user"),
             }
         }).then(res => {
+            console.log(res.data);
             setBlogs(res.data);
             setData(res.data);
             setLoading(false);
@@ -53,6 +57,7 @@ function Blogs(props) {
     };
 
     const handleErr = (err) => {
+        setLoading(false);
         if (err.status === 401) {
             navigate("/");
         }
@@ -133,7 +138,9 @@ function Blogs(props) {
         // Redirect to another page if there's an error
         return navigate("/");
     }
-    const paginatedBlogs = paginate(blog);
+
+        const paginatedBlogs = paginate(blog);
+
 
     return (
         <div className={'flex row-to-col'}>
@@ -183,7 +190,8 @@ function Blogs(props) {
                         <p>No blog posts found</p>
                     </div>
                     :
-                    <div className="blogs-list">
+                    <div className="blogs-list-parent w-100">
+                        <div className="blogs-list">
                     {
                         paginatedBlogs.map((blog) => (
                                 <div className={`rel single-blog`}
@@ -195,7 +203,7 @@ function Blogs(props) {
                                 >
                                     <img className={`cover`}
                                          src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.img}`} alt="" />
-                                    <div id={`blog-author`} className="abs pad1 blog-author-box none center-y">
+                                    <div id={`blog-author`} className="abs pad1 blog-author-box none center-y pointer" onClick={()=>{navigate(`/profile/${blog.user.id}`)}}>
                                         <div className="flex w-100 gap2 center-y">
                                             <div className="profile-icon green flex center-y center-x">
                                                 {blog.user.img === ""
@@ -218,6 +226,7 @@ function Blogs(props) {
 
                     }
                 </div>
+                    </div>
                 }
                 {paginatedBlogs.length>0 && (
                     <div className="pagination flex center">
@@ -233,9 +242,13 @@ function Blogs(props) {
                             <button
                                 key={index + 1}
                                 onClick={() => handlePageChange(index + 1)}
-                                className={`pagination-btn ${currentPage === index + 1 ? 'active' : ''}`}
+                                className={`pagination-btn ${currentPage === index + 1 ? 'active-pagination' : ''}`}
                             >
-                                <p className="number">{index + 1}</p>
+                                <div className="flex col center-y">
+                                    <p className="number">{index + 1}</p>
+                                    {currentPage === index + 1 ? <div className="active-accent"></div> :
+                                        <div className="normal-accent"></div>}
+                                </div>
                             </button>
                         ))}
                         <button

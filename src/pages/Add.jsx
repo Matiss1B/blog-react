@@ -247,7 +247,7 @@ function App() {
                             <FaRegStickyNote className={'icon'}/>
                             <div className="text-message center-x flex col">
                                 <h1>{successMessage}</h1>
-                                <p>You can see it in My Profile/My Blogs</p>
+                                <p>You can see it in My Profile/Profile</p>
                             </div>
                         </div>
                         :
@@ -417,12 +417,12 @@ function App() {
                                 </div>
 
                                 <div
-                                    className={`flex col  textarea-input-box gap1 ${activeInput === 'description' ? 'active' : ''}`}
+                                    className={`flex col w-100  textarea-input-box gap1 ${activeInput === 'description' ? 'active' : ''}`}
                                     onClick={() => {
                                         handleInputBoxClick("description")
                                     }}>
                                 <div className="flex between w-100">
-                                        <div className="flex col center-x">
+                                        <div className="flex col w-100 center-x">
                                             <label
                                                 className={`font15 flex ${activeInput === 'description' ? 'active-label' : ''}`}>Description
                                                 <p className={`${activeInput === 'description' ? 'active-label' : ''} required`}>*</p>
@@ -430,6 +430,7 @@ function App() {
                                             <textarea
                                                 id="description"
                                                 name="description"
+                                                className="w-100"
                                                 value={description}
                                                 autoComplete="off"
                                                 onChange={handleDescription}

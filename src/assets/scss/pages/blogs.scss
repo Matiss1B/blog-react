@@ -49,15 +49,18 @@
   border: none;
   background: transparent;
   padding:0.5rem;
+  color: gray;
   outline: none;
   font-size: 1.5rem;
   cursor: pointer;
-  .icon{
-    &:hover{
-      color: $accent;
-    }
+}
+.active-pagination{
+  color:$accent!important;
+  font-weight: 600;
 
-  }
+}
+.blogs-list-parent{
+  height: 61rem;
 }
 .blogs-list {
   margin-bottom: 1rem;

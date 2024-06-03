@@ -9,6 +9,7 @@ import { IoBookmark } from "react-icons/io5";
 import { MdSend } from "react-icons/md";
 
 import logo from "../assets/icons/iconizer-logotypes-dots-svgrepo-com.svg";
+import {esES} from "@mui/material/locale";
 
 function Blog() {
     let { id } = useParams();
@@ -43,7 +44,8 @@ function Blog() {
                             "Authorization": sessionStorage.getItem("user")
                         }
                     })
-                    console.log(response)
+                    console.log(response);
+
                 }catch (e){
                     console.log(e)
                 }
@@ -57,7 +59,9 @@ function Blog() {
                 }
                 setLoading(false);
             } catch (error) {
-                console.log(error);
+                if(error.response.status == 500 && error.response.data.message == 'Attempt to read property "id" on null'){
+                    navigate("/error");
+                }
                 setErrorToken(error);
                 setLoading(false);
                 // Handle other errors if needed
@@ -182,7 +186,7 @@ function Blog() {
                                     <div id="blog-info-section-id" className="flex flex-1 col">
                                         <div className="blog-info-section flex col gap1 flex-1">
                                             <h1>Info</h1>
-                                            <div className={`info-unit flex center-y gap1`} onClick={()=>navigate(`/profile/${blog.user.id}`)}>
+                                            <div className={`info-unit flex center-y gap1 pointer`} onClick={()=>navigate(`/profile/${blog.user.id}`)}>
                                                 <div className={`blog-author`}>
                                                     <img className={`cover`}
                                                          src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.user.img}`}
@@ -198,7 +202,7 @@ function Blog() {
                                                     <TbCategory2 className={`icon`}/>
                                                 </div>
                                                 <div className="flex col">
-                                                    <p className={`bold`}>Category</p>
+                                                    <p className={`bold pointer`}>Category</p>
                                                     <p className="pointer" onClick={() => {
                                                         navigate(`/blogs/${blog.category}`)
                                                     }}>{blog.category}</p>
@@ -240,10 +244,10 @@ function Blog() {
                                                 <div className="comment-list">
                                                     {comments.map(comment => (
                                                         <div key={comment.id} className="unit flex w-100 gap1 pad1">
-                                                            <div className="image-box w-100 h-100">
+                                                            <div className="image-box w-100 h-100 pointer" onClick={()=>{navigate(`/profile/${comment.user.id}`)}}>
                                                                 <img src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${comment.user.img}`} className="cover" alt="" />
                                                             </div>
-                                                            <div className="col w-100">
+                                                            <div className="col w-100 pointer" onClick={()=>{navigate(`/profile/${comment.user.id}`)}}>
                                                                 <h1>{comment.user.name}</h1>
                                                                 <p>{comment.comment}</p>
                                                             </div>

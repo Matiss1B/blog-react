@@ -21,12 +21,18 @@ const UserProfile = () => {
                         "Authorization": sessionStorage.getItem("user"),
                     }
                 });
+                if(response.data.user == response.data.profile.id){
+                    navigate('/profile');
+                }
                 setIsFollower(response.data.isFollower);
                 setProfile(response.data.profile);
                 setBlogs(response.data.profile.blogs);
                 setFollowers(response.data.profile.followers);
                 setFollowing(response.data.profile.following)
             }catch (e) {
+                if(e.response.status == 300 && e.response.data.error){
+                    navigate("/error");
+                }
                 if(e.response.status == 401){
                     navigate("/")
                 }

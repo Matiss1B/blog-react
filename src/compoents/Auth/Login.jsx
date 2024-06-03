@@ -6,6 +6,7 @@ import {FaLock} from "react-icons/fa"
 import {useState, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import LoaderRing from "../Loader";
 function Login() {
     const [activeInput, setActiveInput] = useState(null);
     const [isPasswordVisible, setPasswordVisible] = useState(false);
@@ -15,9 +16,11 @@ function Login() {
     const [customErr, setCustomErr] = useState("");
     const [passwordErr, setPasswordErr] = useState("");
     const [activeIcon, setActiveIcon] = useState("lock");
+    const [loader,setLoader] = useState(false);
     const navigate = useNavigate();
 
     const submitLogin = () => {
+        setLoader(true)
         setCustomErr("");
         setEmailErr("");
         setPasswordErr("");
@@ -31,6 +34,7 @@ function Login() {
             .catch(err => handleErrors(err));
     }
     const checkAuth = (response) =>{
+        setLoader(false)
         console.log(response);
         if(response.status === 200) {
             sessionStorage.setItem("user", response.data.user);
@@ -38,6 +42,7 @@ function Login() {
         }
     }
     const handleErrors = (err) => {
+        setLoader(false);
         if (err.response.status === 422) {
             const errorData = err.response.data.errors;
             const errorMappings = {
@@ -90,10 +95,11 @@ function Login() {
             <div className="form flex col gap2">
                 <div className={`flex  input-box center-y between ${activeInput === 'email' ? 'active' : ''}`}
                      onClick={() => {handleInputBoxClick("email")}}>
-                    <div className="flex col center-x">
+                    <div className="flex col w-100 center-x">
                         <label className={`font15 ${activeInput === 'email' ? 'active-label' : ''}`}>Email</label>
                         <input
                             type="text"
+                            className="w-100"
                             id="email"
                             name="email"
                             onChange={handleEmailInput}
@@ -106,11 +112,12 @@ function Login() {
                 </div>
                 <div className={`flex  input-box center-y between ${activeInput === 'password' ? 'active' : ''}`}
                      onClick={() => {handleInputBoxClick("password")}}>
-                    <div className="flex col center-x">
+                    <div className="flex col w-100 center-x">
                         <label className={`font15 ${activeInput === 'password' ? 'active-label' : ''}`}>Password</label>
                         <input
                             type={isPasswordVisible ? 'text' : 'password'}
                             id="password"
+                            className="w-100"
                             name="password"
                             onChange={handlePassword}
                         />
@@ -131,7 +138,8 @@ function Login() {
                     </div>
                 </div>
                 <div className={`flex col center-y gap2 `}>
-                    <button className={`w-100`} onClick={submitLogin}>Login</button>
+                    <button className={`w-100`} onClick={submitLogin}>{loader ?
+                        <LoaderRing/> : "Login"}</button>
                 </div>
             </div>
         </div>

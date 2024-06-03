@@ -20,6 +20,7 @@ function SavedBlogs() {
     const blogsPerPage = 9;
     const navigate = useNavigate();
 
+
     useEffect(() => {
         axios.get(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blog/get/all/saved`, {
             headers: {
@@ -171,7 +172,8 @@ function SavedBlogs() {
                         <p>There is not saved blogs</p>
                     </div>
                     :
-                    <div className="blogs-list">
+                    <div className="blogs-list-parent w-100">
+                        <div className="blogs-list">
                         {
                             paginatedBlogs.map((blog) => (
                                 <div className={`rel single-blog`}
@@ -183,7 +185,7 @@ function SavedBlogs() {
                                 >
                                     <img className={`cover`}
                                          src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.img}`} alt="" />
-                                    <div id={`blog-author`} className="abs pad1 blog-author-box none center-y">
+                                    <div id={`blog-author`} className="abs pad1 blog-author-box none center-y pointer" onClick={()=>{navigate(`/profile/${blog.user.id}`)}}>
                                         <div className="flex w-100 gap2 center-y">
                                             <div className="profile-icon green flex center-y center-x">
                                                 {blog.user.img === ""
@@ -205,6 +207,7 @@ function SavedBlogs() {
                             ))
 
                         }
+                    </div>
                     </div>
                 }
                 {paginatedBlogs.length>0 && (

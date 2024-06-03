@@ -482,18 +482,19 @@ function Edit() {
                                     </div>
                                 </div>
                                 <div
-                                    className={`flex col  textarea-input-box gap1 ${activeInput === 'description' ? 'active' : ''}`}
+                                    className={`flex col w-100 textarea-input-box gap1 ${activeInput === 'description' ? 'active' : ''}`}
                                     onClick={() => {
                                         handleInputBoxClick("description")
                                     }}>
                                     <div className="flex between w-100">
-                                        <div className="flex col center-x">
+                                        <div className="flex col w-100 center-x">
                                             <label
                                                 className={`font15 flex ${activeInput === 'description' ? 'active-label' : ''}`}>Description
                                                 <p className={`${activeInput === 'description' ? 'active-label' : ''} required`}>*</p>
                                             </label>
                                             <textarea
                                                 id="description"
+                                                className="w-100"
                                                 name="description"
                                                 autoComplete="off"
                                                 value={description}

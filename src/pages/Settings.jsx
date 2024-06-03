@@ -206,7 +206,6 @@ function Settings() {
                             <FaRegStickyNote className={'icon'}/>
                             <div className="text-message center-x flex col">
                                 <h1>{successMessage}</h1>
-                                <p>You can see it in My Profile/My Blogs</p>
                             </div>
                         </div>
                         :
