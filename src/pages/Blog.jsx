@@ -10,6 +10,7 @@ import { MdSend } from "react-icons/md";
 
 import logo from "../assets/icons/iconizer-logotypes-dots-svgrepo-com.svg";
 import {esES} from "@mui/material/locale";
+import {IoMdInformationCircleOutline} from "react-icons/io";
 
 function Blog() {
     let { id } = useParams();
@@ -24,7 +25,6 @@ function Blog() {
     const navigate = useNavigate();
     const [isMounted, setIsMounted] = useState(false);
     useEffect(() => {
-        console.log(sessionStorage.getItem("user"));
         const fetchData = async () => {
             try {
                 const blogResponse = await axios.get(
@@ -44,14 +44,14 @@ function Blog() {
                             "Authorization": sessionStorage.getItem("user")
                         }
                     })
-                    console.log(response);
+                    //console.log(response);
 
                 }catch (e){
-                    console.log(e)
+                    //console.log(e)
                 }
                 blogResponse.data.data.tags =  blogResponse.data.tags;
                 setComments(blogResponse.data.data.comments);
-                console.log(blogResponse)
+                //console.log(blogResponse)
                 setBlog(blogResponse.data.data);
                 setSaves(Object.keys(blogResponse.data.data.saves).length);
                 if(Object.keys(blogResponse.data.data.saved_blogs_for_current_user).length>0){
@@ -82,7 +82,7 @@ function Blog() {
                     }
                 );
             } catch (error) {
-                console.log(error);
+                //console.log(error);
                 setErrorToken(error);
                 setLoading(false);
             }
@@ -104,13 +104,13 @@ function Blog() {
                     "Authorization": sessionStorage.getItem("user")
                 }
             });
-            console.log(response.data);
+            //console.log(response.data);
             if(response.data.status == 200) {
                 setComment("");
                 comments.unshift(response.data.comment);
             }
         }catch (error){
-            console.log(error)
+            //console.log(error)
         }
     }
     const handleErr = (err) =>{
@@ -242,6 +242,12 @@ function Blog() {
                                                     </div>
                                                 </div>
                                                 <div className="comment-list">
+                                                    {comments.length<1 && (
+                                                        <div className="no-results flex font1 center-y gap2">
+                                                            <IoMdInformationCircleOutline className={"icon"}/>
+                                                            <p>No comments yet</p>
+                                                        </div>
+                                                    )}
                                                     {comments.map(comment => (
                                                         <div key={comment.id} className="unit flex w-100 gap1 pad1">
                                                             <div className="image-box w-100 h-100 pointer" onClick={()=>{navigate(`/profile/${comment.user.id}`)}}>

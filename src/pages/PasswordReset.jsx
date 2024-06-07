@@ -29,10 +29,10 @@ const PasswordReset = () => {
                     Authorization:window.localStorage.getItem("user"),
                 }
             });
-            console.log(response);
+            //console.log(response);
             const data = response.data;
             if(response.status === 201){
-                console.log(data.status);
+                //console.log(data.status);
                 sessionStorage.setItem("user", window.localStorage.getItem("user"));
                 window.localStorage.removeItem("user");
                 setSuccess(true);

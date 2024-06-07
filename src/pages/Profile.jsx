@@ -6,6 +6,7 @@ import { IoIosClose } from "react-icons/io";
 import axios from "axios";
 import {useNavigate, useParams} from "react-router-dom";
 import Loading from "../compoents/Loading";
+import LoaderRing from "../compoents/Loader";
 
 const Profile = () => {
     const [profile, setProfile] = useState([]);
@@ -14,6 +15,7 @@ const Profile = () => {
     const [following, setFollowing] = useState([]);
     const [openFollowers, setOpenFollowers] = useState(false);
     const [openFollowing, setOpenFollowing] = useState(false);
+    const [imageLoading, setImageLoading] = useState({});
 
     useEffect(()=>{
         const fetchBlogs = async () => {
@@ -27,8 +29,14 @@ const Profile = () => {
                 setBlogs(response.data.profile.blogs);
                 setFollowers(response.data.profile.followers);
                 setFollowing(response.data.profile.following)
+                const loadingState = response.data.profile.blogs.reduce((acc, blog) => {
+                    acc[blog.id] = true;
+                    return acc;
+                }, {});
+                setImageLoading(loadingState);
+
             }catch (e) {
-                console.log(e.response.status);
+                //console.log(e.response.status);
                 if(e.response.status == 401){
                     navigate("/")
                 }
@@ -37,23 +45,8 @@ const Profile = () => {
         fetchBlogs();
     },[]);
     const navigate = useNavigate();
-    const handleMouseUp = (event) => {
-        const blogInfoElement = event.currentTarget.querySelector("#blog-info");
-        // const blogEditElement = event.currentTarget.querySelector("#edit-section");
-        if (blogInfoElement) {
-            blogInfoElement.classList.add("none");
-            // blogEditElement.classList.add("none");
-        }
-    };
-    const handleMouseDown = (event) => {
-        const blogInfoElement = event.currentTarget.querySelector("#blog-info");
-        // const blogEditElement = event.currentTarget.querySelector("#edit-section");
-
-        if (blogInfoElement) {
-            blogInfoElement.classList.remove("none");
-            // blogEditElement.classList.remove("none");
-
-        }
+    const handleImageLoad = (id) => {
+        setImageLoading((prevState) => ({ ...prevState, [id]: false }));
     };
     const toggleFollow = async (id) => {
         try {
@@ -67,7 +60,7 @@ const Profile = () => {
                 }
             );
 
-            console.log(response);
+            //console.log(response);
 
             const newFollower = response.data.follower;
 
@@ -95,7 +88,7 @@ const Profile = () => {
                 }
             );
 
-            console.log(response);
+            //console.log(response);
 
             const newFollower = response.data.follower;
 
@@ -244,13 +237,18 @@ const Profile = () => {
                         <div className="list pad1">
                             {blogs.map((blog) => (
                                 <div className={`rel single-blog`}
-                                     // onMouseEnter={handleMouseDown}
-                                     // onMouseLeave={handleMouseUp}
                                      style={{height: '20rem'}}
+                                     key={blog.id}
                                 >
+                                    {imageLoading[blog.id] === true && (
+                                        <div className="img-profile-loader abs flex middle">
+                                            <LoaderRing/>
+                                        </div>
+                                    )}
 
                                     <img className={`cover`}
                                          onClick={()=>navigate(`/blog/${blog.id}`)}
+                                         onLoad={()=>handleImageLoad(blog.id)}
                                          src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.img}`}
                                          alt=""/>
                                     <div id={`blog-info`} className=" abs pad1 blog-info-box center-y">

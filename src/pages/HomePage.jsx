@@ -67,7 +67,7 @@ function HomePage() {
                         },
                     }
                 );
-                console.log(response.data);
+                //console.log(response.data);
                 if(response.data.status == 200){
                     setCategoriesCount(response.data.categories.length);
                 }

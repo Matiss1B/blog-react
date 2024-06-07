@@ -88,7 +88,7 @@ function Settings() {
 
                 }
         ).catch((err)=> {
-            console.log(err.response.data.errors);
+            console.log(err.response.data);
             if(err.response.status == 422){
                 setErrors(err.response.data.errors);
             }
@@ -218,7 +218,7 @@ function Settings() {
                                     <img className={`cover image`}
                                          src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${img}`} alt=""/>
                                 </div>
-                                <input onChange={handleImg} type="file" id={`profileImg`} name={`profileImg`}
+                                <input onChange={handleImg} type="file" accept=".jpeg,.jpg,.png" id={`profileImg`} name={`profileImg`}
                                        className={`none`}/>
                                 <p className="err font15">{errors.img == "" ? "" : errors.img}</p>
                                 <label htmlFor="profileImg" className={`font15`}>Change profile image</label>

@@ -40,7 +40,7 @@ function Edit() {
                     "Authorization": sessionStorage.getItem("user"),
                 }
             }).then(res => {
-                console.log(res)
+                //console.log(res)
             const blogData = res.data[0];
             const tags = blogData.tags.map(tag => tag.tag);
             setHashtags(tags)
@@ -125,7 +125,7 @@ function Edit() {
                 'Authorization': sessionStorage.getItem('user'),
             },
         }).then(res => {
-            console.log(res);
+            //console.log(res);
             setSuccess(res.data.message);
             setTimeout(() => {
                 const box = document.getElementById('success-pop-up');
@@ -165,7 +165,7 @@ function Edit() {
             //     }
             // }
         }
-        console.log(err.response);
+        //console.log(err.response);
     };
 
     const deleteBlog = () =>{
@@ -186,7 +186,7 @@ function Edit() {
                     navigate("/profile")
                 }, 2000);
             }
-        ).catch(err => console.log(err));
+        ).catch(err =>{} );
     }
 
     const handleTitle = event =>{

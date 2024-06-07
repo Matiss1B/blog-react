@@ -5,6 +5,7 @@ import Header from "../compoents/Header";
 import { GrClose, GrSearch } from "react-icons/gr";
 import { FaUser } from "react-icons/fa";
 import Loader from "../compoents/Loading";
+import LoaderRing from "../compoents/Loader";
 import { FaRegArrowAltCircleLeft, FaRegArrowAltCircleRight } from "react-icons/fa";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 
@@ -18,13 +19,38 @@ function Blogs(props) {
     const [focus, setFocus] = useState(false);
     const [blog, setBlogs] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [imageLoading, setImageLoading] = useState({});
     const blogsPerPage = 9;
     const navigate = useNavigate();
+    useEffect(()=>{
+        const fetchCategories = async () =>{
+            try {
+                const response = await axios.get(
+                    `${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/categories/get`,
+                    {
+                        headers: {
+                            Authorization: sessionStorage.getItem('user'),
+                        },
+                    }
+                );
+                const sections = ["list", "for", "followers"]
+                if(!response.data.categories.some(categoryObj => categoryObj.category.trim() === props.category)){
+                    if(!sections.includes(props.category)) {
+                        navigate("/error");
+                    }
+               }
 
+            } catch (error) {
+                //console.log(error);
+            }
+        }
+        fetchCategories();
+    },[props.category])
     useEffect(() => {
         setLoading(true);
         setBlogs([]);
         setData([]);
+
         let url = `${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blogs?category=${props.category}`;
         if (props.category === "list") {
             url = `${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blogs`;
@@ -40,10 +66,15 @@ function Blogs(props) {
                 "Authorization": sessionStorage.getItem("user"),
             }
         }).then(res => {
-            console.log(res.data);
+            //console.log(res.data);
             setBlogs(res.data);
             setData(res.data);
             setLoading(false);
+            const loadingState = res.data.reduce((acc, blog) => {
+                acc[blog.id] = true;
+                return acc;
+            }, {});
+            setImageLoading(loadingState);
         }).catch(err => handleErr(err.response.data));
     }, [props.category]);
 
@@ -94,6 +125,10 @@ function Blogs(props) {
     const openBlog = (id) => {
         navigate(`/blog/${id}`);
     };
+    const handleImageLoad = (id) => {
+        setImageLoading((prevState) => ({ ...prevState, [id]: false }));
+    };
+
 
     const handleMouseUp = (event) => {
         const blogAuthorElement = event.currentTarget.querySelector("#blog-author");
@@ -201,7 +236,13 @@ function Blogs(props) {
                                      style={{ height: '20rem' }}
                                      key={blog.id}
                                 >
+                                    {imageLoading[blog.id] === true && (
+                                        <div className="img-loader abs flex middle">
+                                            <LoaderRing/>
+                                        </div>
+                                    )}
                                     <img className={`cover`}
+                                         onLoad={()=>{handleImageLoad(blog.id)}}
                                          src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.img}`} alt="" />
                                     <div id={`blog-author`} className="abs pad1 blog-author-box none center-y pointer" onClick={()=>{navigate(`/profile/${blog.user.id}`)}}>
                                         <div className="flex w-100 gap2 center-y">

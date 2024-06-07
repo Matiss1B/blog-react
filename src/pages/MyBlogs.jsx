@@ -25,7 +25,7 @@ function MyBlogs() {
             });
             setBlogs(response.data);
             setData(response.data);
-            console.log(response);
+            //console.log(response);
         }
         fetchBlogs();
 

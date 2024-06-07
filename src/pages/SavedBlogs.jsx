@@ -7,6 +7,7 @@ import { FaUser } from "react-icons/fa";
 import Loader from "../compoents/Loading";
 import { FaRegArrowAltCircleLeft, FaRegArrowAltCircleRight } from "react-icons/fa";
 import {IoMdInformationCircleOutline} from "react-icons/io";
+import LoaderRing from "../compoents/Loader";
 
 
 function SavedBlogs() {
@@ -17,6 +18,7 @@ function SavedBlogs() {
     const [focus, setFocus] = useState(false);
     const [blog, setBlogs] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [imageLoading, setImageLoading] = useState({});
     const blogsPerPage = 9;
     const navigate = useNavigate();
 
@@ -30,6 +32,11 @@ function SavedBlogs() {
             setBlogs(res.data);
             setData(res.data);
             setLoading(false);
+            const loadingState = res.data.reduce((acc, blog) => {
+                acc[blog.id] = true;
+                return acc;
+            }, {});
+            setImageLoading(loadingState);
         }).catch(err => handleErr(err.response.data));
     }, []);
 
@@ -73,6 +80,9 @@ function SavedBlogs() {
             setBlogs(filteredBlogs); // Update the original blog state
             setCurrentPage(1); // Reset the current page to the first page
         }
+    };
+    const handleImageLoad = (id) => {
+        setImageLoading((prevState) => ({ ...prevState, [id]: false }));
     };
 
     const openBlog = (id) => {
@@ -183,8 +193,15 @@ function SavedBlogs() {
                                      style={{ height: '20rem' }}
                                      key={blog.id}
                                 >
+                                    {imageLoading[blog.id] === true && (
+                                        <div className="img-loader abs flex middle">
+                                            <LoaderRing/>
+                                        </div>
+                                    )}
                                     <img className={`cover`}
-                                         src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.img}`} alt="" />
+                                         onLoad={()=>{handleImageLoad(blog.id)}}
+                                         src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.img}`} alt=""
+                                    />
                                     <div id={`blog-author`} className="abs pad1 blog-author-box none center-y pointer" onClick={()=>{navigate(`/profile/${blog.user.id}`)}}>
                                         <div className="flex w-100 gap2 center-y">
                                             <div className="profile-icon green flex center-y center-x">

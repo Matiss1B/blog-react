@@ -99,7 +99,7 @@ function Register() {
         if(err.response.status === 300){
 
         }
-        console.log(err);
+        //console.log(err);
     }
     const handleMouseDown = () => {
         setPasswordVisible(true);

@@ -7,6 +7,23 @@
   gap: 2rem 2rem;
   grid-template-areas: ". .";
   font-family: $font-montserrat;
+
+}
+.img-loader{
+  width: 100%;
+  height: 100%;
+  background-color:white;
+  color: $accent;
+  border-radius: 15px;
+  z-index: 90;
+}
+.img-profile-loader{
+  width: 100%;
+  height: 100%;
+  background-color:white;
+  color: $accent;
+  border-radius: 5px;
+  z-index: 90;
 }
 .blog{
   position: relative;

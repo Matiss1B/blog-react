@@ -35,7 +35,7 @@ function Login() {
     }
     const checkAuth = (response) =>{
         setLoader(false)
-        console.log(response);
+        //console.log(response);
         if(response.status === 200) {
             sessionStorage.setItem("user", response.data.user);
             navigate("/"+response.data.link);

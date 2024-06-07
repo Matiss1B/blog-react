@@ -29,7 +29,7 @@ function Header() {
                         },
                     }
                 );
-                console.log(response.data);
+                //console.log(response.data);
                 if(response.data.status == 200){
                     setCategories(response.data.categories);
                 }
@@ -46,14 +46,14 @@ function Header() {
         axios
             .post(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/logout`,data)
             .then(response => checkLogout(response))
-            .catch(err => console.log(err));
+            .catch(err => {});
     }
     const checkLogout = (response) => {
         if(response.status === 200){
             sessionStorage.removeItem("user");
             navigate("/"+response.data.link);
         }
-        console.log(response)
+        //console.log(response)
     }
     const handleNavLink = (event) => {
         const clickedNavLink = event.target.id;

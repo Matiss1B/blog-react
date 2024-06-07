@@ -132,7 +132,7 @@ function App() {
                 }
             }
         }
-        console.log(err);
+        //console.log(err);
     };
 
     const confirmSubmit = (results) => {
@@ -155,7 +155,7 @@ function App() {
 
             }, 2000)
         }
-        console.log(results);
+        //console.log(results);
     }
     const handleTitle = event =>{
         setTitle(event.target.value);
@@ -174,7 +174,7 @@ function App() {
     }
     const handleDocs = event =>{
         setDoc(event.target.files[0]);
-        console.log(event.target.files[0]);
+        //console.log(event.target.files[0]);
     }
     const handleImg = event =>{
         let maxSize = 1.9 * 1024 * 1024
@@ -443,15 +443,15 @@ function App() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="docs-upload-box flex center-y gap1">
+                                {/*<div className="docs-upload-box flex center-y gap1">*/}
 
-                                    <label htmlFor="descriptionFile">
-                                        <FiUpload className={`icon`}/>
-                                    </label>
-                                    <input id="descriptionFile" type="file" accept=".doc,.docx,.txt,.pdf"
-                                           className={`none`} name={`descriptionFile`} onChange={handleDocs}/>
-                                    <p>Upload as file</p>
-                                </div>
+                                {/*    <label htmlFor="descriptionFile">*/}
+                                {/*        <FiUpload className={`icon`}/>*/}
+                                {/*    </label>*/}
+                                {/*    <input id="descriptionFile" type="file" accept=".doc,.docx,.txt,.pdf"*/}
+                                {/*           className={`none`} name={`descriptionFile`} onChange={handleDocs}/>*/}
+                                {/*    <p>Upload as file</p>*/}
+                                {/*</div>*/}
                                 <div className="flex add-buttons w-100 gap2">
                                     <button id={`submit`} className={`w-100`} onClick={handleClick}>{loader ?
                                         <LoaderRing/> : "Submit"}</button>

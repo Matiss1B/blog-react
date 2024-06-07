@@ -23,7 +23,7 @@ const PasswordResetMail = () => {
                     Authorization:sessionStorage.getItem("user"),
                 }
             });
-            console.log(response);
+            //console.log(response);
            const data = response.data;
             if(data.status === 200){
                 window.localStorage.setItem("user",sessionStorage.getItem("user"));
@@ -33,7 +33,7 @@ const PasswordResetMail = () => {
             if(error.response.status == 422){
                 setErrors(error.response.data.errors);
             }
-            console.log(error);
+            //console.log(error);
         }
         setLoader(false);
     }

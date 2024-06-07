@@ -4,6 +4,7 @@ import {FaUser} from "react-icons/fa";
 import axios from "axios";
 import Loading from "../compoents/Loading";
 import {useNavigate, useParams} from "react-router-dom";
+import LoaderRing from "../compoents/Loader";
 
 const UserProfile = () => {
     const {id} = useParams();
@@ -12,6 +13,8 @@ const UserProfile = () => {
     const [followers, setFollowers] = useState([]);
     const [following, setFollowing] = useState([]);
     const [isFollower, setIsFollower] = useState(false);
+    const [imageLoading, setImageLoading] = useState({});
+
     const navigate = useNavigate();
     useEffect(()=>{
         const fetchBlogs = async () => {
@@ -29,6 +32,11 @@ const UserProfile = () => {
                 setBlogs(response.data.profile.blogs);
                 setFollowers(response.data.profile.followers);
                 setFollowing(response.data.profile.following)
+                const loadingState = response.data.profile.blogs.reduce((acc, blog) => {
+                    acc[blog.id] = true;
+                    return acc;
+                }, {});
+                setImageLoading(loadingState);
             }catch (e) {
                 if(e.response.status == 300 && e.response.data.error){
                     navigate("/error");
@@ -41,6 +49,9 @@ const UserProfile = () => {
         fetchBlogs();
 
     },[]);
+    const handleImageLoad = (id) => {
+        setImageLoading((prevState) => ({ ...prevState, [id]: false }));
+    };
     const toggleFollow = async () => {
         try {
             const response = await axios.post(
@@ -130,13 +141,20 @@ const UserProfile = () => {
                         <div className="list pad1">
                             {blogs.map((blog)=> (
                                 <div className={`rel single-blog`}
+                                     key={blog.id}
                                     onMouseEnter={handleMouseDown}
                                     onMouseLeave={handleMouseUp}
-                                    // onClick={() => openBlog(blog.id)}
+                                     onClick={() => navigate(`/blog/${blog.id}`)}
                                      style={{height: '20rem'}}
                                 >
+                                    {imageLoading[blog.id] === true && (
+                                        <div className="img-profile-loader abs flex middle">
+                                            <LoaderRing/>
+                                        </div>
+                                    )}
                                     <img className={`cover`}
                                          src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.img}`}
+                                         onLoad={()=>handleImageLoad(blog.id)}
                                          alt=""/>
                                     <div id={`blog-info`} className=" abs pad1 blog-info-box none center-y">
                                         <div className="flex w-100 gap2 center-y">
