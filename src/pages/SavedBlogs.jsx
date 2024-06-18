@@ -5,13 +5,12 @@ import Header from "../compoents/Header";
 import { GrClose, GrSearch } from "react-icons/gr";
 import { FaUser } from "react-icons/fa";
 import Loader from "../compoents/Loading";
-import LoaderRing from "../compoents/Loader";
 import { FaRegArrowAltCircleLeft, FaRegArrowAltCircleRight } from "react-icons/fa";
-import { IoMdInformationCircleOutline } from "react-icons/io";
+import {IoMdInformationCircleOutline} from "react-icons/io";
+import LoaderRing from "../compoents/Loader";
 
 
-
-function Blogs(props) {
+function SavedBlogs() {
     const [data, setData] = useState(null);
     const [search, setSearch] = useState("");
     const [loading, setLoading] = useState(true);
@@ -22,73 +21,37 @@ function Blogs(props) {
     const [imageLoading, setImageLoading] = useState({});
     const blogsPerPage = 9;
     const navigate = useNavigate();
-    useEffect(()=>{
-        const fetchCategories = async () =>{
-            try {
-                const response = await axios.get(
-                    `${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/categories/get`,
-                    {
-                        headers: {
-                            Authorization: sessionStorage.getItem('user'),
-                        },
-                    }
-                );
-                const sections = ["list", "for", "followers"]
-                if(!response.data.categories.some(categoryObj => categoryObj.category.trim() === props.category)){
-                    if(!sections.includes(props.category)) {
-                        navigate("/error");
-                    }
-               }
 
-            } catch (error) {
-                //console.log(error);
-            }
-        }
-        fetchCategories();
-    },[props.category])
+
     useEffect(() => {
-        const fetchBlogs = async () => {
+        const fetchData = async () => {
             setLoading(true);
-            setBlogs([]);
-            setData([]);
-
-            let url = `${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blogs?category=${props.category}`;
-            if (props.category === "list") {
-                url = `${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blogs`;
-            } else if (props.category === "for") {
-                url = `${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blog/for`;
-            } else if (props.category === "followers") {
-                url = `${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blog/followers`;
-            }
-
             try {
-                const res = await axios.get(url, {
+                const response = await axios.get(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blog/get/all/saved`, {
                     headers: {
                         "Authorization": sessionStorage.getItem("user"),
                     }
                 });
 
-                const blogsData = res.data;
-                setCurrentPage(1);
-                //console.log(blogsData);
-                setBlogs(blogsData);
-                setData(blogsData);
+                const blogs = response.data;
+                setBlogs(blogs);
+                setData(blogs);
 
-                const loadingState = blogsData.reduce((acc, blog) => {
+                const loadingState = blogs.reduce((acc, blog) => {
                     acc[blog.id] = true;
                     return acc;
                 }, {});
                 setImageLoading(loadingState);
-            } catch (err) {
-                setLoading(false);
-                console.error(err);
-                handleErr(err.response ? err.response.data : "An error occurred");
-            }
-            setLoading(false);
 
+            } catch (error) {
+                handleErr(error.response.data);
+            }
+            setLoading(false)
         };
-        fetchBlogs();
-    }, [props.category]);
+
+        fetchData();
+    }, []);
+
     const handleMouseDown = (event) => {
         const blogAuthorElement = event.currentTarget.querySelector("#blog-author");
         const blogInfoElement = event.currentTarget.querySelector("#blog-info");
@@ -99,7 +62,6 @@ function Blogs(props) {
     };
 
     const handleErr = (err) => {
-        setLoading(false);
         if (err.status === 401) {
             navigate("/");
         }
@@ -127,19 +89,18 @@ function Blogs(props) {
                     })
                 );
             }
-            setFocus(false);
+            setFocus(false)
             setBlogs(filteredBlogs); // Update the original blog state
             setCurrentPage(1); // Reset the current page to the first page
         }
-    };
-
-    const openBlog = (id) => {
-        navigate(`/blog/${id}`);
     };
     const handleImageLoad = (id) => {
         setImageLoading((prevState) => ({ ...prevState, [id]: false }));
     };
 
+    const openBlog = (id) => {
+        navigate(`/blog/${id}`);
+    };
 
     const handleMouseUp = (event) => {
         const blogAuthorElement = event.currentTarget.querySelector("#blog-author");
@@ -159,11 +120,11 @@ function Blogs(props) {
         })
             .then(response => {
                 setData(response.data);
-                // setLoading(false);
+                setLoading(false);
             })
             .catch(error => {
                 setErrorToken(error);
-                // setLoading(false);
+                setLoading(false);
             });
     }, []);
 
@@ -177,22 +138,20 @@ function Blogs(props) {
         return blogs.slice(startIndex, endIndex);
     };
 
-    if (loading && blog.length<1) {
+    if (loading) {
         return <Loader />;
     }
     if (error) {
         // Redirect to another page if there's an error
         return navigate("/");
     }
-
-        const paginatedBlogs = paginate(blog);
-
+    const paginatedBlogs = paginate(blog);
 
     return (
         <div className={'flex row-to-col'}>
             <Header />
             <div className="App h-v pad3">
-                <h1>{props.category.charAt(0).toUpperCase() + props.category.slice(1)}</h1>
+                <h1>Saved</h1>
                 <div className="blog-search-box flex col middle">
                     <div className="search-box flex col">
                         <div className="flex gap1 center-y">
@@ -233,13 +192,13 @@ function Blogs(props) {
                     ?
                     <div className="no-results flex center-y gap2">
                         <IoMdInformationCircleOutline className={"icon"}/>
-                        <p>No blog posts found</p>
+                        <p>There is not saved blogs</p>
                     </div>
                     :
                     <div className="blogs-list-parent w-100">
                         <div className="blogs-list">
-                    {
-                        paginatedBlogs.map((blog) => (
+                        {
+                            paginatedBlogs.map((blog) => (
                                 <div className={`rel single-blog`}
                                      onMouseEnter={handleMouseDown}
                                      onMouseLeave={handleMouseUp}
@@ -254,7 +213,8 @@ function Blogs(props) {
                                     )}
                                     <img className={`cover`}
                                          onLoad={()=>{handleImageLoad(blog.id)}}
-                                         src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.img}`} alt="" />
+                                         src={`${process.env.REACT_APP_BASE_URL_BACKEND}/storage/${blog.img}`} alt=""
+                                    />
                                     <div id={`blog-author`} className="abs pad1 blog-author-box none center-y pointer" onClick={()=>{navigate(`/profile/${blog.user.id}`)}}>
                                         <div className="flex w-100 gap2 center-y">
                                             <div className="profile-icon green flex center-y center-x">
@@ -276,8 +236,8 @@ function Blogs(props) {
                                 </div>
                             ))
 
-                    }
-                </div>
+                        }
+                    </div>
                     </div>
                 }
                 {paginatedBlogs.length>0 && (
@@ -294,13 +254,9 @@ function Blogs(props) {
                             <button
                                 key={index + 1}
                                 onClick={() => handlePageChange(index + 1)}
-                                className={`pagination-btn ${currentPage === index + 1 ? 'active-pagination' : ''}`}
+                                className={`pagination-btn ${currentPage === index + 1 ? 'active' : ''}`}
                             >
-                                <div className="flex col center-y">
-                                    <p className="number">{index + 1}</p>
-                                    {currentPage === index + 1 ? <div className="active-accent"></div> :
-                                        <div className="normal-accent"></div>}
-                                </div>
+                                <p className="number">{index + 1}</p>
                             </button>
                         ))}
                         <button
@@ -318,4 +274,4 @@ function Blogs(props) {
     );
 }
 
-export default Blogs;
+export default SavedBlogs;

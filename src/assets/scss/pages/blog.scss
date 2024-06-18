@@ -18,7 +18,7 @@
     padding: 0.5rem 1rem 0.5rem 1rem;
     border-radius: 20px;
     &:hover{
-      color: white;
+      background-color: $accent-hover;
     }
     .icon{
       font-size: 2rem;
@@ -31,19 +31,23 @@
     padding: 0.5rem 1rem 0.5rem 1rem;
     border-radius: 20px;
     &:hover{
-      color: white;
+      background-color: $accent-hover;
     }
   }
   .blog-text-section{
     flex:1;
     height: 100%;
     .text-box {
+      padding: 3rem;
       .blog-title {
         text-decoration: underline 7px solid $accent;
       }
 
       .blog-description {
         font-size: 2rem;
+        max-height: 70rem;
+        word-break: break-word;
+        overflow-y: scroll;
       }
     }
   }
@@ -51,6 +55,7 @@
     flex:1;
     height: 100%;
     .image-box{
+      padding: 4rem;
       max-width: 1000px;
       img{
         border-radius: 25px;
@@ -67,7 +72,7 @@
         width: 60px;
         height: 60px;
         border-radius: 50px;
-        border:4px solid #bbbaba;
+        border:4px solid $gray-label;
         .icon{
           font-size: 3.5rem;
           color: $accent;
@@ -82,4 +87,106 @@
       }
     }
   }
+  .comment-section{
+    .add-comment-box{
+      .input-box{
+        padding: 0.2rem 0.2rem 0.2rem 1.2rem;
+        min-width: 20rem;
+        border-radius: 15px;
+        background-color: transparent;
+        border: 1.5px solid $accent;
+        .err{
+          font-size: 1.1rem;
+          font-weight: 500;
+          color: red;
+        }
+        label{
+          font-weight: 600;
+        }
+        input{
+          width: 100%;
+          background-color: transparent;
+          font-weight: 600;
+          border: none;
+          font-size: 1.5rem;
+          &:focus{
+            outline:none;
+          }
+        }
+        .icon{
+          cursor: pointer;
+          margin-top: 3px;
+          font-size: 3rem;
+          color: $accent;
+          &:hover{
+            color: $accent-hover;
+          }
+        }
+      }
+      button{
+        font-size: 2rem;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        border-radius: 5px;
+        background-color: $accent;
+        outline: 0.3px solid $accent;
+        color: white;
+        padding: 0.2rem 1rem 0.2rem 1rem;
+        &:hover{
+          color: black;
+          outline: 0.3px solid black;
+        }
+      }
+    }
+    .comment-list{
+      max-height: 25rem;
+      overflow-y: scroll;
+      .unit{
+        *{
+          margin: 0;
+          padding: 0;
+        }
+        p{
+          font-size: 1.5rem;
+        }
+        h1{
+          font-size: 1.5rem;
+        }
+        .image-box{
+          height: 5rem;
+          width: 5.5rem;
+          img{
+            border-radius: 25px;
+          }
+        }
+      }
+    }
+  }
+}
+#blog-info-section-id{
+  gap:2rem;
+  max-width: 40rem;
+  padding: 2rem;
+}
+@media (max-width: $mobile-max-width) {
+  #blog-info-section-id{
+    gap:3rem;
+    padding: 0rem;
+  }
+ #single-blog-page{
+   .blog-image-section {
+     .image-box {
+       padding: 2rem;
+     }
+   }
+   .blog-text-section{
+     .text-box{
+       padding: 2rem;
+     }
+     .blog-info-section{
+       margin-left: 0px;
+     }
+   }
+ }
 }

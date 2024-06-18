@@ -20,13 +20,15 @@
       max-width: 50rem;
       width: 100%;
       label{
-        color: #9a9a9a;
+        color: $gray-label;
         font-weight: 600;
       }
       .input-box{
         padding: 1rem 1rem 1rem 2rem;
         border-radius: 15px;
-        background-color: #efefef;
+        width: 100%;
+        min-width: 20rem;
+        background-color: $input-bg;
         .err{
           font-size: 1.1rem;
           font-weight: 500;
@@ -35,7 +37,7 @@
       }
       .auth-icon{
         font-size: 2.5rem;
-        color: #9a9a9a;
+        color: $icon-gray;
       }
       .active {
         /* Add your active styles here */
@@ -67,7 +69,7 @@
         font-size: 2.5rem;
         outline: none;
         border: none;
-        box-shadow: 0 0 10px rgba(144, 245, 120, 0.7);
+        box-shadow: 0 0 10px $box-shadow-input;
         transition: 0.7s;
         &:hover{
           background-color: white;
@@ -120,5 +122,10 @@
   .icon{
     font-size: 5rem;
     color: $accent;
+  }
+}
+@media (max-width: $mobile-max-width) {
+  .login-form{
+    padding: 1rem;
   }
 }

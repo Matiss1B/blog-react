@@ -2,23 +2,28 @@ import React, {useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import logo from "../assets/icons/iconizer-logotypes-dots-svgrepo-com.svg";
 import axios from "axios";
+import LoaderRing from "../compoents/Loader";
 
 const PasswordResetMail = () => {
     const [email, setEmail] = useState("");
+    const [loader, setLoader] = useState(false);
+
     const [errors, setErrors] = useState({
         email: "",
     })
     const [success, setSuccess] = useState(false);
     const handleForm= async () =>{
+        setLoader(true)
         const formData = new FormData();
         formData.append("email", email);
         formData.append("token", Math.floor(1000000000 + Math.random() * 9000000000).toString());
         try {
-            const response = await axios.post(`http://localhost/api/v1/user/password-reset-mail`, formData,{
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/user/password-reset-mail`, formData,{
                 headers:{
                     Authorization:sessionStorage.getItem("user"),
                 }
             });
+            //console.log(response);
            const data = response.data;
             if(data.status === 200){
                 window.localStorage.setItem("user",sessionStorage.getItem("user"));
@@ -28,7 +33,9 @@ const PasswordResetMail = () => {
             if(error.response.status == 422){
                 setErrors(error.response.data.errors);
             }
+            //console.log(error);
         }
+        setLoader(false);
     }
     return (
         <div className={"h-v rel"}>
@@ -54,7 +61,7 @@ const PasswordResetMail = () => {
                                 <p className="err">{errors.email === "" ? '' : errors.email}</p>
                             </div>
                         </div>
-                        <button onClick={handleForm}>Send</button>
+                        <button onClick={handleForm}>{loader? <LoaderRing/>:"Send"}</button>
                     </div>
                     :
                     <div className="w-100 flex col center-y gap2">

@@ -6,7 +6,7 @@
   }
   .input-box{
     padding: 0.2rem 0.2rem 0.2rem 1.2rem;
-    min-width: 25rem;
+    min-width: 20rem;
     border-radius: 15px;
     background-color: #efefef;
     .err{
@@ -88,10 +88,18 @@
     #submit{
       background-color: $accent;
       color: white;
+      &:hover{
+        background-color: $accent-hover;
+      }
     }
     #clear{
-      color: $accent;
-      background-color: transparent;
+      color: white;
+      background-color: red;
+      outline: none;
+      border: none;
+      &:hover{
+        background-color: #961111;
+      }
     }
   }
   .docs-upload-box{
@@ -104,10 +112,11 @@
     }
   }
   .image-section {
+    min-width: 30rem;
     .image-upload-box {
       overflow: hidden;
       border-radius: 15px;
-      border: 5px dashed #838383;
+      border: 5px dashed $gray-border;
       border-style: dashed;
       border-width: 2.5px;
       background-color: #efefef;
@@ -163,5 +172,42 @@
     font-style: italic;
     font-weight: 400;
     color: #3b3b3b;
+  }
+}
+@media screen and (max-width: 1000px) {
+ .add-wrap-box{
+   flex-direction: column !important;
+ }
+}
+
+@media screen and (max-width: 750px) {
+  .main-add-box {
+    .input-box{
+      width: 100%;
+    }
+    .image-section {
+      .image-upload-box {
+        min-width: 30rem;
+      }
+    }
+  }
+}
+.hashtag-unit{
+  border-radius: 10rem;
+  p {
+    font-size: 1.2rem;
+  }
+  .icon{
+    font-size: 1.5rem;
+  }
+  background: $input-bg;
+  padding: 0.5rem;
+}
+@media (max-width: $mobile-max-width) {
+  .input-section{
+    flex-direction: column;
+    .width-box{
+      width: 100% !important;
+    }
   }
 }

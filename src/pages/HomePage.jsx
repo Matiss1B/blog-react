@@ -6,6 +6,9 @@ import axios from "axios";
 import Loader from "../compoents/Loading";
 function HomePage() {
     const navigate = useNavigate();
+    const [online, setOnline] = useState(0);
+    const [blogCount, setBlogCount] = useState(0);
+    const [categoriesCount, setCategoriesCount] = useState(0);
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setErrorToken] = useState(null);
@@ -13,7 +16,7 @@ function HomePage() {
         const data = {
             token: sessionStorage.getItem("user"),
         }
-        axios.post("http://localhost/api/v1/checkToken", data, {
+        axios.post(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/checkToken`, data, {
             headers: { "Content-Type": "multipart/form-data" },
         })
             .then(response => {
@@ -24,6 +27,60 @@ function HomePage() {
                 setErrorToken(error);
                 setLoading(false);
             });
+        const getOnline = async () =>{
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/online`, {
+                    headers: {
+                        "Authorization": sessionStorage.getItem("user"),
+                    }
+                });
+                setOnline(response.data.online);
+            } catch (e){
+                if(e.response.status == 401){
+                    navigate("/")
+                }
+            }
+
+        }
+        const getBlogs = async () =>{
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blogs`, {
+                    headers: {
+                        "Authorization": sessionStorage.getItem("user"),
+                    }
+                });
+                setBlogCount(response.data.length);
+            } catch (e){
+                if(e.response.status == 401){
+                    navigate("/")
+                }
+            }
+
+        }
+        const fetchCategories = async () =>{
+            try {
+                const response = await axios.get(
+                    `${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/categories/get`,
+                    {
+                        headers: {
+                            Authorization: sessionStorage.getItem('user'),
+                        },
+                    }
+                );
+                //console.log(response.data);
+                if(response.data.status == 200){
+                    setCategoriesCount(response.data.categories.length);
+                }
+            } catch (e) {
+                if(e.response.status == 401){
+                    navigate("/")
+                }
+
+            }
+        }
+        fetchCategories();
+        getBlogs()
+        getOnline();
     }, []);
     if (loading) {
         return <Loader/>;
@@ -34,10 +91,10 @@ function HomePage() {
     }
     if(data) {
         return (
-            <div className={"flex h-v"}>
+            <div className={"flex row-to-col h-v"}>
                 <Header/>
-                <div className="App w-100">
-                    <div className="home-page center-x h-100 w-100 flex col gap2 pad4">
+                <div className="App w-100 overflow-h">
+                    <div className="home-page center-x h-100 w-100 flex col">
                         <div className="flex gap2">
                             <div className="flex col gap2 home-page-welcome-title">
                                 <div className="flex col">
@@ -46,7 +103,7 @@ function HomePage() {
                                     </h1>
                                 </div>
                                 <p>Exploring the world through captivating stories</p>
-                                <button className="intro-button">Get started</button>
+                                <button className="intro-button" onClick={()=>{navigate("/add")}}>Get started</button>
                             </div>
                             <div className="image-box hidden-mobile">
                                 <div className="circle">
@@ -56,14 +113,14 @@ function HomePage() {
                                 </div>
                             </div>
                         </div>
-                        <div className="stats-box flex gap2 wrap w-100 around">
+                        <div className="stats-box flex gap2 wrap w-100">
                             <div className="stats-unit center-y flex gap1">
                                 <div className="icon-box flex middle">
                                     <TbUsers className={`icon`}/>
                                 </div>
                                 <div className="stats-info flex col">
                                     <p>Users online now</p>
-                                    <h1>30432</h1>
+                                    <h1>{online}</h1>
                                 </div>
                             </div>
                             <div className="stats-unit center-y flex gap1">
@@ -72,7 +129,7 @@ function HomePage() {
                                 </div>
                                 <div className="stats-info flex col">
                                     <p>Create content</p>
-                                    <h1>10000+ Blogs</h1>
+                                    <h1>{blogCount} Blogs</h1>
                                 </div>
                             </div>
                             <div className="stats-unit center-y flex gap1">
@@ -80,8 +137,8 @@ function HomePage() {
                                     <TbCategory2 className={`icon`}/>
                                 </div>
                                 <div className="stats-info flex col">
-                                    <p>Different themes</p>
-                                    <h1>20+ Themes</h1>
+                                    <p>Different categories</p>
+                                    <h1>{categoriesCount} Categories</h1>
                                 </div>
                             </div>
                         </div>

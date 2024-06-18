@@ -6,13 +6,18 @@ import Blogs from "../pages/Blogs";
 import Authentification from "../pages/Authentification";
 import HomePage from "../pages/HomePage";
 import {useParams} from "react-router-dom";
-import Loader from "../compoents/Loading";
 import Blog from "../pages/Blog";
 import MyBlogs from "../pages/MyBlogs";
 import Settings from "../pages/Settings";
+import Profile from "../pages/Profile";
 import {useEffect} from "react";
 import PasswordReset from "../pages/PasswordReset";
 import PasswordResetMail from "../pages/PasswordResetMail";
+import UserProfile from "../pages/UserProfile";
+//Components
+import Loader from "../compoents/Loading";
+import NotFound from "../compoents/NotFound";
+import SavedBlogs from "../pages/SavedBlogs";
 function Router() {
 
     return (
@@ -27,13 +32,16 @@ function Router() {
             <Route path="/loader" element={<Loader/>} />
             <Route path="/password-reset/:token" element={<PasswordReset/>} />
             <Route path="/profile/settings" element={<Settings/>} />
-            <Route path="/profile/blogs" element={<MyBlogs/>} />
+            <Route path="/profile" element={<Profile/>} />
+            <Route path="/profile/:id" element={<UserProfile/>} />
+            <Route path="/profile/saved" element={<SavedBlogs/>} />
             <Route path="/profile/reset-password" element={<PasswordResetMail/>}/>
+            <Route path="*" element={<NotFound />} />
         </Routes>
     );
 }
 const BlogsWrapper = () => {
-    const { category } = useParams(); // This will get the "category" value from the URL paramete
+    const { category } = useParams();
     return <Blogs category={category} />;
 };
 export default Router;

@@ -1,5 +1,7 @@
 @import "../assets/variables";
 .home-page{
+  padding: 4rem;
+  gap:2rem;
   .home-page-welcome-title{
     max-width: 40rem;
     h1{
@@ -7,7 +9,7 @@
     }
     p{
       font-family: $font-montserrat;
-      color: #575757;
+      color: $p-tag-color;
       font-weight: 600;
       font-size: 2rem;
     }
@@ -56,12 +58,13 @@
     top: 0; left: 0;
   }
   .stats-box{
+    justify-content: space-between;
     .stats-unit{
       .icon-box{
         width: 7rem;
         height: 7rem;
         border-radius: 50%;
-        border:4px solid #bbbaba;
+        border:4px solid $gray-label;
         .icon{
           font-size: 3rem;
           color: #bbbaba;
@@ -76,15 +79,30 @@
       }
       h1{
         font-size: 2.5rem;
-        color:#3b3b3b;
+        color:$p-tag-color;
       }
     }
   }
 }
 @media screen and (max-width: 750px) {
+  .home-page{
+    gap:3rem;
+    padding: 2rem;
+    .stats-box{
+      justify-content: start;
+    }
+  }
     .list {
       grid-template-columns: 1fr;
 
       grid-template-areas: ".";
     }
+}
+@media screen and (max-width: 450px) {
+  .home-page .home-page-welcome-title h1 {
+    font-size: 5rem;
+  }
+  .home-page .home-page-welcome-title .intro-button {
+    max-width: 20rem;
+  }
 }

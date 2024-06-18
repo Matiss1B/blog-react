@@ -7,6 +7,7 @@ import {useState, useEffect} from "react";
 import {BsCheckCircleFill} from "react-icons/bs"
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import LoaderRing from "../Loader";
 
 function Register() {
     const [activeInput, setActiveInput] = useState(null);
@@ -21,13 +22,18 @@ function Register() {
     const [nameErr, setNameErr] = useState("");
     const [surnameErr, setSurnameErr] = useState("");
     const [activeIcon, setActiveIcon] = useState("lock");
+    const [loader,setLoader] = useState(false);
+
     const navigate = useNavigate();
-    const handleInputBoxClick = (event) => {
-        const clickedInputBox = event.target.id;
-        setActiveInput(clickedInputBox);
-        console.log(activeInput);
+    const handleInputBoxClick = (id) => {
+        setActiveInput(id);
+        const element = document.getElementById(id);
+        if (element) {
+            element.focus();
+        }
     };
     const submitRegister = () => {
+        setLoader(true);
         setEmailErr("");
         setNameErr("");
         setSurnameErr("");
@@ -39,27 +45,30 @@ function Register() {
             password: password,
         }
         axios
-            .post("http://localhost/api/v1/register",data)
+            .post(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/register`,data)
             .then(response => checkAuth(response))
             .catch(err => handleErrors(err));
     }
     const sumbitLogin = () => {
+        setLoader(true);
         let data ={
             email:email,
             password: password,
         }
         axios
-            .post("http://localhost/api/v1/login",data)
+            .post(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/login`,data)
             .then(response => fastLogin(response))
-            .catch(err => console.log(err));
+            .catch(err => { setLoader(false)});
     }
 
     const checkAuth = (response) =>{
+        setLoader(false);
         if(response.status === 200) {
             setRegisterCheck(true)
         }
     }
     const fastLogin = (response) =>{
+        setLoader(false);
         if(response.status === 200) {
             sessionStorage.setItem("user", response.data.user);
             navigate("/home");
@@ -80,6 +89,7 @@ function Register() {
         }
     }
     const handleErrors = (err) =>{
+        setLoader(false);
         if(err.response.status === 422) {
             let errors = err.response.data.errors;
             for (let key in errors) {
@@ -89,7 +99,7 @@ function Register() {
         if(err.response.status === 300){
 
         }
-        console.log(err);
+        //console.log(err);
     }
     const handleMouseDown = () => {
         setPasswordVisible(true);
@@ -136,9 +146,9 @@ function Register() {
             </div>
             }
             <div className="form flex col gap2">
-                <div className="flex gap2 center-y">
+                <div className="flex gap2 row-to-col center-y">
                     <div className={`flex  input-box center-y between ${activeInput === 'name' ? 'active' : ''}`}
-                         onClick={handleInputBoxClick}>
+                         onClick={() => {handleInputBoxClick("name")}}>
                         <div className="flex col center-x">
                             <label className={`font15 ${activeInput === 'name' ? 'active-label' : ''}`}>Name</label>
                             <input
@@ -154,7 +164,7 @@ function Register() {
                         </div>
                     </div>
                     <div className={`flex  input-box center-y between ${activeInput === 'surname' ? 'active' : ''}`}
-                         onClick={handleInputBoxClick}>
+                         onClick={() => {handleInputBoxClick("surname")}}>
                         <div className="flex col center-x">
                             <label className={`font15 ${activeInput === 'surname' ? 'active-label' : ''}`}>Surname</label>
                             <input
@@ -174,12 +184,13 @@ function Register() {
                     </div>
                 </div>
                 <div className={`flex  input-box center-y between ${activeInput === 'email' ? 'active' : ''}`}
-                     onClick={handleInputBoxClick}>
-                    <div className="flex col center-x">
+                     onClick={() => {handleInputBoxClick("email")}}>
+                    <div className="flex col w-100 center-x">
                         <label className={`font15 ${activeInput === 'email' ? 'active-label' : ''}`}>Email</label>
                         <input
                             type="text"
                             id="email"
+                            className="w-100"
                             name="email"
                             onChange={handleEmailInput}
                         />
@@ -190,12 +201,13 @@ function Register() {
                     </div>
                 </div>
                 <div className={`flex  input-box center-y between ${activeInput === 'password' ? 'active' : ''}`}
-                     onClick={handleInputBoxClick}>
-                    <div className="flex col center-x">
+                     onClick={() => {handleInputBoxClick("password")}}>
+                    <div className="flex col w-100 center-x">
                         <label className={`font15`}>Password</label>
                         <input
                             type={isPasswordVisible ? 'text' : 'password'}
                             id="password"
+                            className="w-100"
                             name="password"
                             onChange={handlePassword}
                         />
@@ -216,9 +228,11 @@ function Register() {
                     </div>
                 </div>
                 {registerCheck ?
-                    <button onClick={sumbitLogin}>Login</button>
+                    <button onClick={sumbitLogin}>{loader ?
+                        <LoaderRing/> : "Login"}</button>
                     :
-                    <button onClick={submitRegister}>Register</button>
+                    <button onClick={submitRegister}>{loader ?
+                        <LoaderRing/> : "Register"}</button>
                 }
             </div>
         </div>

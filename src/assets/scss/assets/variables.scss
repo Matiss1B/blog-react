@@ -4,9 +4,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 //Colors
-$accent: #90EB78;
-$box-shadow-input: rgba(144, 245, 120, 0.7);
-$gray:#fdfdfd;
+:root {
+  --accent: #90EB78;
+  --accent-shadow: rgba(144, 245, 120, 0.7);
+  --accent-hover:#75cc5e ;
+  --bg-color:#fdfdfd;
+}
+$mobile-max-width: 767px;
+$accent: var(--accent);
+$accent-hover: var(--accent-hover);
+$gray-border:#838383;
+$p-tag-color:#575757;
+$gray-label:#9a9a9a;
+$input-bg:#efefef;
+$icon-gray:#9a9a9a;
+$box-shadow-input: var(--accent-shadow);
+$gray:var(--bg-color);;
 //FONTS
 //#90EB78
 //rgba(144, 245, 120, 0.7)

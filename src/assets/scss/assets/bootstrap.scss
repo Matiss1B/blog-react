@@ -73,6 +73,10 @@ ul {list-style: none; padding: 0; margin:0;}
 .center-x {justify-content: center;}
 .center-y {align-items: center;}
 
+.no-scroll {
+  overflow: hidden;
+}
+
 //Full height
 .h-v {
   min-height: 100vh;

@@ -1,4 +1,23 @@
 @import "../assets/variables";
+.header-fixed{
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+}
+.menu-list{
+  overflow-y: scroll;
+  height: 80vh;
+}
+.side-menu{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  overflow:hidden;
+  z-index: 1000;
+}
 .header{
   .active-nav{
     color: #3b3b3b !important;
@@ -11,12 +30,20 @@
     img{
       max-width: 3rem;
     }
+    padding: 2rem;
   }
   .nav-link{
     color: black;
     padding: 5px 15px 5px 15px;
     width: 100%;
-    color: #9a9a9a;
+    color: $icon-gray;
+  }
+  .sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #fff;
+    z-index: 1000;
   }
   .icon{
     font-size: 2rem;
@@ -40,7 +67,7 @@
       background-color: $accent; /* Change this to the desired color of the line */
     }
     .vertical-line-logout {
-      color: #3b3b3b;
+      color: $p-tag-color;
       position: relative;
       padding-left: 2rem; /* Adjust this value to control the space between the line and the paragraph */
     }
@@ -64,5 +91,29 @@
   .nav-list[data-aos="fade-left"].aos-animate {
     opacity: 1; /* When AOS starts the animation, show the list */
     transform: translateX(0); /* Slide it back to its original position */
+  }
+  padding: 3rem;
+  min-width: 25rem;
+  align-items: center;
+  flex-direction: column;
+}
+@media (max-width: $mobile-max-width) {
+  .header-fixed{
+    flex-direction: row;
+    position: static;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .header{
+    z-index: 999;
+    position: fixed;
+    width: 100%;
+    justify-content: space-between;
+    padding: 2rem;
+    align-items: center;
+    flex-direction: row;
+    .header-logo{
+      padding: 0rem;
+    }
   }
 }
