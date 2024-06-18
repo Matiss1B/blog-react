@@ -58,6 +58,11 @@ function Header() {
     const handleNavLink = (event) => {
         const clickedNavLink = event.target.id;
         setActiveNav(clickedNavLink);
+        setMenu(false);
+    };
+    const handleNavLinkToStay = (event) => {
+        const clickedNavLink = event.target.id;
+        setActiveNav(clickedNavLink);
     };
 
     useEffect(() => {
@@ -84,7 +89,7 @@ function Header() {
                         </div>
                         <IoMdClose className="font35" onClick={()=>setMenu(false)}/>
                     </div>
-                    <div className="flex col gap2">
+                    <div className="flex col menu-list gap2">
                         <div className="nav-link-group">
                             <NavLink to="/home" onClick={handleNavLink} id={"home"}
                                      className={`nav-link flex center-y gap1 ${activeNav === "home" ? "active-nav" : ""}`}>
@@ -93,7 +98,7 @@ function Header() {
                             </NavLink>
                         </div>
                         <div className="nav-link-group flex col gap1">
-                            <NavLink onClick={handleNavLink} id={"blogs"}
+                            <NavLink onClick={handleNavLinkToStay} id={"blogs"}
                                      className={`nav-link flex center-y gap1 ${activeNav === "blogs" ? "active-nav" : ""}`}>
                                 <BsBookHalf id={"blogs"} className={"icon"}/>
                                 <p id={"blogs"}> Blogs</p>
@@ -101,20 +106,23 @@ function Header() {
                             {activeNav === "blogs" ?
                                 <ul className={"nav-list flex col gap1"} data-aos="fade-left">
                                     <NavLink className={"flex center-y vertical-line gap1"}
+                                             onClick={()=>{setMenu(false)}}
                                              to={`/blogs/list`}>
                                         <p>All blogs</p>
                                     </NavLink>
                                     <NavLink className={"flex center-y vertical-line gap1"}
+                                             onClick={()=>{setMenu(false)}}
                                              to={`/blogs/followers`}>
                                         <p>Followers</p>
                                     </NavLink>
                                     <NavLink className={"flex center-y vertical-line gap1"}
+                                             onClick={()=>{setMenu(false)}}
                                              to={`/blogs/for`}>
                                         <p>For you</p>
                                     </NavLink>
                                     <p className="font15 bold">Categories</p>
                                     {categories.map((category) => (
-                                        <NavLink key={category.id} className={"flex center-y vertical-line gap1"}
+                                        <NavLink key={category.id} onClick={()=>{setMenu(false)}} className={"flex center-y vertical-line gap1"}
                                                  to={`/blogs/${category.category}`}>
                                             <p>{category.category}</p>
                                         </NavLink>
@@ -132,17 +140,17 @@ function Header() {
                             </NavLink>
                         </div>
                         <div className="nav-link-group flex col gap1">
-                            <NavLink onClick={handleNavLink} id={"profile"}
+                            <NavLink onClick={handleNavLinkToStay} id={"profile"}
                                      className={`nav-link flex center-y gap1 ${activeNav === "profile" ? "active-nav" : ""}`}>
                                 <BiUser id={"profile"} className={"icon"}/>
                                 <p id={"profile"}> My profile</p>
                             </NavLink>
                             {activeNav === "profile" ?
                                 <ul data-aos="fade-left" className={"nav-list flex col gap1"}>
-                                    <NavLink className={"flex center-y vertical-line gap1"} to="/profile">
+                                    <NavLink onClick={()=>{setMenu(false)}} className={"flex center-y vertical-line gap1"} to="/profile">
                                         <p>Profile</p>
                                     </NavLink>
-                                    <NavLink className={"flex center-y vertical-line gap1"} to="/profile/saved">
+                                    <NavLink onClick={()=>{setMenu(false)}} className={"flex center-y vertical-line gap1"} to="/profile/saved">
                                         <p>Saved</p>
                                     </NavLink>
                                     {/*<NavLink className={"flex center-y vertical-line gap1"} to="/profile/settings">*/}
@@ -170,7 +178,7 @@ function Header() {
                 </div>
                 <IoMenu className="hidden-pc font35" onClick={()=>setMenu(true)}/>
                 <div className=" gap3 col flex  w-100 hidden-mobile">
-                    <div className="flex col gap2">
+                    <div className="flex col menu-list gap2">
                         <div className="nav-link-group">
                             <NavLink to="/home" onClick={handleNavLink} id={"home"}
                                      className={`nav-link flex center-y gap1 ${activeNav === "home" ? "active-nav" : ""}`}>

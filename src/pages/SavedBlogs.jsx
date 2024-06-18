@@ -24,20 +24,32 @@ function SavedBlogs() {
 
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blog/get/all/saved`, {
-            headers: {
-                "Authorization": sessionStorage.getItem("user"),
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blog/get/all/saved`, {
+                    headers: {
+                        "Authorization": sessionStorage.getItem("user"),
+                    }
+                });
+
+                const blogs = response.data;
+                setBlogs(blogs);
+                setData(blogs);
+
+                const loadingState = blogs.reduce((acc, blog) => {
+                    acc[blog.id] = true;
+                    return acc;
+                }, {});
+                setImageLoading(loadingState);
+
+            } catch (error) {
+                handleErr(error.response.data);
             }
-        }).then(res => {
-            setBlogs(res.data);
-            setData(res.data);
-            setLoading(false);
-            const loadingState = res.data.reduce((acc, blog) => {
-                acc[blog.id] = true;
-                return acc;
-            }, {});
-            setImageLoading(loadingState);
-        }).catch(err => handleErr(err.response.data));
+            setLoading(false)
+        };
+
+        fetchData();
     }, []);
 
     const handleMouseDown = (event) => {
@@ -77,6 +89,7 @@ function SavedBlogs() {
                     })
                 );
             }
+            setFocus(false)
             setBlogs(filteredBlogs); // Update the original blog state
             setCurrentPage(1); // Reset the current page to the first page
         }
@@ -175,7 +188,7 @@ function SavedBlogs() {
                         }
                     </div>
                 </div>
-                {paginatedBlogs.length<1
+                {data.length<1
                     ?
                     <div className="no-results flex center-y gap2">
                         <IoMdInformationCircleOutline className={"icon"}/>

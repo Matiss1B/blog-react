@@ -60,13 +60,15 @@ const Profile = () => {
                 }
             );
 
-            //console.log(response);
+            //console.log(following);
+
 
             const newFollower = response.data.follower;
 
             const updatedFollowing = following.filter(
-                (follower) => follower.user_id !== newFollower.user_id
+                (follower) => follower.account_id !== id
             );
+            //console.log(updatedFollowing);
             setFollowing(updatedFollowing);
 
 

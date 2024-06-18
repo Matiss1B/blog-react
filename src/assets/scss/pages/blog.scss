@@ -46,6 +46,7 @@
       .blog-description {
         font-size: 2rem;
         max-height: 70rem;
+        word-break: break-word;
         overflow-y: scroll;
       }
     }

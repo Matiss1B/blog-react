@@ -42,6 +42,17 @@ function App() {
             element.focus();
         }
     };
+    function addSpaceToLongWords(text) {
+        let words = text.split(' ');
+        for (let i = 0; i < words.length; i++) {
+            if (words[i].length > 40) {
+                words[i] = words[i].slice(0, 40) + ' ' + words[i].slice(40);
+            }
+        }
+
+        return words.join(' ');
+    }
+
     const [hashtagValue, setHashtagValue] = useState('');
     const [hashtags, setHashtags] = useState([]);
 
@@ -95,7 +106,7 @@ function App() {
         setCategoryErr("");
         var formData = new FormData();
         formData.append("title", title);
-        formData.append("description", description);
+        formData.append("description", addSpaceToLongWords(description));
         formData.append("phone", phone);
         formData.append("email", email);
         formData.append("category", category);
@@ -394,7 +405,14 @@ function App() {
                                                     id="tag"
                                                     type="text"
                                                     value={hashtagValue}
+                                                    onTouchStart={handleKeyPress}
                                                     onChange={handleInputChange}
+                                                    onBlur={(e)=>{
+                                                        if(e.target.value !== "") {
+                                                            setHashtags([...hashtags, e.target.value.trim()]);
+                                                            setHashtagValue('');
+                                                        }
+                                                    }}
                                                     onKeyPress={handleKeyPress}
                                                 />
                                                 <div className="flex w-100 wrap gap1 center-y pad1">

@@ -125,6 +125,9 @@
     .blogs-list {
         grid-template-columns: repeat(2, 1fr);
     }
+  .blogs-list-parent{
+    height: 100%;
+  }
 }
 
 /* When screen width is 768px or less, display 1 column */

@@ -47,37 +47,48 @@ function Blogs(props) {
         fetchCategories();
     },[props.category])
     useEffect(() => {
-        setLoading(true);
-        setBlogs([]);
-        setData([]);
+        const fetchBlogs = async () => {
+            setLoading(true);
+            setBlogs([]);
+            setData([]);
 
-        let url = `${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blogs?category=${props.category}`;
-        if (props.category === "list") {
-            url = `${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blogs`;
-        }
-        if (props.category === "for") {
-            url = `${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blog/for`;
-        }
-        if (props.category === "followers") {
-            url = `${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blog/followers`;
-        }
-        axios.get(url, {
-            headers: {
-                "Authorization": sessionStorage.getItem("user"),
+            let url = `${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blogs?category=${props.category}`;
+            if (props.category === "list") {
+                url = `${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blogs`;
+            } else if (props.category === "for") {
+                url = `${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blog/for`;
+            } else if (props.category === "followers") {
+                url = `${process.env.REACT_APP_BASE_URL_BACKEND}/api/v1/blog/followers`;
             }
-        }).then(res => {
-            //console.log(res.data);
-            setBlogs(res.data);
-            setData(res.data);
-            setLoading(false);
-            const loadingState = res.data.reduce((acc, blog) => {
-                acc[blog.id] = true;
-                return acc;
-            }, {});
-            setImageLoading(loadingState);
-        }).catch(err => handleErr(err.response.data));
-    }, [props.category]);
 
+            try {
+                const res = await axios.get(url, {
+                    headers: {
+                        "Authorization": sessionStorage.getItem("user"),
+                    }
+                });
+
+                const blogsData = res.data;
+                setCurrentPage(1);
+                //console.log(blogsData);
+                setBlogs(blogsData);
+                setData(blogsData);
+
+                const loadingState = blogsData.reduce((acc, blog) => {
+                    acc[blog.id] = true;
+                    return acc;
+                }, {});
+                setImageLoading(loadingState);
+            } catch (err) {
+                setLoading(false);
+                console.error(err);
+                handleErr(err.response ? err.response.data : "An error occurred");
+            }
+            setLoading(false);
+
+        };
+        fetchBlogs();
+    }, [props.category]);
     const handleMouseDown = (event) => {
         const blogAuthorElement = event.currentTarget.querySelector("#blog-author");
         const blogInfoElement = event.currentTarget.querySelector("#blog-info");
@@ -148,11 +159,11 @@ function Blogs(props) {
         })
             .then(response => {
                 setData(response.data);
-                setLoading(false);
+                // setLoading(false);
             })
             .catch(error => {
                 setErrorToken(error);
-                setLoading(false);
+                // setLoading(false);
             });
     }, []);
 
@@ -166,7 +177,7 @@ function Blogs(props) {
         return blogs.slice(startIndex, endIndex);
     };
 
-    if (loading) {
+    if (loading && blog.length<1) {
         return <Loader />;
     }
     if (error) {
@@ -218,7 +229,7 @@ function Blogs(props) {
                         }
                     </div>
                 </div>
-                {paginatedBlogs.length<1
+                {data.length<1
                     ?
                     <div className="no-results flex center-y gap2">
                         <IoMdInformationCircleOutline className={"icon"}/>
